@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "103472674806",
+    "firebase_url": "https://mumtomum-497d6.firebaseio.com",
+    "project_id": "mumtomum-497d6",
+    "storage_bucket": "mumtomum-497d6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:103472674806:android:81874e28d249642c4139d7",
+        "android_client_info": {
+          "package_name": "tech.berjis.mumtomum"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "103472674806-pojgvkomcn81jcbaeu4iukbnapgutis0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "tech.berjis.mumtomum",
+            "certificate_hash": "5317beb1cbe703c6197a3e8dbcfb88be500ca994"
+          }
+        },
+        {
+          "client_id": "103472674806-qf4cc4718o2soo9g94bpda121c0gdt4s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBx23LnhV_dBCF2hOJ5Ht1oonK5GiZpgsM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "103472674806-qf4cc4718o2soo9g94bpda121c0gdt4s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

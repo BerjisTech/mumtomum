@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ChatActivity">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/userImage"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/mom"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/userName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text=""
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/userImage"
+        app:layout_constraintTop_toTopOf="@+id/userImage" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chats"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/chat_bg"
+        android:backgroundTint="@color/colorPrimaryDark2"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/ed_emoji"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userImage" />
+
+    <ImageView
+        android:id="@+id/link"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/attach"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/round_border_white"
+        android:backgroundTint="#FFFFFF"
+        app:layout_constraintStart_toStartOf="@id/btn_emoji"
+        app:layout_constraintEnd_toEndOf="@id/ed_emoji"
+        app:layout_constraintTop_toTopOf="@id/ed_emoji"
+        app:layout_constraintBottom_toBottomOf="@id/ed_emoji"/>
+
+    <ImageView
+        android:id="@+id/btn_emoji"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/lol"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/link" />
+
+    <com.vanniktech.emoji.EmojiEditText
+        android:id="@+id/ed_emoji"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:hint="Write a message"
+        android:imeOptions="actionSend"
+        android:inputType="text"
+        android:maxHeight="200dp"
+        android:background="@drawable/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/send"
+        app:layout_constraintStart_toEndOf="@+id/btn_emoji" />
+
+    <ImageView
+        android:id="@+id/send"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/sent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

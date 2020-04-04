@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorCrimson">#EEEEEE</color>
+    <color name="colorAccent">#E6E6FA</color>
+    <color name="colorPrimary1">#C0C0F2</color>
+    <color name="colorPrimary2">#9A9AEB</color>
+    <color name="colorPrimary">#7373E3</color>
+    <color name="colorPrimaryDark1">#4D4DDB</color>
+    <color name="colorPrimaryDark2">#2A2AD1</color>
+    <color name="colorPrimaryDark">#2222AA</color>
+    <color name="greyTick">#666666</color>
+    <color name="blueTick">#6666FF</color>
+</resources>

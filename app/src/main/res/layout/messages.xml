@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/userImage"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/mom"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.vanniktech.emoji.EmojiTextView
+        android:id="@+id/userName"
+        android:layout_width="0dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="10dp"
+        android:textColor="#666666"
+        android:gravity="start"
+        android:textStyle="bold"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/lastTextTime"
+        app:layout_constraintStart_toEndOf="@+id/userImage"
+        app:layout_constraintTop_toTopOf="@+id/userImage" />
+    <com.vanniktech.emoji.EmojiTextView
+        android:id="@+id/lastTextTime"
+        android:layout_width="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="10dp"
+        android:gravity="end"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lastText"
+        app:layout_constraintTop_toTopOf="@+id/userImage" />
+
+    <com.vanniktech.emoji.EmojiTextView
+        android:id="@+id/lastText"
+        android:layout_width="0dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="10dp"
+        android:gravity="start"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/tick"
+        app:layout_constraintStart_toEndOf="@+id/userImage"
+        app:layout_constraintTop_toBottomOf="@+id/userName"
+        app:layout_constraintBottom_toBottomOf="@+id/userImage" />
+
+    <ImageView
+        android:id="@+id/tick"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/tick"
+        app:layout_constraintEnd_toEndOf="@+id/lastTextTime"
+        app:layout_constraintTop_toBottomOf="@+id/lastTextTime" />
+</androidx.constraintlayout.widget.ConstraintLayout>

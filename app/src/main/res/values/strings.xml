@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">MumtoMum</string>
+    <string name="banner_ad_unit_id">ca-app-pub-6517119365777306~8709466902</string>
+    <string-array name="categories">
+        <item>Choose Category</item>
+        <item>Baby Feeding</item>
+        <item>Baby Products for Mothers</item>
+        <item>Baby Bathing, Care &amp; Health</item>
+        <item>Potty Training</item>
+        <item>Apparel for Babies (Clothing)</item>
+        <item>Baby Diapers</item>
+        <item>Baby Gear (Beds, Carriers, Strollers, Walkers etc)</item>
+        <item>Baby Stationary</item>
+        <item>Baby Safety</item>
+        <item>Baby Nursery</item>
+        <item>Baby Gifts</item>
+        <item>Toys for Babies</item>
+        <item>Pregnancy &amp; Maternity</item>
+    </string-array>
+</resources>

@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:emojicon="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/RecieverOrderView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/round_border"
+        app:layout_constraintBottom_toBottomOf="@id/RecieverOrderText"
+        app:layout_constraintEnd_toEndOf="@id/RecieverOrderImg"
+        app:layout_constraintStart_toStartOf="@id/RecieverOrderImg"
+        app:layout_constraintTop_toTopOf="@id/RecieverOrderTitle" />
+
+    <com.vanniktech.emoji.EmojiTextView
+        android:id="@+id/RecieverOrderTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:maxWidth="200dp"
+        android:padding="10dp"
+        android:textColor="#333333"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/RecieverOrderImg"
+        app:layout_constraintStart_toStartOf="@id/RecieverOrderImg"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/RecieverOrderImg"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="10dp"
+        android:background="@color/colorAccent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/RecieverOrderTitle" />
+
+    <com.vanniktech.emoji.EmojiTextView
+        android:id="@+id/RecieverOrderText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:maxWidth="200dp"
+        android:padding="5dp"
+        app:layout_constraintEnd_toEndOf="@id/RecieverOrderImg"
+        app:layout_constraintStart_toStartOf="@id/RecieverOrderImg"
+        app:layout_constraintTop_toBottomOf="@id/RecieverOrderImg" />
+
+    <ImageView
+        android:id="@+id/receiverImage"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/RecieverOrderView" />
+
+    <View
+        android:id="@+id/receiverView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/chat_receiver"
+        app:layout_constraintBottom_toBottomOf="@id/receiverText"
+        app:layout_constraintEnd_toEndOf="@id/receiverText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/receiverImage" />
+
+    <com.vanniktech.emoji.EmojiTextView
+        android:id="@+id/receiverText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:maxWidth="200dp"
+        android:paddingStart="25dp"
+        emojicon:emojiconAlignment="bottom"
+        android:paddingTop="10dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="10dp"
+        android:textColor="#FFFFFF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/receiverImage" />
+
+    <com.vanniktech.emoji.EmojiTextView
+        android:id="@+id/receiverTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="2dp"
+        android:maxWidth="200dp"
+        android:paddingStart="25dp"
+        android:paddingEnd="0dp"
+        android:textColor="#666666"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/receiverText" />
+
+    <View
+        android:id="@+id/SenderOrderView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/round_border"
+        app:layout_constraintBottom_toBottomOf="@id/SenderOrderText"
+        app:layout_constraintEnd_toEndOf="@id/SenderOrderImg"
+        app:layout_constraintStart_toStartOf="@id/SenderOrderImg"
+        app:layout_constraintTop_toTopOf="@id/SenderOrderTitle" />
+
+    <com.vanniktech.emoji.EmojiTextView
+        android:id="@+id/SenderOrderTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:maxWidth="200dp"
+        android:padding="10dp"
+        android:textColor="#333333"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/SenderOrderImg"
+        app:layout_constraintStart_toStartOf="@id/SenderOrderImg"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/SenderOrderImg"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginEnd="10dp"
+        android:background="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/SenderOrderTitle" />
+
+    <com.vanniktech.emoji.EmojiTextView
+        android:id="@+id/SenderOrderText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:maxWidth="200dp"
+        android:padding="5dp"
+        app:layout_constraintEnd_toEndOf="@id/SenderOrderImg"
+        app:layout_constraintStart_toStartOf="@id/SenderOrderImg"
+        app:layout_constraintTop_toBottomOf="@id/SenderOrderImg" />
+
+    <ImageView
+        android:id="@+id/senderImage"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/SenderOrderView" />
+
+
+    <View
+        android:id="@+id/senderView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/chat_sender"
+        app:layout_constraintBottom_toBottomOf="@id/senderText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/senderText"
+        app:layout_constraintTop_toBottomOf="@id/senderImage" />
+
+    <com.vanniktech.emoji.EmojiTextView
+        android:id="@+id/senderText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        emojicon:emojiconAlignment="bottom"
+        android:maxWidth="200dp"
+        android:paddingStart="10dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="25dp"
+        android:paddingBottom="10dp"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/senderImage" />
+
+    <com.vanniktech.emoji.EmojiTextView
+        android:id="@+id/senderTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="10dp"
+        android:maxWidth="200dp"
+        android:paddingStart="0dp"
+        android:paddingEnd="25dp"
+        android:textColor="#666666"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/senderText" />
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:id="@+id/tick"
+        android:src="@drawable/tick"
+        android:layout_marginEnd="3dp"
+        app:layout_constraintEnd_toStartOf="@id/senderTime"
+        app:layout_constraintTop_toTopOf="@id/senderTime"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

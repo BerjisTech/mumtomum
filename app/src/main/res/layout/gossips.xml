@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="10dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/userImage"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/mom"
+        app:civ_border_color="@color/colorPrimary"
+        app:civ_border_width="2dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.vanniktech.emoji.EmojiTextView
+        android:id="@+id/userName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="User"
+        android:textColor="#333333"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/userImage"
+        app:layout_constraintTop_toTopOf="@id/userImage" />
+
+    <com.vanniktech.emoji.EmojiTextView
+        android:id="@+id/postDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="Apr 3"
+        app:layout_constraintStart_toEndOf="@id/userName"
+        app:layout_constraintTop_toTopOf="@id/userImage" />
+
+    <com.vanniktech.emoji.EmojiTextView
+        android:id="@+id/post"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:textColor="#333333"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/userImage"
+        app:layout_constraintTop_toBottomOf="@+id/userName" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/mainImageCard"
+        android:layout_width="0dp"
+        android:layout_height="300dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        app:cardCornerRadius="7dp"
+        android:elevation="10dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/userImage"
+        app:layout_constraintTop_toBottomOf="@+id/post">
+
+        <ImageView
+            android:id="@+id/mainImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/baby_carrier" />
+
+    </androidx.cardview.widget.CardView>
+
+
+    <TextView
+        android:id="@+id/imageCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#997373E3"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textSize="40sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/mainImageCard"
+        app:layout_constraintEnd_toEndOf="@id/mainImageCard" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
