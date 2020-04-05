@@ -3,11 +3,13 @@ package tech.berjis.mumtomum;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,7 +52,6 @@ public class CommunityActivity extends AppCompatActivity {
     EmojiEditText gossip;
     ConstraintLayout gossipPanel;
 
-
     FirebaseAuth mAuth;
     DatabaseReference dbRef, gossipRef;
     StorageReference storageReference;
@@ -60,7 +61,7 @@ public class CommunityActivity extends AppCompatActivity {
     List<Gossips> gossipData;
     GossipImagesAdapter imagesAdapter;
     GossipsAdapter gossipAdapter;
-    String UID, gossipID, location = "", hasImage = "", water = "false", electricity = "false", parking = "false", security = "false";
+    String UID, gossipID, location = "", hasImage = "", water = "false", electricity = "false", parking = "false", security = "false", panelState = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,8 +151,9 @@ public class CommunityActivity extends AppCompatActivity {
     }
 
     public void hideGossip() {
-        loadGossip();
+        panelState = "closed";
         removeGossipNode();
+        loadGossip();
         gossipImagesData.clear();
         gossip.setText("");
         imageRecycler.setVisibility(View.GONE);
@@ -169,6 +171,7 @@ public class CommunityActivity extends AppCompatActivity {
     }
 
     public void showGossip() {
+        panelState = "open";
         gossipPanel.setVisibility(View.VISIBLE);
         gossipPanel.animate()
                 .translationY(0)
@@ -340,8 +343,12 @@ public class CommunityActivity extends AppCompatActivity {
     }
 
     public void goBack() {
-        removeGossipNode();
-        CommunityActivity.super.finish();
+        if(panelState.equals("open")){
+            removeGossipNode();
+            CommunityActivity.super.finish();
+        }else{
+            CommunityActivity.super.finish();
+        }
     }
 
     public void postGossip() {
@@ -361,7 +368,13 @@ public class CommunityActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
+                    gossipID = "";
                     hideGossip();
+                    View view = CommunityActivity.this.getCurrentFocus();
+                    if (view != null) {
+                        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    }
                 }
             }
         });
@@ -369,7 +382,7 @@ public class CommunityActivity extends AppCompatActivity {
 
     public void removeGossipNode() {
         final String gossipText = gossip.getText().toString();
-        if (!hasImage.equals("hasImage") && gossipText.equals("") && gossipID != null && !gossipID.equals("")) {
+        if (!hasImage.equals("hasImage") && gossipText.equals("") && !gossipID.equals("")) {
             dbRef.child("Gossip").child(gossipID).removeValue();
             dbRef.child("GossipImages").child(gossipID).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
