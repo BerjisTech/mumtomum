@@ -46,100 +46,97 @@
             <View
                 android:id="@+id/bgView1"
                 android:layout_width="0dp"
-                android:layout_height="60dp"
+                android:layout_height="160dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/round_border_white"
-                app:layout_constraintEnd_toEndOf="@id/topView"
+                app:layout_constraintEnd_toStartOf="@id/half"
                 app:layout_constraintStart_toStartOf="@id/topView"
                 app:layout_constraintTop_toTopOf="@id/topView" />
+
+            <ImageView
+                android:id="@+id/mumWalletImage"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/chevron_right"
+                app:layout_constraintBottom_toTopOf="@+id/mumWalletText"
+                app:layout_constraintEnd_toEndOf="@id/bgView1"
+                app:layout_constraintStart_toStartOf="@id/bgView1"
+                app:layout_constraintTop_toTopOf="@id/bgView1" />
 
             <TextView
                 android:id="@+id/mumWalletText"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="10dp"
-                android:gravity="center|start"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
                 android:text="MumWallet balance"
                 android:textColor="#333333"
-                app:layout_constraintBottom_toBottomOf="@id/bgView1"
-                app:layout_constraintEnd_toStartOf="@+id/mumWalletBalance"
-                app:layout_constraintStart_toStartOf="@id/bgView1"
-                app:layout_constraintTop_toTopOf="@id/bgView1" />
+                app:layout_constraintBottom_toTopOf="@+id/mumWalletBalance"
+                app:layout_constraintEnd_toEndOf="@+id/bgView1"
+                app:layout_constraintStart_toStartOf="@id/bgView1" />
 
             <TextView
                 android:id="@+id/mumWalletBalance"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
                 android:gravity="center"
-                android:text="kes 0"
-                android:textColor="#333333"
+                android:text="KES 0"
+                android:textColor="@color/colorPrimary"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="@id/bgView1"
-                app:layout_constraintEnd_toStartOf="@+id/mumWalletArrow"
-                app:layout_constraintTop_toTopOf="@id/bgView1" />
+                app:layout_constraintBottom_toBottomOf="@+id/bgView1"
+                app:layout_constraintEnd_toEndOf="@+id/bgView1"
+                app:layout_constraintStart_toStartOf="@id/bgView1" />
 
-            <ImageView
-                android:id="@+id/mumWalletArrow"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginEnd="10dp"
-                android:src="@drawable/chevron_right"
-                app:layout_constraintBottom_toBottomOf="@id/bgView1"
-                app:layout_constraintEnd_toEndOf="@id/bgView1"
-                app:layout_constraintTop_toTopOf="@id/bgView1" />
 
             <View
                 android:id="@+id/bgView2"
                 android:layout_width="0dp"
-                android:layout_height="60dp"
+                android:layout_height="160dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/round_border_white"
                 app:layout_constraintEnd_toEndOf="@id/topView"
-                app:layout_constraintStart_toStartOf="@id/topView"
-                app:layout_constraintTop_toBottomOf="@id/bgView1" />
+                app:layout_constraintStart_toEndOf="@id/half"
+                app:layout_constraintTop_toTopOf="@id/topView" />
+
+            <ImageView
+                android:id="@+id/babyWalletImage"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/chevron_right"
+                app:layout_constraintBottom_toTopOf="@+id/babyWalletText"
+                app:layout_constraintEnd_toEndOf="@id/bgView2"
+                app:layout_constraintStart_toStartOf="@+id/bgView2"
+                app:layout_constraintTop_toTopOf="@+id/bgView2" />
 
             <TextView
                 android:id="@+id/babyWalletText"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="10dp"
-                android:gravity="center|start"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
                 android:text="BabyWallet balance"
                 android:textColor="#333333"
-                app:layout_constraintBottom_toBottomOf="@id/bgView2"
-                app:layout_constraintEnd_toStartOf="@+id/babyWalletBalance"
                 app:layout_constraintStart_toStartOf="@id/bgView2"
-                app:layout_constraintTop_toTopOf="@id/bgView2" />
+                app:layout_constraintEnd_toEndOf="@+id/bgView2"
+                app:layout_constraintBottom_toTopOf="@id/babyWalletBalance" />
 
             <TextView
                 android:id="@+id/babyWalletBalance"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:gravity="center"
-                android:text="kes 0"
-                android:textColor="#333333"
+                android:text="KES 0"
+                android:textColor="@color/colorPrimary"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="@id/bgView2"
-                app:layout_constraintEnd_toStartOf="@+id/babyWalletArrow"
-                app:layout_constraintTop_toTopOf="@id/bgView2" />
-
-            <ImageView
-                android:id="@+id/babyWalletArrow"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginEnd="10dp"
-                android:src="@drawable/chevron_right"
-                app:layout_constraintBottom_toBottomOf="@id/bgView2"
-                app:layout_constraintEnd_toEndOf="@id/bgView2"
-                app:layout_constraintTop_toTopOf="@id/bgView2" />
+                app:layout_constraintStart_toStartOf="@id/bgView2"
+                app:layout_constraintEnd_toEndOf="@+id/bgView2"
+                app:layout_constraintBottom_toBottomOf="@id/bgView2" />
 
             <View
                 android:id="@+id/bgView3"
@@ -271,8 +268,17 @@
                 app:layout_constraintStart_toStartOf="@id/baby"
                 app:layout_constraintTop_toBottomOf="@id/baby" />
 
+            <View
+                android:id="@+id/half"
+                android:layout_width="0.01dp"
+                android:layout_height="0.01dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
     <ImageView
         android:id="@+id/profile"
         android:layout_width="40dp"
@@ -288,8 +294,8 @@
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_marginStart="20dp"
-        android:layout_marginBottom="20dp"
         android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/round_border_white"
         android:elevation="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
