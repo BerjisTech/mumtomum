@@ -39,7 +39,7 @@ public class ProductsActivity extends AppCompatActivity {
     List<Products> listData;
     ProductsAdapter productsAdapter;
     RecyclerView rv;
-    ImageView groups, chats, profile, shop, refresh;
+    ImageView groups, chats, profile, home, refresh;
     TextView chatsCount, updateProfiletext;
     SearchableSpinner productCategory;
     String UID, category;
@@ -59,7 +59,7 @@ public class ProductsActivity extends AppCompatActivity {
         groups = findViewById(R.id.groups);
         chats = findViewById(R.id.chats);
         profile = findViewById(R.id.profile);
-        shop = findViewById(R.id.shop);
+        home = findViewById(R.id.home);
         chatsCount = findViewById(R.id.chatsCount);
         rv = findViewById(R.id.products);
         productCategory = findViewById(R.id.productCategory);
@@ -144,7 +144,7 @@ public class ProductsActivity extends AppCompatActivity {
                     startActivity(new Intent(ProductsActivity.this, RegisterActivity.class));
                 }
             });
-            shop.setOnClickListener(new View.OnClickListener() {
+            home.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     startActivity(new Intent(ProductsActivity.this, RegisterActivity.class));
@@ -170,10 +170,10 @@ public class ProductsActivity extends AppCompatActivity {
                     startActivity(new Intent(ProductsActivity.this, ProfileActivity.class));
                 }
             });
-            shop.setOnClickListener(new View.OnClickListener() {
+            home.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(ProductsActivity.this, NewProductActivity.class));
+                    startActivity(new Intent(ProductsActivity.this, WelcomeActivity.class));
                 }
             });
         }

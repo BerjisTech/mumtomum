@@ -24,7 +24,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottomCard"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/menuView">
@@ -210,8 +210,8 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginTop="30dp"
-                android:paddingBottom="5dp"
                 android:background="@drawable/dp_circle"
+                android:paddingBottom="5dp"
                 android:src="@drawable/shopping_bag"
                 app:layout_constraintEnd_toStartOf="@id/shop"
                 app:layout_constraintStart_toStartOf="parent"
@@ -232,8 +232,8 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginTop="30dp"
-                android:paddingBottom="5dp"
                 android:background="@drawable/dp_circle"
+                android:paddingBottom="5dp"
                 android:src="@drawable/shopping_bag"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -254,8 +254,8 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginTop="30dp"
-                android:paddingBottom="5dp"
                 android:background="@drawable/dp_circle"
+                android:paddingBottom="5dp"
                 android:src="@drawable/shopping_bag"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/shop"
@@ -273,4 +273,60 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+    <ImageView
+        android:id="@+id/profile"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/user"
+        app:layout_constraintBottom_toBottomOf="@id/bottomCard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/bottomCard" />
+
+    <View
+        android:id="@+id/bottomCard"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/round_border_white"
+        android:elevation="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/profile"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/contributions"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:elevation="6dp"
+        android:src="@drawable/groups"
+        app:layout_constraintBottom_toBottomOf="@id/bottomCard"
+        app:layout_constraintEnd_toStartOf="@id/products"
+        app:layout_constraintStart_toStartOf="@id/bottomCard"
+        app:layout_constraintTop_toTopOf="@id/bottomCard" />
+
+    <ImageView
+        android:id="@+id/products"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:elevation="6dp"
+        android:src="@drawable/shop"
+        app:layout_constraintBottom_toBottomOf="@id/bottomCard"
+        app:layout_constraintEnd_toEndOf="@id/bottomCard"
+        app:layout_constraintStart_toStartOf="@id/bottomCard"
+        app:layout_constraintTop_toTopOf="@id/bottomCard" />
+
+    <ImageView
+        android:id="@+id/text"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:elevation="6dp"
+        android:src="@drawable/chat"
+        app:layout_constraintBottom_toBottomOf="@id/bottomCard"
+        app:layout_constraintEnd_toEndOf="@id/bottomCard"
+        app:layout_constraintStart_toEndOf="@id/products"
+        app:layout_constraintTop_toTopOf="@id/bottomCard" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

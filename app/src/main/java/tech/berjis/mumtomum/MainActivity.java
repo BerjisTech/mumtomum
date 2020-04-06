@@ -53,6 +53,10 @@ public class MainActivity extends AppCompatActivity {
 
     ImageView logo;
 
+    FirebaseAuth mAuth;
+    DatabaseReference dbRef;
+    String UID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +65,11 @@ public class MainActivity extends AppCompatActivity {
         if (firebaseDatabase == null) {
             firebaseDatabase = FirebaseDatabase.getInstance();
         }
+
+        mAuth = FirebaseAuth.getInstance();
+        dbRef = FirebaseDatabase.getInstance().getReference();
+        dbRef.keepSynced(true);
+        UID = mAuth.getCurrentUser().getUid();
 
         logo = findViewById(R.id.logo);
 
@@ -80,11 +89,21 @@ public class MainActivity extends AppCompatActivity {
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
-                        Intent intent = new Intent(MainActivity.this, WelcomeActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
+                        unloggedState();
                     }
                 }, 3000);
 
+    }
+
+    public void unloggedState() {
+        if (mAuth.getCurrentUser() == null) {
+            Intent intent = new Intent(MainActivity.this, ProductsActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }else{
+            Intent intent = new Intent(MainActivity.this, WelcomeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }
     }
 }

@@ -159,7 +159,7 @@ public class ProfileActivity extends AppCompatActivity {
         goHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ProfileActivity.super.finish();
+                startActivity(new Intent(ProfileActivity.this, WelcomeActivity.class));
             }
         });
     }
