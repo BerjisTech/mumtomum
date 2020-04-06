@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -18,6 +20,7 @@ import java.util.List;
 
 public class UserProducts extends AppCompatActivity {
 
+    ImageView back, newProduct;
     RecyclerView products;
     DatabaseReference dbRef;
     List<Products> listData;
@@ -32,6 +35,21 @@ public class UserProducts extends AppCompatActivity {
         dbRef = FirebaseDatabase.getInstance().getReference();
         dbRef.keepSynced(true);
         products = findViewById(R.id.products);
+        back = findViewById(R.id.back);
+        newProduct = findViewById(R.id.newProduct);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserProducts.super.finish();
+            }
+        });
+        newProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(UserProducts.this, NewProductActivity.class));
+            }
+        });
 
         loadUser();
     }

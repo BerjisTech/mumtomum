@@ -53,7 +53,7 @@ public class WelcomeActivity extends AppCompatActivity {
         products.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent userIntent = new Intent(WelcomeActivity.this, UserProducts.class);
+                Intent userIntent = new Intent(WelcomeActivity.this, ProductsActivity.class);
                 Bundle userBundle = new Bundle();
                 userBundle.putString("user_id", UID);
                 userIntent.putExtras(userBundle);
