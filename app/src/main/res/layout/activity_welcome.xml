@@ -57,13 +57,14 @@
 
             <ImageView
                 android:id="@+id/mumWalletImage"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/chevron_right"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/wallet_mum"
                 app:layout_constraintBottom_toTopOf="@+id/mumWalletText"
                 app:layout_constraintEnd_toEndOf="@id/bgView1"
                 app:layout_constraintStart_toStartOf="@id/bgView1"
-                app:layout_constraintTop_toTopOf="@id/bgView1" />
+                app:layout_constraintTop_toTopOf="@id/bgView1"
+                app:layout_constraintVertical_bias="0.492" />
 
             <TextView
                 android:id="@+id/mumWalletText"
@@ -105,9 +106,9 @@
 
             <ImageView
                 android:id="@+id/babyWalletImage"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/chevron_right"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/wallet_baby"
                 app:layout_constraintBottom_toTopOf="@+id/babyWalletText"
                 app:layout_constraintEnd_toEndOf="@id/bgView2"
                 app:layout_constraintStart_toStartOf="@+id/bgView2"
