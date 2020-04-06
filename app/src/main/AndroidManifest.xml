@@ -24,9 +24,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:windowSoftInputMode="adjustPan">
+        <activity android:name=".WelcomeActivity"></activity>
+
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="@string/banner_ad_unit_id"/>
+            android:value="@string/banner_ad_unit_id" />
+
         <activity android:name=".CommunityActivity" />
         <activity android:name=".UserProducts" />
         <activity android:name=".ProductsActivity" />
