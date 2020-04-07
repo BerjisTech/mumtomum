@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -23,6 +24,8 @@ public class WelcomeActivity extends AppCompatActivity {
     DatabaseReference dbRef;
     String UID;
 
+    View bgView1, bgView2, bgView3;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +40,17 @@ public class WelcomeActivity extends AppCompatActivity {
         contributions = findViewById(R.id.contributions);
         products = findViewById(R.id.products);
         text = findViewById(R.id.text);
+        bgView1 = findViewById(R.id.bgView1);
+        bgView2 = findViewById(R.id.bgView2);
+        bgView3 = findViewById(R.id.bgView3);
 
+
+        bgView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(WelcomeActivity.this, MumWallet.class));
+            }
+        });
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
