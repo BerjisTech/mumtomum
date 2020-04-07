@@ -51,6 +51,12 @@ public class WelcomeActivity extends AppCompatActivity {
                 startActivity(new Intent(WelcomeActivity.this, MumWallet.class));
             }
         });
+        bgView2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(WelcomeActivity.this, BabyActivity.class));
+            }
+        });
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
