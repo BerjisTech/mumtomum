@@ -24,9 +24,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:windowSoftInputMode="adjustPan">
-        <activity android:name=".BabyActivity"></activity>
+        <activity android:name=".UserWalletDetails"></activity>
+        <activity android:name=".BabyActivity" />
         <activity android:name=".MumWallet" />
-        <activity android:name=".WelcomeActivity" />
+        <activity android:name=".WalletActivity" />
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"

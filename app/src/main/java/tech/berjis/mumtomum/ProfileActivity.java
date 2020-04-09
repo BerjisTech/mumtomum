@@ -8,12 +8,10 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -37,8 +35,6 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import com.vanniktech.emoji.EmojiEditText;
 import com.vanniktech.emoji.EmojiPopup;
 import com.vanniktech.emoji.EmojiTextView;
-
-import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -159,7 +155,7 @@ public class ProfileActivity extends AppCompatActivity {
         goHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ProfileActivity.this, WelcomeActivity.class));
+                startActivity(new Intent(ProfileActivity.this, WalletActivity.class));
             }
         });
     }

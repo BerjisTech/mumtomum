@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".WelcomeActivity">
+    tools:context=".WalletActivity">
 
     <View
         android:id="@+id/menuView"
@@ -122,9 +122,9 @@
                 android:gravity="center"
                 android:text="BabyWallet balance"
                 android:textColor="#333333"
-                app:layout_constraintStart_toStartOf="@id/bgView2"
+                app:layout_constraintBottom_toTopOf="@id/babyWalletBalance"
                 app:layout_constraintEnd_toEndOf="@+id/bgView2"
-                app:layout_constraintBottom_toTopOf="@id/babyWalletBalance" />
+                app:layout_constraintStart_toStartOf="@id/bgView2" />
 
             <TextView
                 android:id="@+id/babyWalletBalance"
@@ -135,9 +135,9 @@
                 android:text="KES 0"
                 android:textColor="@color/colorPrimary"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="@id/bgView2"
+                app:layout_constraintBottom_toBottomOf="@id/bgView2"
                 app:layout_constraintEnd_toEndOf="@+id/bgView2"
-                app:layout_constraintBottom_toBottomOf="@id/bgView2" />
+                app:layout_constraintStart_toStartOf="@id/bgView2" />
 
             <View
                 android:id="@+id/bgView3"

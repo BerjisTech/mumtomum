@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -173,7 +172,7 @@ public class ProductsActivity extends AppCompatActivity {
             home.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(ProductsActivity.this, WelcomeActivity.class));
+                    startActivity(new Intent(ProductsActivity.this, WalletActivity.class));
                 }
             });
         }

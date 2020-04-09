@@ -1,22 +1,22 @@
 package tech.berjis.mumtomum;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Contacts;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
+import com.google.firebase.database.ValueEventListener;
 
-public class WelcomeActivity extends AppCompatActivity {
+public class WalletActivity extends AppCompatActivity {
 
     ImageView profile, contributions, products, text;
 
@@ -29,12 +29,13 @@ public class WelcomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_welcome);
+        setContentView(R.layout.activity_wallet);
 
         mAuth = FirebaseAuth.getInstance();
         dbRef = FirebaseDatabase.getInstance().getReference();
         dbRef.keepSynced(true);
         UID = mAuth.getCurrentUser().getUid();
+        checkPaymentDetails();
 
         profile = findViewById(R.id.profile);
         contributions = findViewById(R.id.contributions);
@@ -48,31 +49,31 @@ public class WelcomeActivity extends AppCompatActivity {
         bgView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(WelcomeActivity.this, MumWallet.class));
+                startActivity(new Intent(WalletActivity.this, MumWallet.class));
             }
         });
         bgView2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(WelcomeActivity.this, BabyActivity.class));
+                startActivity(new Intent(WalletActivity.this, BabyActivity.class));
             }
         });
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(WelcomeActivity.this, ProfileActivity.class));
+                startActivity(new Intent(WalletActivity.this, ProfileActivity.class));
             }
         });
         text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(WelcomeActivity.this, Messaging.class));
+                startActivity(new Intent(WalletActivity.this, Messaging.class));
             }
         });
         products.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent userIntent = new Intent(WelcomeActivity.this, ProductsActivity.class);
+                Intent userIntent = new Intent(WalletActivity.this, ProductsActivity.class);
                 Bundle userBundle = new Bundle();
                 userBundle.putString("user_id", UID);
                 userIntent.putExtras(userBundle);
@@ -82,10 +83,28 @@ public class WelcomeActivity extends AppCompatActivity {
         contributions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(WelcomeActivity.this, CommunityActivity.class));
+                startActivity(new Intent(WalletActivity.this, CommunityActivity.class));
             }
         });
 
+    }
+
+    void checkPaymentDetails() {
+        dbRef.child("Users").child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.child("email").exists() ||
+                        !dataSnapshot.child("first_name").exists() ||
+                        !dataSnapshot.child("last_name").exists()) {
+                    startActivity(new Intent(WalletActivity.this, UserWalletDetails.class));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
 }

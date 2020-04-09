@@ -1,13 +1,22 @@
 package tech.berjis.mumtomum;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.flutterwave.raveandroid.RaveConstants;
 import com.flutterwave.raveandroid.RavePayActivity;
@@ -20,8 +29,11 @@ public class BabyActivity extends AppCompatActivity {
 
     FirebaseAuth mAuth;
     DatabaseReference dbRef, babyRef;
-    String UID, phone;
-    TextView deposit;
+    String UID, phone, amount;
+    TextView deposit, amountText;
+    EditText amountNumber;
+    ConstraintLayout transactionPanel;
+    ImageView closeTransactionPanel, back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +46,72 @@ public class BabyActivity extends AppCompatActivity {
         phone = mAuth.getCurrentUser().getPhoneNumber();
 
         deposit = findViewById(R.id.deposit);
+        amountNumber = findViewById(R.id.amountNumber);
+        amountText = findViewById(R.id.amountText);
+        transactionPanel = findViewById(R.id.transactionPanel);
+        closeTransactionPanel = findViewById(R.id.closeTransactionPanel);
+        back = findViewById(R.id.back);
+
+        amountNumber.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+                    amount = amountNumber.getText().toString();
+                    if (!amount.equals("")) {
+                        new AlertDialog.Builder(BabyActivity.this)
+                                .setTitle("Delete entry")
+                                .setMessage("You are about to deposit " + amount + " to BabyWallet.")
+                                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        validateEntries();
+                                    }
+                                })
+                                .setNegativeButton("Cancel", null)
+                                .show();
+                    }else{
+                        amountNumber.setError("Please enter a value greater than zero (0)");
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
+        closeTransactionPanel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                transactionPanel.animate()
+                        .translationY(transactionPanel.getHeight())
+                        .alpha(1.0f)
+                        .setDuration(300)
+                        .setListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                super.onAnimationEnd(animation);
+                                transactionPanel.setVisibility(View.GONE);
+                            }
+                        });
+            }
+        });
 
         deposit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                validateEntries();
+                transactionPanel.setVisibility(View.VISIBLE);
+                transactionPanel.animate()
+                        .translationY(0)
+                        .alpha(1.0f)
+                        .setDuration(300)
+                        .setListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                super.onAnimationEnd(animation);
+                            }
+                        });
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BabyActivity.super.finish();
             }
         });
     }
@@ -51,7 +124,6 @@ public class BabyActivity extends AppCompatActivity {
         Toast.makeText(this, text_ref, Toast.LENGTH_SHORT).show();
 
         String email = "bo.kouru@gmail.com";
-        String amount = "100";
         String publicKey = getString(R.string.public_key);
         String encryptionKey = getString(R.string.encryption_key);
         String narration = "BabyWallet savings";

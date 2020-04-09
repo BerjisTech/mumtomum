@@ -51,8 +51,8 @@
                         android:id="@+id/balanceText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="KES"
                         android:paddingEnd="5dp"
+                        android:text="KES"
                         android:textColor="@color/colorPrimary2"
                         app:layout_constraintBottom_toTopOf="@+id/withdraw"
                         app:layout_constraintEnd_toStartOf="@+id/view3"
@@ -63,9 +63,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="1,000,000"
+                        android:textColor="@color/colorPrimary"
                         android:textSize="30sp"
                         android:textStyle="bold"
-                        android:textColor="@color/colorPrimary"
                         app:layout_constraintBottom_toTopOf="@+id/deposit"
                         app:layout_constraintStart_toEndOf="@+id/view3"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -74,13 +74,13 @@
                         android:id="@+id/withdraw"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="WITHDRAW"
+                        android:background="@color/colorPrimary2"
                         android:gravity="center"
                         android:paddingTop="20dp"
                         android:paddingBottom="20dp"
+                        android:text="WITHDRAW"
                         android:textColor="@color/white"
                         android:textStyle="bold"
-                        android:background="@color/colorPrimary2"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/view3"
                         app:layout_constraintStart_toStartOf="parent" />
@@ -89,13 +89,13 @@
                         android:id="@+id/deposit"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="DEPOSIT"
+                        android:background="@color/colorPrimary"
                         android:gravity="center"
                         android:paddingTop="20dp"
                         android:paddingBottom="20dp"
+                        android:text="DEPOSIT"
                         android:textColor="@color/white"
                         android:textStyle="bold"
-                        android:background="@color/colorPrimary"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/view3" />
@@ -114,5 +114,49 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/transactionPanel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/closeTransactionPanel"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/cancel_alt"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/amountText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:gravity="center"
+            android:text="How much do you want to deposit?\n\nmax KES 100,000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/closeTransactionPanel" />
+
+        <EditText
+            android:id="@+id/amountNumber"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:hint="Amount"
+            android:imeOptions="actionSend"
+            android:inputType="number"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/amountText" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
