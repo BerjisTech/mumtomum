@@ -1,38 +1,26 @@
 package tech.berjis.mumtomum;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.flutterwave.raveandroid.Meta;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.flutterwave.raveandroid.RaveConstants;
 import com.flutterwave.raveandroid.RavePayActivity;
 import com.flutterwave.raveandroid.RavePayManager;
-import com.flutterwave.raveandroid.Utils;
-import com.flutterwave.raveandroid.responses.SubAccount;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class BabyActivity extends AppCompatActivity {
 
-    long unixTime = System.currentTimeMillis() / 1000L;
-    List<Meta> meta = new ArrayList<>();
     FirebaseAuth mAuth;
     DatabaseReference dbRef, babyRef;
-    String UID, phone, textRef;
+    String UID, phone;
     TextView deposit;
 
     @Override
@@ -58,17 +46,24 @@ public class BabyActivity extends AppCompatActivity {
     private void validateEntries() {
         babyRef = dbRef.child("BabyWallet").child(UID).push();
         String text_ref = babyRef.getKey();
+        long time_start = System.currentTimeMillis() / 1000L;
+        babyRef.child("time_start").setValue(time_start);
+        Toast.makeText(this, text_ref, Toast.LENGTH_SHORT).show();
+
         String email = "bo.kouru@gmail.com";
         String amount = "100";
-        String publicKey = RaveConstants.PUBLIC_KEY;
-        String encryptionKey = RaveConstants.ENCRYPTION_KEY;
-        String txRef = text_ref;
+        String publicKey = getString(R.string.public_key);
+        String encryptionKey = getString(R.string.encryption_key);
         String narration = "BabyWallet savings";
         String currency = "KES";
         String country = "KE";
         String fName = "Benedict";
         String lName = "Ouma";
         String phoneNumber = phone; //phone.substring(phone.length() - 12);
+
+        babyRef.child("user").setValue(UID);
+        babyRef.child("narration").setValue(narration);
+        babyRef.child("amount").setValue(amount);
 
         boolean valid = true;
 
@@ -89,9 +84,9 @@ public class BabyActivity extends AppCompatActivity {
                     .setNarration(narration)
                     .setPublicKey(publicKey)
                     .setEncryptionKey(encryptionKey)
-                    .setTxRef(txRef)
+                    .setTxRef(text_ref)
                     .acceptMpesaPayments(true)
-                    .acceptAccountPayments(false)
+                    .acceptAccountPayments(true)
                     .acceptCardPayments(true)
                     .allowSaveCardFeature(true)
                     .acceptAchPayments(false)
@@ -102,20 +97,17 @@ public class BabyActivity extends AppCompatActivity {
                     .acceptUkPayments(false)
                     .acceptSaBankPayments(false)
                     .acceptFrancMobileMoneyPayments(false)
-                    .acceptBankTransferPayments(true)
-                    .acceptUssdPayments(true)
-                    .acceptBarterPayments(true)
-                    .onStagingEnv(true)
+                    .acceptBankTransferPayments(false)
+                    .acceptUssdPayments(false)
+                    .acceptBarterPayments(false)
+                    .onStagingEnv(false)
+                    .isPreAuth(false)
                     .showStagingLabel(false)
 //                    .setMeta(meta)
 //                    .withTheme(R.style.TestNewTheme)
-                    .shouldDisplayFee(true)
-                    .acceptBankTransferPayments(true, true);
-
+                    .shouldDisplayFee(false);
 
             ravePayManager.initialize();
-
-
         }
     }
 
@@ -131,10 +123,19 @@ public class BabyActivity extends AppCompatActivity {
             }
 
             if (resultCode == RavePayActivity.RESULT_SUCCESS) {
+                long end_time = System.currentTimeMillis() / 1000L;
+                babyRef.child("end_time").setValue(end_time);
+                babyRef.child("status").setValue("success");
                 Toast.makeText(this, "SUCCESS " + message, Toast.LENGTH_SHORT).show();
             } else if (resultCode == RavePayActivity.RESULT_ERROR) {
+                long end_time = System.currentTimeMillis() / 1000L;
+                babyRef.child("end_time").setValue(end_time);
+                babyRef.child("status").setValue("error");
                 Toast.makeText(this, "ERROR " + message, Toast.LENGTH_SHORT).show();
             } else if (resultCode == RavePayActivity.RESULT_CANCELLED) {
+                long end_time = System.currentTimeMillis() / 1000L;
+                babyRef.child("end_time").setValue(end_time);
+                babyRef.child("status").setValue("cancelled");
                 Toast.makeText(this, "CANCELLED " + message, Toast.LENGTH_SHORT).show();
             }
         } else {
