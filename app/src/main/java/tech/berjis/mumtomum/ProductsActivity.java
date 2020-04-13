@@ -3,6 +3,7 @@ package tech.berjis.mumtomum;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.animation.Animator;
@@ -71,7 +72,7 @@ public class ProductsActivity extends AppCompatActivity {
         rv.setLayoutManager(sgManager);
         rv.setAdapter(productsAdapter);*/
 
-        SpannedGridLayoutManager layoutManager = new SpannedGridLayoutManager(
+        /*SpannedGridLayoutManager layoutManager = new SpannedGridLayoutManager(
                 new SpannedGridLayoutManager.GridSpanLookup() {
                     @Override
                     public SpannedGridLayoutManager.SpanInfo getSpanInfo(int position) {
@@ -85,8 +86,8 @@ public class ProductsActivity extends AppCompatActivity {
                 },
                 2, // number of columns
                 1f // how big is default item
-        );
-        rv.setLayoutManager(layoutManager);
+        );*/
+        rv.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
 
         unloggedState();
         loadProducts();

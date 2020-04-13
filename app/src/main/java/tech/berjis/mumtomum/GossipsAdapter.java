@@ -157,7 +157,7 @@ public class GossipsAdapter extends RecyclerView.Adapter<GossipsAdapter.ViewHold
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot areaSnapshot : dataSnapshot.getChildren()) {
                         String imageURL = Objects.requireNonNull(areaSnapshot.child("image").getValue()).toString();
-                        Glide.with(holder.mView.getContext()).load(imageURL).placeholder(R.drawable.mom).into(holder.mainImage);
+                        Glide.with(holder.mView.getContext()).load(imageURL).into(holder.mainImage);
                     }
                 } else {
                     Toast.makeText(holder.mView.getContext(), "Error loading image", Toast.LENGTH_SHORT).show();

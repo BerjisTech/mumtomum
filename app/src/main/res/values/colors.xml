@@ -2,13 +2,13 @@
 <resources>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorCrimson">#EEEEEE</color>
-    <color name="colorAccent">#E6E6FA</color>
-    <color name="colorPrimary1">#C0C0F2</color>
-    <color name="colorPrimary2">#9A9AEB</color>
-    <color name="colorPrimary">#7373E3</color>
-    <color name="colorPrimaryDark1">#4D4DDB</color>
-    <color name="colorPrimaryDark2">#2A2AD1</color>
-    <color name="colorPrimaryDark">#2222AA</color>
+    <color name="colorAccent">#CBF3C6</color>
+    <color name="colorPrimary1">#DDEFBB</color>
+    <color name="colorPrimary2">#EFEAB5</color>
+    <color name="colorPrimary">#FFE5B4</color>
+    <color name="colorPrimaryDark1">#FFE0B8</color>
+    <color name="colorPrimaryDark2">#FFDBC1</color>
+    <color name="colorPrimaryDark">#FFD7CD</color>
     <color name="greyTick">#666666</color>
     <color name="blueTick">#6666FF</color>
 </resources>

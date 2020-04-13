@@ -68,8 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/baby_carrier" />
+            android:scaleType="centerCrop" />
 
     </androidx.cardview.widget.CardView>
 

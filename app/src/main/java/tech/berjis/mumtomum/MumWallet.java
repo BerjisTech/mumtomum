@@ -1,225 +1,353 @@
 package tech.berjis.mumtomum;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
-
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
+import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CompoundButton;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.flutterwave.raveandroid.Meta;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.flutterwave.raveandroid.RaveConstants;
 import com.flutterwave.raveandroid.RavePayActivity;
 import com.flutterwave.raveandroid.RavePayManager;
-import com.flutterwave.raveandroid.Utils;
-import com.flutterwave.raveandroid.responses.SubAccount;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.text.NumberFormat;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class MumWallet extends AppCompatActivity {
-    EditText emailEt;
-    EditText amountEt;
-    EditText publicKeyEt;
-    EditText encryptionKeyEt;
-    EditText txRefEt;
-    EditText narrationEt;
-    EditText currencyEt;
-    EditText countryEt;
-    EditText fNameEt;
-    EditText lNameEt;
-    EditText durationEt;
-    EditText frequencyEt;
-    EditText phoneNumberEt;
-    Button startPayBtn;
-    Button addVendorBtn;
-    Button clearVendorBtn;
-    SwitchCompat cardSwitch;
-    SwitchCompat accountSwitch;
-    SwitchCompat ghMobileMoneySwitch;
-    SwitchCompat ugMobileMoneySwitch;
-    SwitchCompat ukbankSwitch;
-    SwitchCompat saBankSwitch;
-    SwitchCompat francMobileMoneySwitch;
-    SwitchCompat rwfMobileMoneySwitch;
-    SwitchCompat zmMobileMoneySwitch;
-    SwitchCompat bankTransferSwitch;
-    SwitchCompat isPermanentAccountSwitch;
-    SwitchCompat setExpirySwitch;
-    SwitchCompat ussdSwitch;
-    SwitchCompat barterSwitch;
-    SwitchCompat isLiveSwitch;
-    SwitchCompat isMpesaSwitch;
-    SwitchCompat accountAchSwitch;
-    SwitchCompat addSubAccountsSwitch;
-    SwitchCompat isPreAuthSwitch;
-    SwitchCompat allowSavedCardsSwitch;
-    SwitchCompat shouldDisplayFeeSwitch;
-    SwitchCompat shouldShowStagingLabelSwitch;
-    List<Meta> meta = new ArrayList<>();
-    List<SubAccount> subAccounts = new ArrayList<>();
-    LinearLayout addSubaccountsLayout;
-    LinearLayout expiryDetailsLayout;
-    TextView vendorListTXT;
-    long unixTime = System.currentTimeMillis() / 1000L;
+
+    FirebaseAuth mAuth;
+    DatabaseReference dbRef, depositRef, withdrawRef;
+    String UID, phone, amount, balance;
+    TextView deposit, withdraw, amountText, balanceAmount;
+    EditText amountNumber;
+    ConstraintLayout transactionPanel;
+    ImageView closeTransactionPanel, back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mum_wallet);
 
-        emailEt = findViewById(R.id.emailEt);
-        amountEt = findViewById(R.id.amountEt);
-        publicKeyEt = findViewById(R.id.publicKeyEt);
-        encryptionKeyEt = findViewById(R.id.encryptionEt);
-        txRefEt = findViewById(R.id.txRefEt);
-        narrationEt = findViewById(R.id.narrationTV);
-        currencyEt = findViewById(R.id.currencyEt);
-        countryEt = findViewById(R.id.countryEt);
-        fNameEt = findViewById(R.id.fNameEt);
-        lNameEt = findViewById(R.id.lnameEt);
-        phoneNumberEt = findViewById(R.id.phoneNumberEt);
-        durationEt = findViewById(R.id.expiryDaysEt);
-        frequencyEt = findViewById(R.id.frequencyEt);
-        startPayBtn = findViewById(R.id.startPaymentBtn);
-        cardSwitch = findViewById(R.id.cardPaymentSwitch);
-        allowSavedCardsSwitch = findViewById(R.id.allowSavedCardsSwitch);
-        accountSwitch = findViewById(R.id.accountPaymentSwitch);
-        accountAchSwitch = findViewById(R.id.accountAchSwitch);
-        isMpesaSwitch = findViewById(R.id.accountMpesaSwitch);
-        isPreAuthSwitch = findViewById(R.id.isPreAuthSwitch);
-        shouldDisplayFeeSwitch = findViewById(R.id.isDisplayFeeSwitch);
-        ghMobileMoneySwitch = findViewById(R.id.accountGHMobileMoneySwitch);
-        ugMobileMoneySwitch = findViewById(R.id.accountUgMobileMoneySwitch);
-        ukbankSwitch = findViewById(R.id.accountUkbankSwitch);
-        saBankSwitch = findViewById(R.id.accountSaBankSwitch);
-        francMobileMoneySwitch = findViewById(R.id.accountfrancMobileMoneySwitch);
-        zmMobileMoneySwitch = findViewById(R.id.accountZmMobileMoneySwitch);
-        rwfMobileMoneySwitch = findViewById(R.id.accountRwfMobileMoneySwitch);
-        bankTransferSwitch = findViewById(R.id.bankTransferSwitch);
-        isPermanentAccountSwitch = findViewById(R.id.isPermanentSwitch);
-        setExpirySwitch = findViewById(R.id.setExpirySwitch);
-        bankTransferSwitch = findViewById(R.id.bankTransferSwitch);
-        expiryDetailsLayout = findViewById(R.id.expiry_layout);
-        ussdSwitch = findViewById(R.id.ussd_switch);
-        barterSwitch = findViewById(R.id.barter_switch);
-        isLiveSwitch = findViewById(R.id.isLiveSwitch);
-        addSubAccountsSwitch = findViewById(R.id.addSubAccountsSwitch);
-        shouldShowStagingLabelSwitch = findViewById(R.id.shouldShowStagingLabelSwitch);
-        addVendorBtn = findViewById(R.id.addVendorBtn);
-        clearVendorBtn = findViewById(R.id.clearVendorsBtn);
-        vendorListTXT = findViewById(R.id.refIdsTV);
-        vendorListTXT.setText("Your current vendor refs are: ");
-        txRefEt.setText("Payments_" + unixTime);
+        mAuth = FirebaseAuth.getInstance();
+        dbRef = FirebaseDatabase.getInstance().getReference();
+        UID = mAuth.getCurrentUser().getUid();
+        phone = mAuth.getCurrentUser().getPhoneNumber();
 
-        bankTransferSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) {
-                    isPermanentAccountSwitch.setVisibility(View.VISIBLE);
-                    setExpirySwitch.setVisibility(View.VISIBLE);
-                } else {
-                    isPermanentAccountSwitch.setVisibility(View.GONE);
-                    setExpirySwitch.setVisibility(View.GONE);
-                    expiryDetailsLayout.setVisibility(View.GONE);
-                }
-            }
-        });
+        deposit = findViewById(R.id.deposit);
+        withdraw = findViewById(R.id.withdraw);
+        amountNumber = findViewById(R.id.amountNumber);
+        amountText = findViewById(R.id.amountText);
+        transactionPanel = findViewById(R.id.transactionPanel);
+        closeTransactionPanel = findViewById(R.id.closeTransactionPanel);
+        back = findViewById(R.id.back);
+        balanceAmount = findViewById(R.id.balanceAmount);
 
-        isPermanentAccountSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) {
-                    setExpirySwitch.setVisibility(View.GONE);
-                    expiryDetailsLayout.setVisibility(View.GONE);
-                } else setExpirySwitch.setVisibility(View.VISIBLE);
-            }
-        });
-        setExpirySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) {
-                    expiryDetailsLayout.setVisibility(View.VISIBLE);
-                    isPermanentAccountSwitch.setVisibility(View.GONE);
-                } else {
-                    expiryDetailsLayout.setVisibility(View.GONE);
-                    isPermanentAccountSwitch.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-
-        publicKeyEt.setText(RaveConstants.PUBLIC_KEY);
-        encryptionKeyEt.setText(RaveConstants.ENCRYPTION_KEY);
-
-        addSubaccountsLayout = findViewById(R.id.addSubAccountsLayout);
-
-        meta.add(new Meta("test key 1", "test value 1"));
-        meta.add(new Meta("test key 2", "test value 2"));
-
-        startPayBtn.setOnClickListener(new View.OnClickListener() {
+        closeTransactionPanel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                validateEntries();
+                transactionPanel.animate()
+                        .translationY(transactionPanel.getHeight())
+                        .alpha(1.0f)
+                        .setDuration(300)
+                        .setListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                super.onAnimationEnd(animation);
+                                transactionPanel.setVisibility(View.GONE);
+                            }
+                        });
             }
         });
 
-        addSubAccountsSwitch.setOnCheckedChangeListener(new SwitchCompat.OnCheckedChangeListener() {
+        deposit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
-                if (checked) {
-                    addSubaccountsLayout.setVisibility(View.VISIBLE);
+            public void onClick(View v) {
+                transactionPanel.setVisibility(View.VISIBLE);
+                transactionPanel.animate()
+                        .translationY(0)
+                        .alpha(1.0f)
+                        .setDuration(300)
+                        .setListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                super.onAnimationEnd(animation);
+                                amountText.setText("How much do you want to deposit?\n\nmax KES 100,000");
+                                amountNumber.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                                        if (actionId == EditorInfo.IME_ACTION_SEND) {
+                                            amount = amountNumber.getText().toString();
+                                            if (!amount.equals("")) {
+                                                new AlertDialog.Builder(MumWallet.this)
+                                                        .setTitle("MumWallet Deposit")
+                                                        .setMessage("You are about to deposit " + amount + " to MumWallet.")
+                                                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                            public void onClick(DialogInterface dialog, int which) {
+                                                                checkUser();
+                                                            }
+                                                        })
+                                                        .setNegativeButton("Cancel", null)
+                                                        .show();
+                                            } else {
+                                                amountNumber.setError("Please enter a value greater than zero (0)");
+                                            }
+                                            return true;
+                                        }
+                                        return false;
+                                    }
+                                });
+                            }
+                        });
+            }
+        });
+        withdraw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*HashMap<String, String> data = new HashMap<>();
+
+                data.put("sender", "mumtomum");
+                data.put("account_number", "254725227513");
+                data.put("amount", "3000");
+                data.put("narration", "Test MumWallet Android volley to Heroku app calls");
+                data.put("reference", "234efregf2456");
+                data.put("beneficiary_name", "Benedict Ouma");
+
+                String url = "https:mumwallet.herokuapp.com/api/request_withdrawal";*/
+                transactionPanel.setVisibility(View.VISIBLE);
+                transactionPanel.animate()
+                        .translationY(0)
+                        .alpha(1.0f)
+                        .setDuration(300)
+                        .setListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                super.onAnimationEnd(animation);
+                                amountText.setText("How much do you want to withdraw?\n\nmin KES 500");
+                                amountNumber.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                                        if (actionId == EditorInfo.IME_ACTION_SEND) {
+                                            amount = amountNumber.getText().toString();
+                                            balance = balanceAmount.getText().toString();
+                                            long maxWithdraw = Long.parseLong(balance) - 50;
+                                            final long withDrawAmount = Long.parseLong(amount);
+                                            if (withDrawAmount < 500) {
+                                                amountNumber.setError("Minimum withdrawal amount is kshs 500");
+                                            }
+                                            if (Long.parseLong(amount) > maxWithdraw) {
+                                                amountNumber.setError("You cannot withdraw more than kshs " + maxWithdraw);
+                                            }
+                                            if (amount.equals("")) {
+                                                amountNumber.setError("Enter your withdrawal amount");
+                                            }
+                                            if (!amount.equals("") && Long.parseLong(amount) < maxWithdraw && withDrawAmount >= 500) {
+                                                new AlertDialog.Builder(MumWallet.this)
+                                                        .setTitle("MumWallet Withdrawal")
+                                                        .setMessage("You are about to withdraw " + amount + " from your MumWallet account.\n\nTransaction fees kshs 50")
+                                                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                            public void onClick(DialogInterface dialog, int which) {
+                                                                checkWithdrawViability(withDrawAmount);
+                                                            }
+                                                        })
+                                                        .setNegativeButton("Cancel", null)
+                                                        .show();
+                                            }
+                                            return true;
+                                        }
+                                        return false;
+                                    }
+                                });
+                            }
+                        });
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MumWallet.super.finish();
+            }
+        });
+        MumTotalBalance();
+    }
+
+    public void checkWithdrawViability(final Long withdrawAmount) {
+        dbRef.child("Users").child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String firstname = dataSnapshot.child("first_name").getValue().toString();
+                String lastname = dataSnapshot.child("last_name").getValue().toString();
+                String phone_number = phone.substring(phone.length() - 12);
+
+                withdrawRequest(firstname, lastname, phone_number, withdrawAmount);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void withdrawRequest(final String firstname, final String lastname, final String phone_number, final Long withdrawAmount) {
+        withdrawRef = dbRef.child("MumWallet").child(UID).push();
+        final String reference = withdrawRef.getKey();
+
+        long time_start = System.currentTimeMillis() / 1000L;
+        final String narration = "Withdrawal from " + firstname + " " + lastname + "'s Mumwallet";
+
+        withdrawRef.child("time_start").setValue(time_start);
+        withdrawRef.child("user").setValue(UID);
+        withdrawRef.child("type").setValue("withdraw");
+        withdrawRef.child("narration").setValue(narration);
+        withdrawRef.child("amount").setValue(withdrawAmount + 50);
+        withdrawRef.child("text_ref").setValue(reference);
+
+        String requestUrl = "https:mumwallet.herokuapp.com/api/request_withdrawal";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, requestUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.e("Volley Result", "" + response);
+                //Toast.makeText(MumWallet.this, response, Toast.LENGTH_SHORT).show();
+                long end_time = System.currentTimeMillis() / 1000L;
+                withdrawRef.child("end_time").setValue(end_time);
+                withdrawRef.child("status").setValue("success");
+                Toast.makeText(MumWallet.this, "You have succesfully withdrawn kshs " + withdrawAmount, Toast.LENGTH_LONG).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                long end_time = System.currentTimeMillis() / 1000L;
+                withdrawRef.child("end_time").setValue(end_time);
+                withdrawRef.child("status").setValue("error");
+                Toast.makeText(MumWallet.this, "Error processing your withdrawal", Toast.LENGTH_LONG).show();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> postMap = new HashMap<>();
+                postMap.put("sender", "mumtomum");
+                postMap.put("account_number", phone_number);
+                postMap.put("amount", String.valueOf(withdrawAmount));
+                postMap.put("narration", narration);
+                postMap.put("reference", reference);
+                postMap.put("beneficiary_name", firstname + " " + lastname);
+                return postMap;
+            }
+        };
+
+        Volley.newRequestQueue(MumWallet.this).add(stringRequest);
+    }
+
+
+    private void checkUser() {
+        dbRef.child("Users").child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (!dataSnapshot.child("email").exists() ||
+                        !dataSnapshot.child("first_name").exists() ||
+                        !dataSnapshot.child("last_name").exists()) {
+                    startActivity(new Intent(MumWallet.this, UserWalletDetails.class));
                 } else {
-                    clear();
+
+                    String firstname = dataSnapshot.child("first_name").getValue().toString();
+                    String lastname = dataSnapshot.child("last_name").getValue().toString();
+                    String email = dataSnapshot.child("email").getValue().toString();
+                    validateEntries(firstname, lastname, email);
+
                 }
             }
-        });
 
-        addVendorBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                addVendorDialog();
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
-        clearVendorBtn.setOnClickListener(new View.OnClickListener() {
+    }
+
+    private void MumTotalBalance() {
+        dbRef.child("MumWallet").child(UID).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onClick(View view) {
-                clear();
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists() && dataSnapshot.hasChildren()) {
+                    long total = 0;
+                    Long value;
+
+                    for (DataSnapshot npsnapshot : dataSnapshot.getChildren()) {
+                        if (!npsnapshot.child("status").exists() && npsnapshot.child("text_ref").exists()) {
+                            String text_ref = Objects.requireNonNull(npsnapshot.child("text_ref").getValue()).toString();
+                            long end_time = System.currentTimeMillis() / 1000L;
+                            dbRef.child("MumWallet").child(UID).child(text_ref).child("end_time").setValue(end_time);
+                            dbRef.child("MumWallet").child(UID).child(text_ref).child("status").setValue("cancelled");
+                        }
+                        if (npsnapshot.child("status").exists() && Objects.equals(npsnapshot.child("status").getValue(), "success")) {
+                            value = (Long) npsnapshot.child("amount").getValue();
+
+                            if (Objects.equals(npsnapshot.child("type").getValue(), "deposit")) {
+                                total = total + value;
+                            } else {
+                                total = total - value;
+                            }
+                        }
+                    }
+                    NumberFormat nf = NumberFormat.getInstance();
+                    nf.setMinimumFractionDigits(0);
+                    nf.setMaximumFractionDigits(0);
+                    String output = nf.format(total);
+                    balanceAmount.setText(output);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
-
     }
 
-    private void clear() {
-        subAccounts.clear();
-        vendorListTXT.setText("Your current vendor refs are: ");
-        addSubaccountsLayout.setVisibility(View.GONE);
-        addSubAccountsSwitch.setChecked(false);
-    }
+    private void validateEntries(String fName, String lName, String email) {
+        depositRef = dbRef.child("MumWallet").child(UID).push();
+        String text_ref = depositRef.getKey();
+        long time_start = System.currentTimeMillis() / 1000L;
+        long final_amount = Long.parseLong(amount);
+        depositRef.child("time_start").setValue(time_start);
 
-    private void validateEntries() {
-        clearErrors();
-        String email = emailEt.getText().toString();
-        String amount = amountEt.getText().toString();
-        String publicKey = publicKeyEt.getText().toString();
-        String encryptionKey = encryptionKeyEt.getText().toString();
-        String txRef = txRefEt.getText().toString();
-        String narration = narrationEt.getText().toString();
-        String currency = currencyEt.getText().toString();
-        String country = countryEt.getText().toString();
-        String fName = fNameEt.getText().toString();
-        String lName = lNameEt.getText().toString();
-        String phoneNumber = phoneNumberEt.getText().toString();
-        String accountDuration = durationEt.getText().toString();
-        String accountPaymentFrequency = frequencyEt.getText().toString();
+        String publicKey = getString(R.string.public_key);
+        String encryptionKey = getString(R.string.encryption_key);
+        String narration = fName + " " + lName + "'s MumWallet savings";
+
+        depositRef.child("user").setValue(UID);
+        depositRef.child("type").setValue("deposit");
+        depositRef.child("narration").setValue(narration);
+        depositRef.child("amount").setValue(final_amount);
+        depositRef.child("text_ref").setValue(text_ref);
 
         boolean valid = true;
 
@@ -228,103 +356,42 @@ public class MumWallet extends AppCompatActivity {
         }
 
         //isAmountValid for compulsory fields
-        if (!Utils.isEmailValid(email)) {
-            valid = false;
-            emailEt.setError("A valid email is required");
-        }
-
-        if (publicKey.length() < 1) {
-            valid = false;
-            publicKeyEt.setError("A valid public key is required");
-        }
-
-        if (encryptionKey.length() < 1) {
-            valid = false;
-            encryptionKeyEt.setError("A valid encryption key is required");
-        }
-
-        if (txRef.length() < 1) {
-            valid = false;
-            txRefEt.setError("A valid txRef key is required");
-        }
-
-        if (currency.length() < 1) {
-            valid = false;
-            currencyEt.setError("A valid currency code is required");
-        }
-
-        if (country.length() < 1) {
-            valid = false;
-            countryEt.setError("A valid country code is required");
-        }
-
-        if (setExpirySwitch.isChecked()) {
-            if (accountDuration.isEmpty()) {
-                valid = false;
-                durationEt.setError("Please enter expiry duration (in days)");
-            }
-            if (accountPaymentFrequency.isEmpty()) {
-                valid = false;
-                frequencyEt.setError("Please enter payment frequency");
-            }
-        }
 
         if (valid) {
             RavePayManager ravePayManager = new RavePayManager(this).setAmount(Double.parseDouble(amount))
-                    .setCountry(country)
-                    .setCurrency(currency)
+                    .setCountry("KE")
+                    .setCurrency("KES")
                     .setEmail(email)
                     .setfName(fName)
                     .setlName(lName)
-                    .setPhoneNumber(phoneNumber)
+                    .setPhoneNumber(phone)
                     .setNarration(narration)
                     .setPublicKey(publicKey)
                     .setEncryptionKey(encryptionKey)
-                    .setTxRef(txRef)
-                    .acceptMpesaPayments(isMpesaSwitch.isChecked())
-                    .acceptAccountPayments(accountSwitch.isChecked())
-                    .acceptCardPayments(cardSwitch.isChecked())
-                    .allowSaveCardFeature(allowSavedCardsSwitch.isChecked())
-                    .acceptAchPayments(accountAchSwitch.isChecked())
-                    .acceptGHMobileMoneyPayments(ghMobileMoneySwitch.isChecked())
-                    .acceptUgMobileMoneyPayments(ugMobileMoneySwitch.isChecked())
-                    .acceptZmMobileMoneyPayments(zmMobileMoneySwitch.isChecked())
-                    .acceptRwfMobileMoneyPayments(rwfMobileMoneySwitch.isChecked())
-                    .acceptUkPayments(ukbankSwitch.isChecked())
-                    .acceptSaBankPayments(saBankSwitch.isChecked())
-                    .acceptFrancMobileMoneyPayments(francMobileMoneySwitch.isChecked())
-                    .acceptBankTransferPayments(bankTransferSwitch.isChecked())
-                    .acceptUssdPayments(ussdSwitch.isChecked())
-                    .acceptBarterPayments(barterSwitch.isChecked())
-                    .onStagingEnv(!isLiveSwitch.isChecked())
-                    .setSubAccounts(subAccounts)
-                    .isPreAuth(isPreAuthSwitch.isChecked())
-                    .showStagingLabel(shouldShowStagingLabelSwitch.isChecked())
+                    .setTxRef(text_ref)
+                    .acceptMpesaPayments(true)
+                    .acceptAccountPayments(true)
+                    .acceptCardPayments(true)
+                    .allowSaveCardFeature(true)
+                    .acceptAchPayments(false)
+                    .acceptGHMobileMoneyPayments(false)
+                    .acceptUgMobileMoneyPayments(false)
+                    .acceptZmMobileMoneyPayments(false)
+                    .acceptRwfMobileMoneyPayments(false)
+                    .acceptUkPayments(false)
+                    .acceptSaBankPayments(false)
+                    .acceptFrancMobileMoneyPayments(false)
+                    .acceptBankTransferPayments(false)
+                    .acceptUssdPayments(false)
+                    .acceptBarterPayments(false)
+                    .onStagingEnv(false)
+                    .isPreAuth(true)
+                    .showStagingLabel(false)
 //                    .setMeta(meta)
 //                    .withTheme(R.style.TestNewTheme)
-                    .shouldDisplayFee(shouldDisplayFeeSwitch.isChecked());
-
-
-            // Customize pay with bank transfer options (optional)
-            if (isPermanentAccountSwitch.isChecked())
-                ravePayManager.acceptBankTransferPayments(true, true);
-            else {
-                if (setExpirySwitch.isChecked()) {
-                    int duration = 0, frequency = 0;
-                    try {
-                        duration = Integer.parseInt(durationEt.getText().toString());
-                        frequency = Integer.parseInt(frequencyEt.getText().toString());
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                    }
-                    ravePayManager.acceptBankTransferPayments(true, duration, frequency);
-                }
-            }
-
+                    .shouldDisplayFee(true);
 
             ravePayManager.initialize();
-
-
         }
     }
 
@@ -333,84 +400,44 @@ public class MumWallet extends AppCompatActivity {
 
         if (requestCode == RaveConstants.RAVE_REQUEST_CODE && data != null) {
 
+            amountNumber.setText("");
             String message = data.getStringExtra("response");
 
             if (message != null) {
                 Log.d("rave response", message);
             }
 
+            transactionPanel.animate()
+                    .translationY(transactionPanel.getHeight())
+                    .alpha(1.0f)
+                    .setDuration(300)
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            super.onAnimationEnd(animation);
+                            transactionPanel.setVisibility(View.GONE);
+                        }
+                    });
+
             if (resultCode == RavePayActivity.RESULT_SUCCESS) {
-                Toast.makeText(this, "SUCCESS " + message, Toast.LENGTH_SHORT).show();
+                long end_time = System.currentTimeMillis() / 1000L;
+                depositRef.child("end_time").setValue(end_time);
+                depositRef.child("status").setValue("success");
+                //Toast.makeText(this, "SUCCESS " + message, Toast.LENGTH_SHORT).show();
             } else if (resultCode == RavePayActivity.RESULT_ERROR) {
-                Toast.makeText(this, "ERROR " + message, Toast.LENGTH_SHORT).show();
+                long end_time = System.currentTimeMillis() / 1000L;
+                depositRef.child("end_time").setValue(end_time);
+                depositRef.child("status").setValue("error");
+                //Toast.makeText(this, "ERROR " + message, Toast.LENGTH_SHORT).show();
             } else if (resultCode == RavePayActivity.RESULT_CANCELLED) {
-                Toast.makeText(this, "CANCELLED " + message, Toast.LENGTH_SHORT).show();
+                long end_time = System.currentTimeMillis() / 1000L;
+                depositRef.child("end_time").setValue(end_time);
+                depositRef.child("status").setValue("cancelled");
+                //Toast.makeText(this, "CANCELLED " + message, Toast.LENGTH_SHORT).show();
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
-    }
-
-    private void clearErrors() {
-        emailEt.setError(null);
-        amountEt.setError(null);
-        publicKeyEt.setError(null);
-        encryptionKeyEt.setError(null);
-        txRefEt.setError(null);
-        narrationEt.setError(null);
-        currencyEt.setError(null);
-        countryEt.setError(null);
-        fNameEt.setError(null);
-        lNameEt.setError(null);
-        durationEt.setError(null);
-        frequencyEt.setError(null);
-    }
-
-    private void addVendorDialog() {
-        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-        // ...Irrelevant code for customizing the buttons and title
-        LayoutInflater inflater = this.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.rave_sdk_add_vendor_layout, null);
-        dialogBuilder.setView(dialogView);
-        final EditText vendorReferenceET = dialogView.findViewById(R.id.vendorReferecnceET);
-        final EditText vendorRatioET = dialogView.findViewById(R.id.vendorRatioET);
-        Button addVendorBtn = dialogView.findViewById(R.id.doneDialogBtn);
-        Button cancelDialogBtn = dialogView.findViewById(R.id.cancelDialogBtn);
-        final AlertDialog alertDialog = dialogBuilder.create();
-        cancelDialogBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                alertDialog.dismiss();
-            }
-        });
-        addVendorBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                boolean valid = true;
-                String vendorRef = vendorReferenceET.getText().toString().trim();
-                String vendorRatio = vendorRatioET.getText().toString().trim();
-
-                if (vendorRef.length() < 1) {
-                    vendorReferenceET.setError("Vendor reference is required");
-                    valid = false;
-                }
-                if (vendorRatioET.length() < 1) {
-                    vendorRatioET.setError("Vendor ratio is required");
-                    valid = false;
-                }
-                if (!valid) {
-                    return;
-                }
-                if (subAccounts.size() != 0) {
-                    vendorListTXT.setText(vendorListTXT.getText().toString() + ", " + vendorRef + "(" + vendorRatio + ")");
-                } else {
-                    vendorListTXT.setText(vendorListTXT.getText().toString() + vendorRef + "(" + vendorRatio + ")");
-                }
-                subAccounts.add(new SubAccount(vendorRef, vendorRatio));
-                alertDialog.dismiss();
-            }
-        });
-        alertDialog.show();
     }
 
 }
