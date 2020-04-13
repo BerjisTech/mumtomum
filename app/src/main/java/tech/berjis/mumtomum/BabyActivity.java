@@ -106,7 +106,7 @@ public class BabyActivity extends AppCompatActivity {
                                             if (!amount.equals("")) {
                                                 new AlertDialog.Builder(BabyActivity.this)
                                                         .setTitle("BabyWallet Deposit")
-                                                        .setMessage("You are about to deposit " + amount + " to BabyActivity.")
+                                                        .setMessage("You are about to deposit " + amount + " to BabyWallet.")
                                                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                                             public void onClick(DialogInterface dialog, int which) {
                                                                 checkUser();
@@ -131,14 +131,14 @@ public class BabyActivity extends AppCompatActivity {
             public void onClick(View v) {
                 /*HashMap<String, String> data = new HashMap<>();
 
-                data.put("sender", "babytobaby");
+                data.put("sender", "mumtomum");
                 data.put("account_number", "254725227513");
                 data.put("amount", "3000");
                 data.put("narration", "Test BabyWallet Android volley to Heroku app calls");
                 data.put("reference", "234efregf2456");
                 data.put("beneficiary_name", "Benedict Ouma");
 
-                String url = "https:babywallet.herokuapp.com/api/request_withdrawal";*/
+                String url = "https:mumwallet.herokuapp.com/api/request_withdrawal";*/
                 transactionPanel.setVisibility(View.VISIBLE);
                 transactionPanel.animate()
                         .translationY(0)
@@ -157,7 +157,7 @@ public class BabyActivity extends AppCompatActivity {
                                             long maxWithdraw = Long.parseLong(balance) - 50;
                                             final long withDrawAmount = Long.parseLong(amount);
                                             if (withDrawAmount < 500) {
-                                                amountNumber.setError("Minibaby withdrawal amount is kshs 500");
+                                                amountNumber.setError("Minimum withdrawal amount is kshs 500");
                                             }
                                             if (Long.parseLong(amount) > maxWithdraw) {
                                                 amountNumber.setError("You cannot withdraw more than kshs " + maxWithdraw);
@@ -165,13 +165,12 @@ public class BabyActivity extends AppCompatActivity {
                                             if (amount.equals("")) {
                                                 amountNumber.setError("Enter your withdrawal amount");
                                             }
-                                            if (!amount.equals("") && Long.parseLong(amount) < maxWithdraw && withDrawAmount >= 500) {
+                                            if (!amount.equals("") && Long.parseLong(amount) <= maxWithdraw && withDrawAmount >= 500) {
                                                 new AlertDialog.Builder(BabyActivity.this)
                                                         .setTitle("BabyWallet Withdrawal")
                                                         .setMessage("You are about to withdraw " + amount + " from your BabyWallet account.\n\nTransaction fees kshs 50")
                                                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                                             public void onClick(DialogInterface dialog, int which) {
-                                                                Toast.makeText(BabyActivity.this, "Sending withdrawal request", Toast.LENGTH_LONG).show();
                                                                 checkWithdrawViability(withDrawAmount);
                                                             }
                                                         })
@@ -219,7 +218,7 @@ public class BabyActivity extends AppCompatActivity {
         final String reference = withdrawRef.getKey();
 
         long time_start = System.currentTimeMillis() / 1000L;
-        final String narration = "Withdrawal from " + firstname + " " + lastname + "'s Babywallet";
+        final String narration = "Withdrawal from " + firstname + " " + lastname + "'s BabyWallet";
 
         withdrawRef.child("time_start").setValue(time_start);
         withdrawRef.child("user").setValue(UID);
@@ -234,17 +233,10 @@ public class BabyActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 Log.e("Volley Result", "" + response);
                 //Toast.makeText(BabyActivity.this, response, Toast.LENGTH_SHORT).show();
-                if(response.equals("{\"status\":\"cancelled\"}")){
-                    long end_time = System.currentTimeMillis() / 1000L;
-                    withdrawRef.child("end_time").setValue(end_time);
-                    withdrawRef.child("status").setValue("cancelled");
-                    Toast.makeText(BabyActivity.this, "We couldn't process your withdrawal request. try again later", Toast.LENGTH_LONG).show();
-                }else{
-                    long end_time = System.currentTimeMillis() / 1000L;
-                    withdrawRef.child("end_time").setValue(end_time);
-                    withdrawRef.child("status").setValue("success");
-                    Toast.makeText(BabyActivity.this, "You have succesfully withdrawn kshs " + withdrawAmount, Toast.LENGTH_LONG).show();
-                }
+                long end_time = System.currentTimeMillis() / 1000L;
+                withdrawRef.child("end_time").setValue(end_time);
+                withdrawRef.child("status").setValue("success");
+                Toast.makeText(BabyActivity.this, "You have succesfully withdrawn kshs " + withdrawAmount, Toast.LENGTH_LONG).show();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -260,9 +252,9 @@ public class BabyActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> postMap = new HashMap<>();
-                postMap.put("sender", "babytobaby");
+                postMap.put("sender", "mumtomum");
                 postMap.put("account_number", phone_number);
-                postMap.put("amount", String.valueOf(withdrawAmount));
+                postMap.put("amount", amount);
                 postMap.put("narration", narration);
                 postMap.put("reference", reference);
                 postMap.put("beneficiary_name", firstname + " " + lastname);

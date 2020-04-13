@@ -165,7 +165,7 @@ public class MumWallet extends AppCompatActivity {
                                             if (amount.equals("")) {
                                                 amountNumber.setError("Enter your withdrawal amount");
                                             }
-                                            if (!amount.equals("") && Long.parseLong(amount) < maxWithdraw && withDrawAmount >= 500) {
+                                            if (!amount.equals("") && Long.parseLong(amount) <= maxWithdraw && withDrawAmount >= 500) {
                                                 new AlertDialog.Builder(MumWallet.this)
                                                         .setTitle("MumWallet Withdrawal")
                                                         .setMessage("You are about to withdraw " + amount + " from your MumWallet account.\n\nTransaction fees kshs 50")
@@ -254,7 +254,7 @@ public class MumWallet extends AppCompatActivity {
                 Map<String, String> postMap = new HashMap<>();
                 postMap.put("sender", "mumtomum");
                 postMap.put("account_number", phone_number);
-                postMap.put("amount", String.valueOf(withdrawAmount));
+                postMap.put("amount", amount);
                 postMap.put("narration", narration);
                 postMap.put("reference", reference);
                 postMap.put("beneficiary_name", firstname + " " + lastname);
