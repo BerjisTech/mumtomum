@@ -24,7 +24,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:windowSoftInputMode="adjustPan">
-        <activity android:name=".UserWalletDetails"></activity>
+        <activity android:name=".CommentsActivity"></activity>
+        <activity android:name=".CommentActivity" />
+        <activity android:name=".UserWalletDetails" />
         <activity android:name=".BabyActivity" />
         <activity android:name=".MumWallet" />
         <activity android:name=".WalletActivity" />

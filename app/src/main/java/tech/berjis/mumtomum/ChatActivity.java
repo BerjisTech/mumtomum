@@ -41,6 +41,7 @@ import com.vanniktech.emoji.EmojiPopup;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -247,7 +248,7 @@ public class ChatActivity extends AppCompatActivity {
 
                 adapter.notifyDataSetChanged();
 
-                chats.smoothScrollToPosition(listData.size() - 1);
+                chats.smoothScrollToPosition(listData.size());
             }
 
             @Override

@@ -11,6 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/round_border"
+        android:backgroundTint="@color/colorPrimaryDark"
         app:layout_constraintBottom_toBottomOf="@id/RecieverOrderText"
         app:layout_constraintEnd_toEndOf="@id/RecieverOrderImg"
         app:layout_constraintStart_toStartOf="@id/RecieverOrderImg"
@@ -24,7 +25,7 @@
         android:gravity="center"
         android:maxWidth="200dp"
         android:padding="10dp"
-        android:textColor="#333333"
+        android:textColor="#606060"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@id/RecieverOrderImg"
         app:layout_constraintStart_toStartOf="@id/RecieverOrderImg"
@@ -35,7 +36,7 @@
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_marginStart="10dp"
-        android:background="@color/colorAccent"
+        android:padding="2dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/RecieverOrderTitle" />
 
@@ -45,6 +46,7 @@
         android:layout_height="wrap_content"
         android:maxWidth="200dp"
         android:padding="5dp"
+        android:textColor="#606060"
         app:layout_constraintEnd_toEndOf="@id/RecieverOrderImg"
         app:layout_constraintStart_toStartOf="@id/RecieverOrderImg"
         app:layout_constraintTop_toBottomOf="@id/RecieverOrderImg" />
@@ -83,7 +85,7 @@
         android:paddingTop="10dp"
         android:paddingEnd="10dp"
         android:paddingBottom="10dp"
-        android:textColor="#FFFFFF"
+        android:textColor="#606060"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/receiverImage" />
 
@@ -96,7 +98,7 @@
         android:maxWidth="200dp"
         android:paddingStart="25dp"
         android:paddingEnd="0dp"
-        android:textColor="#666666"
+        android:textColor="#606060"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/receiverText" />
 
@@ -105,6 +107,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/round_border"
+        android:backgroundTint="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="@id/SenderOrderText"
         app:layout_constraintEnd_toEndOf="@id/SenderOrderImg"
         app:layout_constraintStart_toStartOf="@id/SenderOrderImg"
@@ -118,7 +121,7 @@
         android:gravity="center"
         android:maxWidth="200dp"
         android:padding="10dp"
-        android:textColor="#333333"
+        android:textColor="#606060"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@id/SenderOrderImg"
         app:layout_constraintStart_toStartOf="@id/SenderOrderImg"
@@ -129,7 +132,7 @@
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_marginEnd="10dp"
-        android:background="@color/colorAccent"
+        android:padding="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/SenderOrderTitle" />
 
@@ -139,6 +142,7 @@
         android:layout_height="wrap_content"
         android:maxWidth="200dp"
         android:padding="5dp"
+        android:textColor="#606060"
         app:layout_constraintEnd_toEndOf="@id/SenderOrderImg"
         app:layout_constraintStart_toStartOf="@id/SenderOrderImg"
         app:layout_constraintTop_toBottomOf="@id/SenderOrderImg" />
@@ -178,7 +182,7 @@
         android:paddingTop="10dp"
         android:paddingEnd="25dp"
         android:paddingBottom="10dp"
-        android:textColor="#FFFFFF"
+        android:textColor="#606060"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/senderImage" />
 
@@ -191,7 +195,7 @@
         android:maxWidth="200dp"
         android:paddingStart="0dp"
         android:paddingEnd="25dp"
-        android:textColor="#666666"
+        android:textColor="#606060"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/senderText" />
 

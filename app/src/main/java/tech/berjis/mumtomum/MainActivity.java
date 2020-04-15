@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         dbRef = FirebaseDatabase.getInstance().getReference();
         dbRef.keepSynced(true);
-        UID = mAuth.getCurrentUser().getUid();
 
         logo = findViewById(R.id.logo);
 
