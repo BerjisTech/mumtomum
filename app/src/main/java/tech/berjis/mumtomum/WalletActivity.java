@@ -116,12 +116,11 @@ public class WalletActivity extends AppCompatActivity {
     }
 
     public void loadTransactions() {
-        transRecycler.setVisibility(View.VISIBLE);
-        listData.clear();
-        dbRef.child("Transactions").orderByChild("user").equalTo(UID).addListenerForSingleValueEvent(new ValueEventListener() {
+        dbRef.child("Transactions").orderByChild("user").equalTo(UID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
+                    listData.clear();
                     for (DataSnapshot npsnapshot : dataSnapshot.getChildren()) {
                         Transactions l = npsnapshot.getValue(Transactions.class);
                         listData.add(l);

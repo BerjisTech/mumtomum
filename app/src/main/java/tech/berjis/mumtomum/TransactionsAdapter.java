@@ -1,5 +1,6 @@
 package tech.berjis.mumtomum;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,17 +34,18 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Transactions ld = listData.get(position);
 
-        if(ld.getStatus().equals("success")){
-            holder.narration.setTextColor(R.color.success);
+        if (ld.getStatus().equals("success")) {
+            holder.narration.setTextColor(Color.parseColor("#007e33"));
+            holder.narration.setText(ld.getNarration() + " " + ld.getType() + ": Successful");
         }
-        if(ld.getStatus().equals("error")){
-            holder.narration.setTextColor(R.color.error);
+        if (ld.getStatus().equals("error")) {
+            holder.narration.setTextColor(Color.parseColor("#cc0000"));
+            holder.narration.setText(ld.getNarration() + " " + ld.getType() + ": Unsuccessful");
         }
-        if(ld.getStatus().equals("cancelled")){
-            holder.narration.setTextColor(R.color.cancelled);
+        if (ld.getStatus().equals("cancelled")) {
+            holder.narration.setTextColor(Color.parseColor("#ff8800"));
+            holder.narration.setText(ld.getNarration() + " " + ld.getType() + ": Cancelled");
         }
-
-        holder.narration.setText(ld.getType());
 
         Date df = new java.util.Date((ld.getEnd_time() * 1000));
         int thisYear = Calendar.getInstance().get(Calendar.YEAR);
@@ -63,12 +65,13 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         nf.setMaximumFractionDigits(0);
         String output = nf.format(ld.getAmount());
 
-        if(ld.getType().equals("deposit")){
+        if (ld.getType().equals("deposit")) {
             holder.amount.setText("+kshs " + output);
-            holder.amount.setTextColor(R.color.info);
+            holder.amount.setTextColor(Color.parseColor("#0d47a1"));
         }
-        if(ld.getType().equals("-deposit")){
-            holder.amount.setText("kshs " + output);
+        if (ld.getType().equals("withdraw")) {
+            holder.amount.setText("-kshs " + output);
+            holder.amount.setTextColor(Color.parseColor("#cc0000"));
         }
 
     }
