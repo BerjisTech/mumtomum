@@ -7,278 +7,107 @@
     tools:context=".WalletActivity">
 
     <View
-        android:id="@+id/menuView"
+        android:id="@+id/topView"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/colorPrimary" />
+        android:layout_height="120dp"
+        android:background="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+    <View
+        android:id="@+id/bgView1"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
         android:layout_marginStart="10dp"
-        android:src="@drawable/logo"
-        app:layout_constraintBottom_toBottomOf="@id/menuView"
-        app:layout_constraintStart_toStartOf="@id/menuView"
-        app:layout_constraintTop_toTopOf="@id/menuView" />
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/round_border_white"
+        app:layout_constraintEnd_toStartOf="@id/half"
+        app:layout_constraintStart_toStartOf="@id/topView"
+        app:layout_constraintTop_toTopOf="@id/topView" />
 
-    <ScrollView
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/mumWalletText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="MumWallet balance"
+        android:textColor="#333333"
+        app:layout_constraintTop_toBottomOf="@+id/mumWalletBalance"
+        app:layout_constraintEnd_toEndOf="@+id/bgView1"
+        app:layout_constraintStart_toStartOf="@id/bgView1" />
+
+    <TextView
+        android:id="@+id/mumWalletBalance"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="KES 0"
+        android:textColor="#606060"
+        android:textSize="18sp"
+        app:layout_constraintTop_toTopOf="@+id/bgView1"
+        app:layout_constraintEnd_toEndOf="@+id/bgView1"
+        app:layout_constraintStart_toStartOf="@id/bgView1" />
+
+
+    <View
+        android:id="@+id/bgView2"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/round_border_white"
+        app:layout_constraintEnd_toEndOf="@id/topView"
+        app:layout_constraintStart_toEndOf="@id/half"
+        app:layout_constraintTop_toTopOf="@id/topView" />
+
+    <TextView
+        android:id="@+id/babyWalletText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="BabyWallet balance"
+        android:textColor="#333333"
+        app:layout_constraintTop_toBottomOf="@id/babyWalletBalance"
+        app:layout_constraintEnd_toEndOf="@+id/bgView2"
+        app:layout_constraintStart_toStartOf="@id/bgView2" />
+
+    <TextView
+        android:id="@+id/babyWalletBalance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="KES 0"
+        android:textColor="#606060"
+        android:textSize="18sp"
+        app:layout_constraintTop_toTopOf="@id/bgView2"
+        app:layout_constraintEnd_toEndOf="@+id/bgView2"
+        app:layout_constraintStart_toStartOf="@id/bgView2" />
+
+
+    <View
+        android:id="@+id/half"
+        android:layout_width="0.01dp"
+        android:layout_height="0.01dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/transRecycler"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomCard"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/menuView">
+        app:layout_constraintTop_toBottomOf="@+id/topView" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <View
-                android:id="@+id/topView"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:background="@color/colorPrimary"
-                app:layout_constraintBottom_toBottomOf="@id/announcements"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <View
-                android:id="@+id/bgView1"
-                android:layout_width="0dp"
-                android:layout_height="160dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/round_border_white"
-                app:layout_constraintEnd_toStartOf="@id/half"
-                app:layout_constraintStart_toStartOf="@id/topView"
-                app:layout_constraintTop_toTopOf="@id/topView" />
-
-            <ImageView
-                android:id="@+id/mumWalletImage"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/wallet_mum"
-                app:layout_constraintBottom_toTopOf="@+id/mumWalletText"
-                app:layout_constraintEnd_toEndOf="@id/bgView1"
-                app:layout_constraintStart_toStartOf="@id/bgView1"
-                app:layout_constraintTop_toTopOf="@id/bgView1"
-                app:layout_constraintVertical_bias="0.492" />
-
-            <TextView
-                android:id="@+id/mumWalletText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:gravity="center"
-                android:text="MumWallet balance"
-                android:textColor="#333333"
-                app:layout_constraintBottom_toTopOf="@+id/mumWalletBalance"
-                app:layout_constraintEnd_toEndOf="@+id/bgView1"
-                app:layout_constraintStart_toStartOf="@id/bgView1" />
-
-            <TextView
-                android:id="@+id/mumWalletBalance"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginBottom="10dp"
-                android:gravity="center"
-                android:text="KES 0"
-                android:textColor="#606060"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="@+id/bgView1"
-                app:layout_constraintEnd_toEndOf="@+id/bgView1"
-                app:layout_constraintStart_toStartOf="@id/bgView1" />
-
-
-            <View
-                android:id="@+id/bgView2"
-                android:layout_width="0dp"
-                android:layout_height="160dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/round_border_white"
-                app:layout_constraintEnd_toEndOf="@id/topView"
-                app:layout_constraintStart_toEndOf="@id/half"
-                app:layout_constraintTop_toTopOf="@id/topView" />
-
-            <ImageView
-                android:id="@+id/babyWalletImage"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/wallet_baby"
-                app:layout_constraintBottom_toTopOf="@+id/babyWalletText"
-                app:layout_constraintEnd_toEndOf="@id/bgView2"
-                app:layout_constraintStart_toStartOf="@+id/bgView2"
-                app:layout_constraintTop_toTopOf="@+id/bgView2" />
-
-            <TextView
-                android:id="@+id/babyWalletText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:gravity="center"
-                android:text="BabyWallet balance"
-                android:textColor="#333333"
-                app:layout_constraintBottom_toTopOf="@id/babyWalletBalance"
-                app:layout_constraintEnd_toEndOf="@+id/bgView2"
-                app:layout_constraintStart_toStartOf="@id/bgView2" />
-
-            <TextView
-                android:id="@+id/babyWalletBalance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:gravity="center"
-                android:text="KES 0"
-                android:textColor="#606060"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="@id/bgView2"
-                app:layout_constraintEnd_toEndOf="@+id/bgView2"
-                app:layout_constraintStart_toStartOf="@id/bgView2" />
-
-            <View
-                android:id="@+id/bgView3"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/round_border_white"
-                app:layout_constraintEnd_toEndOf="@id/topView"
-                app:layout_constraintStart_toStartOf="@id/topView"
-                app:layout_constraintTop_toBottomOf="@id/bgView2" />
-
-            <TextView
-                android:id="@+id/salesWalletText"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="10dp"
-                android:gravity="center|start"
-                android:text="Sales(0 Products)"
-                android:textColor="#333333"
-                app:layout_constraintBottom_toBottomOf="@id/bgView3"
-                app:layout_constraintEnd_toStartOf="@+id/salesWalletBalance"
-                app:layout_constraintStart_toStartOf="@id/bgView3"
-                app:layout_constraintTop_toTopOf="@id/bgView3" />
-
-            <TextView
-                android:id="@+id/salesWalletBalance"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:gravity="center"
-                android:text="kes 0"
-                android:textColor="#333333"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="@id/bgView3"
-                app:layout_constraintEnd_toStartOf="@+id/salesWalletArrow"
-                app:layout_constraintTop_toTopOf="@id/bgView3" />
-
-            <ImageView
-                android:id="@+id/salesWalletArrow"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginEnd="10dp"
-                android:src="@drawable/chevron_right"
-                app:layout_constraintBottom_toBottomOf="@id/bgView3"
-                app:layout_constraintEnd_toEndOf="@id/bgView3"
-                app:layout_constraintTop_toTopOf="@id/bgView3" />
-
-            <TextView
-                android:id="@+id/announcements"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:background="@color/colorPrimaryDark2"
-                android:gravity="center"
-                android:paddingTop="20dp"
-                android:paddingBottom="20dp"
-                android:text="Keep using the app to qualify for a BabyWallet boost"
-                android:textColor="#606060"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/bgView3" />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/community"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/dp_circle"
-                android:paddingBottom="5dp"
-                android:src="@drawable/shopping_bag"
-                app:layout_constraintEnd_toStartOf="@id/shop"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/topView" />
-
-            <TextView
-                android:id="@+id/communityText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="SHOP"
-                android:textColor="#333333"
-                app:layout_constraintEnd_toEndOf="@id/community"
-                app:layout_constraintStart_toStartOf="@id/community"
-                app:layout_constraintTop_toBottomOf="@id/community" />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/shop"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/dp_circle"
-                android:paddingBottom="5dp"
-                android:src="@drawable/shopping_bag"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/topView" />
-
-            <TextView
-                android:id="@+id/shopText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="SHOP"
-                android:textColor="#333333"
-                app:layout_constraintEnd_toEndOf="@id/shop"
-                app:layout_constraintStart_toStartOf="@id/shop"
-                app:layout_constraintTop_toBottomOf="@id/shop" />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/baby"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/dp_circle"
-                android:paddingBottom="5dp"
-                android:src="@drawable/shopping_bag"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/shop"
-                app:layout_constraintTop_toBottomOf="@+id/topView" />
-
-            <TextView
-                android:id="@+id/babyText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="SHOP"
-                android:textColor="#333333"
-                app:layout_constraintEnd_toEndOf="@id/baby"
-                app:layout_constraintStart_toStartOf="@id/baby"
-                app:layout_constraintTop_toBottomOf="@id/baby" />
-
-            <View
-                android:id="@+id/half"
-                android:layout_width="0.01dp"
-                android:layout_height="0.01dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
 
     <ImageView
         android:id="@+id/profile"

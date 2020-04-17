@@ -1,5 +1,7 @@
 package tech.berjis.mumtomum;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,6 +29,7 @@ import com.vanniktech.emoji.EmojiTextView;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -34,6 +38,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class GossipsAdapter extends RecyclerView.Adapter<GossipsAdapter.ViewHolder> {
     private List<Gossips> listData;
     private static DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+    private static FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private static String UID = mAuth.getCurrentUser().getUid();
 
     GossipsAdapter(List<Gossips> listData) {
         this.listData = listData;
@@ -47,8 +53,8 @@ public class GossipsAdapter extends RecyclerView.Adapter<GossipsAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Gossips ld = listData.get(holder.getAdapterPosition());
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
+        final Gossips ld = listData.get(position);
 
         if (ld.getGossip() != null && !ld.getGossip().equals("")) {
             holder.post.setText(ld.getGossip());
@@ -69,6 +75,12 @@ public class GossipsAdapter extends RecyclerView.Adapter<GossipsAdapter.ViewHold
         holder.postDate.setText(vv);
         loadUser(ld.getUser(), holder);
         imageSpecifier(ld.getGossipID(), holder);
+        holder.like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                likePost(ld.getGossipID(), holder);
+            }
+        });
     }
 
     @Override
@@ -77,7 +89,7 @@ public class GossipsAdapter extends RecyclerView.Adapter<GossipsAdapter.ViewHold
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView mainImage;
+        ImageView mainImage, like, comment, repost, bookmark, share;
         CircleImageView userImage;
         EmojiTextView userName, postDate, post;
         TextView imageCount;
@@ -96,6 +108,11 @@ public class GossipsAdapter extends RecyclerView.Adapter<GossipsAdapter.ViewHold
             imageCount = itemView.findViewById(R.id.imageCount);
             rootView = itemView.findViewById(R.id.rootView);
             mainImageCard = itemView.findViewById(R.id.mainImageCard);
+            like = itemView.findViewById(R.id.like);
+            comment = itemView.findViewById(R.id.comment);
+            repost = itemView.findViewById(R.id.repost);
+            bookmark = itemView.findViewById(R.id.bookmark);
+            share = itemView.findViewById(R.id.share);
             mView = itemView;
         }
     }
@@ -161,6 +178,40 @@ public class GossipsAdapter extends RecyclerView.Adapter<GossipsAdapter.ViewHold
                     }
                 } else {
                     Toast.makeText(holder.mView.getContext(), "Error loading image", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private static void likePost(final String gossipID, final ViewHolder holder){
+        dbRef.child("Likes").child(gossipID).child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(!dataSnapshot.exists()){
+                    dbRef.child("Likes").child(gossipID).child(UID).setValue(true);
+                    holder.like.animate()
+                            .alpha(0.5f)
+                            .setDuration(150)
+                            .setListener(new AnimatorListenerAdapter() {
+                                @Override
+                                public void onAnimationEnd(Animator animation) {
+                                    super.onAnimationEnd(animation);
+                                    holder.like.animate()
+                                            .alpha(1.0f)
+                                            .setDuration(150)
+                                            .setListener(new AnimatorListenerAdapter() {
+                                                @Override
+                                                public void onAnimationEnd(Animator animation) {
+                                                    super.onAnimationEnd(animation);
+                                                }
+                                            });
+                                }
+                            });
                 }
             }
 

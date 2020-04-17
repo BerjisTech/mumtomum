@@ -43,7 +43,7 @@ import java.util.Objects;
 public class BabyActivity extends AppCompatActivity {
 
     FirebaseAuth mAuth;
-    DatabaseReference dbRef, depositRef, withdrawRef;
+    DatabaseReference dbRef, depositRef, withdrawRef, transactionRef;
     String UID, phone, amount, balance;
     TextView deposit, withdraw, amountText, balanceAmount;
     EditText amountNumber;
@@ -217,6 +217,9 @@ public class BabyActivity extends AppCompatActivity {
         withdrawRef = dbRef.child("BabyWallet").child(UID).push();
         final String reference = withdrawRef.getKey();
 
+        transactionRef = dbRef.child("BabyWallet").child(UID).push();
+        final String transaction_code = transactionRef.getKey();
+
         long time_start = System.currentTimeMillis() / 1000L;
         final String narration = "Withdrawal from " + firstname + " " + lastname + "'s BabyWallet";
 
@@ -227,6 +230,13 @@ public class BabyActivity extends AppCompatActivity {
         withdrawRef.child("amount").setValue(withdrawAmount + 50);
         withdrawRef.child("text_ref").setValue(reference);
 
+        transactionRef.child("time_start").setValue(time_start);
+        transactionRef.child("user").setValue(UID);
+        transactionRef.child("type").setValue("withdraw");
+        transactionRef.child("narration").setValue("BabyWallet");
+        transactionRef.child("amount").setValue(withdrawAmount + 50);
+        transactionRef.child("text_ref").setValue(transaction_code);
+
         String requestUrl = "https:mumwallet.herokuapp.com/api/request_withdrawal";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, requestUrl, new Response.Listener<String>() {
             @Override
@@ -236,6 +246,9 @@ public class BabyActivity extends AppCompatActivity {
                 long end_time = System.currentTimeMillis() / 1000L;
                 withdrawRef.child("end_time").setValue(end_time);
                 withdrawRef.child("status").setValue("success");
+
+                transactionRef.child("end_time").setValue(end_time);
+                transactionRef.child("status").setValue("success");
                 Toast.makeText(BabyActivity.this, "You have succesfully withdrawn kshs " + withdrawAmount, Toast.LENGTH_LONG).show();
             }
         }, new Response.ErrorListener() {
@@ -245,6 +258,9 @@ public class BabyActivity extends AppCompatActivity {
                 long end_time = System.currentTimeMillis() / 1000L;
                 withdrawRef.child("end_time").setValue(end_time);
                 withdrawRef.child("status").setValue("error");
+
+                transactionRef.child("end_time").setValue(end_time);
+                transactionRef.child("status").setValue("error");
                 Toast.makeText(BabyActivity.this, "Error processing your withdrawal", Toast.LENGTH_LONG).show();
             }
         }) {
@@ -334,10 +350,13 @@ public class BabyActivity extends AppCompatActivity {
 
     private void validateEntries(String fName, String lName, String email) {
         depositRef = dbRef.child("BabyWallet").child(UID).push();
+        transactionRef = dbRef.child("Transactions").push();
         String text_ref = depositRef.getKey();
+        String trans_ref = transactionRef.getKey();
         long time_start = System.currentTimeMillis() / 1000L;
         long final_amount = Long.parseLong(amount);
         depositRef.child("time_start").setValue(time_start);
+        transactionRef.child("time_start").setValue(time_start);
 
         String publicKey = getString(R.string.public_key);
         String encryptionKey = getString(R.string.encryption_key);
@@ -348,6 +367,12 @@ public class BabyActivity extends AppCompatActivity {
         depositRef.child("narration").setValue(narration);
         depositRef.child("amount").setValue(final_amount);
         depositRef.child("text_ref").setValue(text_ref);
+
+        transactionRef.child("user").setValue(UID);
+        transactionRef.child("type").setValue("deposit");
+        transactionRef.child("narration").setValue("BabyWallet");
+        transactionRef.child("amount").setValue(final_amount);
+        transactionRef.child("text_ref").setValue(trans_ref);
 
         boolean valid = true;
 
@@ -423,16 +448,25 @@ public class BabyActivity extends AppCompatActivity {
                 long end_time = System.currentTimeMillis() / 1000L;
                 depositRef.child("end_time").setValue(end_time);
                 depositRef.child("status").setValue("success");
+
+                transactionRef.child("end_time").setValue(end_time);
+                transactionRef.child("status").setValue("success");
                 //Toast.makeText(this, "SUCCESS " + message, Toast.LENGTH_SHORT).show();
             } else if (resultCode == RavePayActivity.RESULT_ERROR) {
                 long end_time = System.currentTimeMillis() / 1000L;
                 depositRef.child("end_time").setValue(end_time);
                 depositRef.child("status").setValue("error");
+
+                transactionRef.child("end_time").setValue(end_time);
+                transactionRef.child("status").setValue("error");
                 //Toast.makeText(this, "ERROR " + message, Toast.LENGTH_SHORT).show();
             } else if (resultCode == RavePayActivity.RESULT_CANCELLED) {
                 long end_time = System.currentTimeMillis() / 1000L;
                 depositRef.child("end_time").setValue(end_time);
                 depositRef.child("status").setValue("cancelled");
+
+                transactionRef.child("end_time").setValue(end_time);
+                transactionRef.child("status").setValue("cancelled");
                 //Toast.makeText(this, "CANCELLED " + message, Toast.LENGTH_SHORT).show();
             }
         } else {

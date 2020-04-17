@@ -20,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
 
     FirebaseAuth mAuth;
     DatabaseReference dbRef;
-    String UID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,13 +41,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-        final Animation myAnim = AnimationUtils.loadAnimation(MainActivity.this, R.anim.bounce);
-        BounceInterpolator interpolator = new BounceInterpolator(0.1, 20);
-        myAnim.setInterpolator(interpolator);
-        myAnim.setRepeatMode(Animation.RESTART);
-        myAnim.setRepeatCount(Animation.INFINITE);
-        logo.startAnimation(myAnim);
 
         new android.os.Handler().postDelayed(
                 new Runnable() {

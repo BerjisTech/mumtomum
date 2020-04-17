@@ -2,6 +2,8 @@ package tech.berjis.mumtomum;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -19,6 +22,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 public class WalletActivity extends AppCompatActivity {
@@ -31,6 +37,9 @@ public class WalletActivity extends AppCompatActivity {
 
     View bgView1, bgView2, bgView3;
     TextView mumWalletBalance, babyWalletBalance;
+    RecyclerView transRecycler;
+    List<Transactions> listData;
+    TransactionsAdapter transactionsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +58,17 @@ public class WalletActivity extends AppCompatActivity {
         text = findViewById(R.id.text);
         bgView1 = findViewById(R.id.bgView1);
         bgView2 = findViewById(R.id.bgView2);
-        bgView3 = findViewById(R.id.bgView3);
         mumWalletBalance = findViewById(R.id.mumWalletBalance);
         babyWalletBalance = findViewById(R.id.babyWalletBalance);
+        transRecycler = findViewById(R.id.transRecycler);
+
+
+        listData = new ArrayList<>();
+        listData.clear();
+        transRecycler.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+        transRecycler.setHasFixedSize(true);
+
+        loadTransactions();
 
 
         bgView1.setOnClickListener(new View.OnClickListener() {
@@ -96,6 +113,31 @@ public class WalletActivity extends AppCompatActivity {
         });
         WalletTotalBalance();
 
+    }
+
+    public void loadTransactions() {
+        transRecycler.setVisibility(View.VISIBLE);
+        listData.clear();
+        dbRef.child("Transactions").orderByChild("user").equalTo(UID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot npsnapshot : dataSnapshot.getChildren()) {
+                        Transactions l = npsnapshot.getValue(Transactions.class);
+                        listData.add(l);
+                    }
+                    Collections.reverse(listData);
+                    transactionsAdapter = new TransactionsAdapter(listData);
+                    transRecycler.setAdapter(transactionsAdapter);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(WalletActivity.this, "Kuna shida mahali", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void checkPaymentDetails() {

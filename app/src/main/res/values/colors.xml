@@ -11,4 +11,8 @@
     <color name="colorPrimaryDark">#FFD7CD</color>
     <color name="greyTick">#666666</color>
     <color name="blueTick">#6666FF</color>
+    <color name="success">#00c851</color>
+    <color name="cancelled">#ffbb33</color>
+    <color name="error">#ff4444</color>
+    <color name="info">#0099cc</color>
 </resources>
