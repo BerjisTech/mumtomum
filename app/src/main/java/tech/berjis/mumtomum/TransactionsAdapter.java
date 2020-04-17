@@ -40,17 +40,17 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
             if (ld.getStatus().equals("success")) {
                 //holder.narration.setTextColor(Color.parseColor("#007e33"));
                 holder.half.setBackgroundColor(Color.parseColor("#007e33"));
-                holder.narration.setText(ld.getNarration() + " " + ld.getType() + ": Successful");
+                holder.narration.setText(ld.getNarration() + " " + ld.getType().toUpperCase() + ": Successful");
             }
             if (ld.getStatus().equals("error")) {
                 //holder.narration.setTextColor(Color.parseColor("#cc0000"));
                 holder.half.setBackgroundColor(Color.parseColor("#cc0000"));
-                holder.narration.setText(ld.getNarration() + " " + ld.getType() + ": Unsuccessful");
+                holder.narration.setText(ld.getNarration() + " " + ld.getType().toUpperCase() + ": Unsuccessful");
             }
             if (ld.getStatus().equals("cancelled")) {
                 //holder.narration.setTextColor(Color.parseColor("#ff8800"));
                 holder.half.setBackgroundColor(Color.parseColor("#ff8800"));
-                holder.narration.setText(ld.getNarration() + " " + ld.getType() + ": Cancelled");
+                holder.narration.setText(ld.getNarration() + " " + ld.getType().toUpperCase() + ": Cancelled");
             }
         }
 
@@ -58,17 +58,17 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
             if (ld.getStatus().equals("success")) {
                 //holder.narration.setTextColor(Color.parseColor("#007e33"));
                 holder.half.setBackgroundColor(Color.parseColor("#007e33"));
-                holder.narration.setText(ld.getType() + ": Successful");
+                holder.narration.setText(ld.getType().toUpperCase() + ": Successful");
             }
             if (ld.getStatus().equals("error")) {
                 //holder.narration.setTextColor(Color.parseColor("#cc0000"));
                 holder.half.setBackgroundColor(Color.parseColor("#cc0000"));
-                holder.narration.setText(ld.getType() + ": Unsuccessful");
+                holder.narration.setText(ld.getType().toUpperCase() + ": Unsuccessful");
             }
             if (ld.getStatus().equals("cancelled")) {
                 //holder.narration.setTextColor(Color.parseColor("#ff8800"));
                 holder.half.setBackgroundColor(Color.parseColor("#ff8800"));
-                holder.narration.setText(ld.getType() + ": Cancelled");
+                holder.narration.setText(ld.getType().toUpperCase() + ": Cancelled");
             }
         }
 
