@@ -18,6 +18,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -36,7 +38,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -49,6 +54,10 @@ public class MumWallet extends AppCompatActivity {
     EditText amountNumber;
     ConstraintLayout transactionPanel;
     ImageView closeTransactionPanel, back;
+
+    RecyclerView transRecycler;
+    List<Transactions> listData;
+    TransactionsAdapter transactionsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +77,15 @@ public class MumWallet extends AppCompatActivity {
         closeTransactionPanel = findViewById(R.id.closeTransactionPanel);
         back = findViewById(R.id.back);
         balanceAmount = findViewById(R.id.balanceAmount);
+        transRecycler = findViewById(R.id.transRecycler);
+
+
+        listData = new ArrayList<>();
+        listData.clear();
+        transRecycler.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+        transRecycler.setHasFixedSize(true);
+
+        loadTransactions();
 
         closeTransactionPanel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -193,6 +211,30 @@ public class MumWallet extends AppCompatActivity {
             }
         });
         BabyTotalBalance();
+    }
+
+    public void loadTransactions() {
+        dbRef.child("MumWallet").child(UID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    listData.clear();
+                    for (DataSnapshot npsnapshot : dataSnapshot.getChildren()) {
+                        Transactions l = npsnapshot.getValue(Transactions.class);
+                        listData.add(l);
+                    }
+                    Collections.reverse(listData);
+                    transactionsAdapter = new TransactionsAdapter(listData, "wallet");
+                    transRecycler.setAdapter(transactionsAdapter);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(MumWallet.this, "Kuna shida mahali", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void checkWithdrawViability(final Long withdrawAmount) {

@@ -35,7 +35,7 @@ public class WalletActivity extends AppCompatActivity {
     DatabaseReference dbRef;
     String UID;
 
-    View bgView1, bgView2, bgView3;
+    View bgView1, bgView2;
     TextView mumWalletBalance, babyWalletBalance;
     RecyclerView transRecycler;
     List<Transactions> listData;
@@ -126,7 +126,7 @@ public class WalletActivity extends AppCompatActivity {
                         listData.add(l);
                     }
                     Collections.reverse(listData);
-                    transactionsAdapter = new TransactionsAdapter(listData);
+                    transactionsAdapter = new TransactionsAdapter(listData, "complete");
                     transRecycler.setAdapter(transactionsAdapter);
 
                 }
