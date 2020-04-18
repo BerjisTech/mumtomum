@@ -2,6 +2,8 @@ package tech.berjis.mumtomum;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdRequest;
@@ -27,7 +30,9 @@ import com.squareup.picasso.Picasso;
 import com.vanniktech.emoji.EmojiTextView;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +45,8 @@ public class GossipsAdapter extends RecyclerView.Adapter<GossipsAdapter.ViewHold
     private static DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
     private static FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private static String UID = mAuth.getCurrentUser().getUid();
+    private List<GossipImages> imageList;
+    private GossipImagesPagerAdapter pagerAdapter;
 
     GossipsAdapter(List<Gossips> listData) {
         this.listData = listData;
@@ -56,11 +63,14 @@ public class GossipsAdapter extends RecyclerView.Adapter<GossipsAdapter.ViewHold
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         final Gossips ld = listData.get(position);
 
-        if (ld.getGossip() != null && !ld.getGossip().equals("")) {
+        /*if (ld.getGossip() != null && !ld.getGossip().equals("")) {
             holder.post.setText(ld.getGossip());
         } else {
             holder.post.setVisibility(View.GONE);
-        }
+        }*/
+
+        //holder.post.setText(ld.getGossip());
+
         Date df = new java.util.Date((ld.getDate() * 1000));
         int thisYear = Calendar.getInstance().get(Calendar.YEAR);
         String year = new SimpleDateFormat("yyyy").format(df);
@@ -74,11 +84,22 @@ public class GossipsAdapter extends RecyclerView.Adapter<GossipsAdapter.ViewHold
 
         holder.postDate.setText(vv);
         loadUser(ld.getUser(), holder);
-        imageSpecifier(ld.getGossipID(), holder);
+        imageList = new ArrayList<>();
+        imageLoader(ld.getGossipID(), holder);
         holder.like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 likePost(ld.getGossipID(), holder);
+            }
+        });
+        holder.mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent gossipIntent = new Intent(holder.mView.getContext(), CommentsActivity.class);
+                Bundle gossipBundle = new Bundle();
+                gossipBundle.putString("gossipID", ld.getGossipID());
+                gossipIntent.putExtras(gossipBundle);
+                holder.mView.getContext().startActivity(gossipIntent);
             }
         });
     }
@@ -89,10 +110,10 @@ public class GossipsAdapter extends RecyclerView.Adapter<GossipsAdapter.ViewHold
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView mainImage, like, comment, repost, bookmark, share;
+        ImageView like, comment, repost, bookmark, share;
+        ViewPager mainImage;
         CircleImageView userImage;
         EmojiTextView userName, postDate, post;
-        TextView imageCount;
         ConstraintLayout rootView;
         View mView;
         CardView mainImageCard;
@@ -105,7 +126,6 @@ public class GossipsAdapter extends RecyclerView.Adapter<GossipsAdapter.ViewHold
             userName = itemView.findViewById(R.id.userName);
             postDate = itemView.findViewById(R.id.postDate);
             post = itemView.findViewById(R.id.post);
-            imageCount = itemView.findViewById(R.id.imageCount);
             rootView = itemView.findViewById(R.id.rootView);
             mainImageCard = itemView.findViewById(R.id.mainImageCard);
             like = itemView.findViewById(R.id.like);
@@ -136,54 +156,27 @@ public class GossipsAdapter extends RecyclerView.Adapter<GossipsAdapter.ViewHold
         });
     }
 
-    private void imageSpecifier(final String gossipID, final ViewHolder holder) {
+    private void imageLoader(final String gossipID, final ViewHolder holder) {
         dbRef.child("GossipImages").child(gossipID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                int images = Math.toIntExact(dataSnapshot.getChildrenCount());
-
-                if (images == 0) {
-                    holder.mainImageCard.setVisibility(View.GONE);
-                    return;
-                }
-                if (images == 1) {
-                    holder.mainImageCard.setVisibility(View.VISIBLE);
-                    imageLoader(gossipID, holder);
-                    return;
-                }
-                if (images > 1) {
-                    holder.mainImageCard.setVisibility(View.VISIBLE);
-                    holder.imageCount.setVisibility(View.VISIBLE);
-                    holder.imageCount.setText(String.valueOf(images));
-                    imageLoader(gossipID, holder);
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    private void imageLoader(final String gossipID, final ViewHolder holder) {
-        dbRef.child("GossipImages").child(gossipID).limitToFirst(1).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    for (DataSnapshot areaSnapshot : dataSnapshot.getChildren()) {
-                        String imageURL = Objects.requireNonNull(areaSnapshot.child("image").getValue()).toString();
-                        Glide.with(holder.mView.getContext()).load(imageURL).into(holder.mainImage);
+                    for (DataSnapshot npsnapshot : dataSnapshot.getChildren()) {
+                        GossipImages l = npsnapshot.getValue(GossipImages.class);
+                        imageList.add(l);
                     }
-                } else {
-                    Toast.makeText(holder.mView.getContext(), "Error loading image", Toast.LENGTH_SHORT).show();
+                    Collections.reverse(listData);
+                    pagerAdapter = new GossipImagesPagerAdapter(imageList);
+                    holder.mainImage.setAdapter(pagerAdapter);
+
+                }else{
+                    holder.mainImageCard.setVisibility(View.GONE);
                 }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(holder.mView.getContext(), "Kuna shida mahali", Toast.LENGTH_SHORT).show();
             }
         });
     }

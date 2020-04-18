@@ -8,34 +8,6 @@
     tools:context=".CommentsActivity">
 
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/imageViewPage"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/userImage"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginBottom="10dp"
-        android:background="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="@id/imageViewPage"
-        app:layout_constraintStart_toStartOf="@id/imageViewPage" />
-
-    <com.vanniktech.emoji.EmojiTextView
-        android:id="@+id/text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageViewPage" />
-
-
 
     <ImageView
         android:id="@+id/link"
