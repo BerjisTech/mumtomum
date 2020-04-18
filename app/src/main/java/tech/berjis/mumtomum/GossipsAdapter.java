@@ -17,9 +17,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-import com.bumptech.glide.Glide;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -32,9 +29,7 @@ import com.vanniktech.emoji.EmojiTextView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -102,6 +97,16 @@ public class GossipsAdapter extends RecyclerView.Adapter<GossipsAdapter.ViewHold
                 holder.mView.getContext().startActivity(gossipIntent);
             }
         });
+        /*holder.mainImageCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent gossipIntent = new Intent(holder.mView.getContext(), ImagesActivity.class);
+                Bundle gossipBundle = new Bundle();
+                gossipBundle.putString("gossipID", ld.getGossipID());
+                gossipIntent.putExtras(gossipBundle);
+                holder.mView.getContext().startActivity(gossipIntent);
+            }
+        });*/
     }
 
     @Override
@@ -165,8 +170,7 @@ public class GossipsAdapter extends RecyclerView.Adapter<GossipsAdapter.ViewHold
                         GossipImages l = npsnapshot.getValue(GossipImages.class);
                         imageList.add(l);
                     }
-                    Collections.reverse(listData);
-                    pagerAdapter = new GossipImagesPagerAdapter(imageList);
+                    pagerAdapter = new GossipImagesPagerAdapter(imageList, "small");
                     holder.mainImage.setAdapter(pagerAdapter);
 
                 } else {
