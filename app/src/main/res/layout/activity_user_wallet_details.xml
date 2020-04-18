@@ -14,7 +14,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
         android:elevation="200dp"
-        android:text="Hello,\n\nBefore you proceed to you MumWallet&#0153;  and BayWallet&#0153;, You need to provide your full name and an email. This are required for security measures. We take great measures to secure your money."
+        android:text="Hello,\n\nBefore you proceed to you MumWallet&#0153;  and BayWallet&#0153;, You need to provide your full name and an email. These are required for security measures. We take great measures to secure your money."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

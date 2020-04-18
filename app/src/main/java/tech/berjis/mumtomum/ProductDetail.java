@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -34,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class ProductDetail extends AppCompatActivity {
 
@@ -57,6 +59,7 @@ public class ProductDetail extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         dbRef = FirebaseDatabase.getInstance().getReference();
         dbRef.keepSynced(true);
+        UID = mAuth.getCurrentUser().getUid();
 
         back = findViewById(R.id.back);
         productImage = findViewById(R.id.productImage);
@@ -98,19 +101,37 @@ public class ProductDetail extends AppCompatActivity {
         Intent productIntent = getIntent();
         Bundle productBundle = productIntent.getExtras();
         assert productBundle != null;
-        String productID = productBundle.getString("product_id");
+        final String productID = productBundle.getString("product_id");
 
         assert productID != null;
         dbRef.child("Products").child(productID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                String name = dataSnapshot.child("name").getValue().toString();
-                String description = dataSnapshot.child("description").getValue().toString();
-                final String seller = dataSnapshot.child("seller").getValue().toString();
-                String price = dataSnapshot.child("price").getValue().toString();
-                final String product_id = dataSnapshot.child("product_id").getValue().toString();
-                String image = dataSnapshot.child("image").getValue().toString();
+                String name = Objects.requireNonNull(dataSnapshot.child("name").getValue()).toString();
+                String description = Objects.requireNonNull(dataSnapshot.child("description").getValue()).toString();
+                final String seller = Objects.requireNonNull(dataSnapshot.child("seller").getValue()).toString();
+                String price = Objects.requireNonNull(dataSnapshot.child("price").getValue()).toString();
+                final String product_id = Objects.requireNonNull(dataSnapshot.child("product_id").getValue()).toString();
+                String image = Objects.requireNonNull(dataSnapshot.child("image").getValue()).toString();
+
+                if (seller.equals(UID)) {
+                    productBuy.setAlpha(0.5f);
+                    productBuy.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(ProductDetail.this, "You can't buy your own product", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+                if (!seller.equals(UID)) {
+                    productBuy.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            placeOrder(seller, product_id);
+                        }
+                    });
+                }
 
                 Picasso.get().load(image).into(productImage);
                 Glide.with(ProductDetail.this).load(image).into(productImage);
@@ -127,13 +148,6 @@ public class ProductDetail extends AppCompatActivity {
 
                 loaduser(seller);
                 loadOtherProducts(seller);
-
-                productBuy.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        placeOrder(seller, product_id);
-                    }
-                });
 
             }
 
@@ -282,8 +296,8 @@ public class ProductDetail extends AppCompatActivity {
 
     public void placeOrder(final String seller, final String product) {
         if (mAuth.getCurrentUser() == null) {
+            startActivity(new Intent(ProductDetail.this, RegisterActivity.class));
         } else {
-            UID = mAuth.getCurrentUser().getUid();
             Calendar calendar = Calendar.getInstance();
 
             @SuppressLint("SimpleDateFormat") SimpleDateFormat currentDate = new SimpleDateFormat("MMM dd, yyyy");

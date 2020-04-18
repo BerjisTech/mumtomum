@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -25,6 +26,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
 
     private List<Products> listData;
     private String delete;
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     ProductsAdapter(List<Products> listData, String delete) {
         this.listData = listData;
@@ -73,17 +75,26 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
             });
         }
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String product_id = ld.getProduct_id();
-                Intent chatIntent = new Intent(holder.mView.getContext(), ProductDetail.class);
-                Bundle chatBundle = new Bundle();
-                chatBundle.putString("product_id", product_id);
-                chatIntent.putExtras(chatBundle);
-                holder.mView.getContext().startActivity(chatIntent);
-            }
-        });
+        if (mAuth.getCurrentUser() == null) {
+            holder.mView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    holder.mView.getContext().startActivity(new Intent(holder.mView.getContext(), RegisterActivity.class));
+                }
+            });
+        }else{
+            holder.mView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String product_id = ld.getProduct_id();
+                    Intent chatIntent = new Intent(holder.mView.getContext(), ProductDetail.class);
+                    Bundle chatBundle = new Bundle();
+                    chatBundle.putString("product_id", product_id);
+                    chatIntent.putExtras(chatBundle);
+                    holder.mView.getContext().startActivity(chatIntent);
+                }
+            });
+        }
     }
 
 

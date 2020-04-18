@@ -69,7 +69,6 @@
         android:layout_marginTop="12dp"
         android:layout_marginEnd="10dp"
         android:textColor="#333333"
-        android:textSize="15sp"
         android:text="gossip"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/userImage"

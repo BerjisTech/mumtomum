@@ -317,4 +317,6 @@ public class NewProductActivity extends AppCompatActivity {
                 .show();
     }
 
+
+
 }

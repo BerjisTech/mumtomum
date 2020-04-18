@@ -83,8 +83,8 @@
 
             <ImageView
                 android:id="@+id/share"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/share"
                 app:layout_constraintTop_toBottomOf="@id/view"
                 app:layout_constraintStart_toStartOf="parent"
@@ -97,7 +97,6 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:text="Share with friends"
-                android:textSize="20sp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:gravity="center|start"
@@ -108,8 +107,8 @@
 
             <ImageView
                 android:id="@+id/faq"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/faq_2"
                 app:layout_constraintTop_toBottomOf="@id/share"
                 app:layout_constraintStart_toStartOf="parent"
@@ -122,7 +121,6 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:text="F.A.Q"
-                android:textSize="20sp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:gravity="center|start"
@@ -133,8 +131,8 @@
 
             <ImageView
                 android:id="@+id/contact_us"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/contact_us"
                 app:layout_constraintTop_toBottomOf="@id/faq"
                 app:layout_constraintStart_toStartOf="parent"
@@ -147,7 +145,6 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:text="Contact us"
-                android:textSize="20sp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:gravity="center|start"
@@ -158,8 +155,8 @@
 
             <ImageView
                 android:id="@+id/terms"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/terms"
                 app:layout_constraintTop_toBottomOf="@id/contact_us"
                 app:layout_constraintStart_toStartOf="parent"
@@ -172,7 +169,6 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:text="Terms &amp; Conditions"
-                android:textSize="20sp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:gravity="center|start"
@@ -183,8 +179,8 @@
 
             <ImageView
                 android:id="@+id/info"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/app_info"
                 app:layout_constraintTop_toBottomOf="@id/terms"
                 app:layout_constraintStart_toStartOf="parent"
@@ -197,7 +193,6 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:text="App info"
-                android:textSize="20sp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:gravity="center|start"
