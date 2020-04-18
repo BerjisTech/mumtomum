@@ -52,7 +52,7 @@
         app:layout_constraintStart_toEndOf="@+id/userImage"
         app:layout_constraintTop_toBottomOf="@+id/userName">
 
-        <androidx.viewpager.widget.ViewPager
+        <ImageView
             android:id="@+id/mainImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -68,51 +68,11 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="10dp"
-        android:text="gossip"
         android:textColor="#333333"
         android:textSize="15sp"
+        android:text="gossip"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/userImage"
         app:layout_constraintTop_toBottomOf="@+id/mainImageCard" />
-
-    <ImageView
-        android:id="@+id/like"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:src="@drawable/love"
-        app:layout_constraintStart_toEndOf="@+id/userImage"
-        app:layout_constraintTop_toBottomOf="@id/post" />
-
-    <TextView
-        android:id="@+id/likeCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="0"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@id/like"
-        app:layout_constraintStart_toEndOf="@id/like"
-        app:layout_constraintTop_toTopOf="@id/like" />
-
-    <ImageView
-        android:id="@+id/comment"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:src="@drawable/comment"
-        app:layout_constraintStart_toEndOf="@id/likeCount"
-        app:layout_constraintTop_toBottomOf="@id/post" />
-
-    <TextView
-        android:id="@+id/commentCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="0"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@id/like"
-        app:layout_constraintStart_toEndOf="@id/comment"
-        app:layout_constraintTop_toTopOf="@id/like" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

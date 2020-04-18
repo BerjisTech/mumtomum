@@ -84,6 +84,8 @@ public class GossipsAdapter extends RecyclerView.Adapter<GossipsAdapter.ViewHold
         loadUser(ld.getUser(), holder);
         imageList = new ArrayList<>();
         imageLoader(ld.getGossipID(), holder);
+        likeCounter(ld.getGossipID(), holder);
+        commentCounter(ld.getGossipID(), holder);
         holder.like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,13 +110,14 @@ public class GossipsAdapter extends RecyclerView.Adapter<GossipsAdapter.ViewHold
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView like, comment, repost, bookmark, share;
+        ImageView like, comment;
         ViewPager mainImage;
         CircleImageView userImage;
         EmojiTextView userName, postDate, post;
         ConstraintLayout rootView;
         View mView;
         CardView mainImageCard;
+        TextView likeCount, commentCount;
 
 
         ViewHolder(@NonNull View itemView) {
@@ -128,9 +131,8 @@ public class GossipsAdapter extends RecyclerView.Adapter<GossipsAdapter.ViewHold
             mainImageCard = itemView.findViewById(R.id.mainImageCard);
             like = itemView.findViewById(R.id.like);
             comment = itemView.findViewById(R.id.comment);
-            repost = itemView.findViewById(R.id.repost);
-            bookmark = itemView.findViewById(R.id.bookmark);
-            share = itemView.findViewById(R.id.share);
+            likeCount = itemView.findViewById(R.id.likeCount);
+            commentCount = itemView.findViewById(R.id.commentCount);
             mView = itemView;
         }
     }
@@ -167,7 +169,7 @@ public class GossipsAdapter extends RecyclerView.Adapter<GossipsAdapter.ViewHold
                     pagerAdapter = new GossipImagesPagerAdapter(imageList);
                     holder.mainImage.setAdapter(pagerAdapter);
 
-                }else{
+                } else {
                     holder.mainImageCard.setVisibility(View.GONE);
                 }
             }
@@ -179,11 +181,11 @@ public class GossipsAdapter extends RecyclerView.Adapter<GossipsAdapter.ViewHold
         });
     }
 
-    private static void likePost(final String gossipID, final ViewHolder holder){
+    private static void likePost(final String gossipID, final ViewHolder holder) {
         dbRef.child("Likes").child(gossipID).child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(!dataSnapshot.exists()){
+                if (!dataSnapshot.exists()) {
                     dbRef.child("Likes").child(gossipID).child(UID).setValue(true);
                     holder.like.animate()
                             .alpha(0.5f)
@@ -204,6 +206,34 @@ public class GossipsAdapter extends RecyclerView.Adapter<GossipsAdapter.ViewHold
                                 }
                             });
                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+    private void likeCounter(final String gossipID, final ViewHolder holder){
+        dbRef.child("Likes").child(gossipID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                long likes = dataSnapshot.getChildrenCount();
+                holder.likeCount.setText(String.valueOf(likes));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+    private void commentCounter(final String gossipID, final ViewHolder holder){
+        dbRef.child("Comments").child(gossipID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                long comments = dataSnapshot.getChildrenCount();
+                holder.commentCount.setText(String.valueOf(comments));
             }
 
             @Override

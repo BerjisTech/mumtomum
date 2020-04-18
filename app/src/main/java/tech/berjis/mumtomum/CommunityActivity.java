@@ -150,6 +150,31 @@ public class CommunityActivity extends AppCompatActivity {
 
     }
 
+    public void loadGossip() {
+        postRecycler.setVisibility(View.VISIBLE);
+        gossipData.clear();
+        dbRef.child("Gossip").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot npsnapshot : dataSnapshot.getChildren()) {
+                        Gossips l = npsnapshot.getValue(Gossips.class);
+                        gossipData.add(l);
+                    }
+                    Collections.reverse(gossipData);
+                    gossipAdapter = new GossipsAdapter(gossipData);
+                    postRecycler.setAdapter(gossipAdapter);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(CommunityActivity.this, "Kuna shida mahali", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     public void hideGossip() {
         panelState = "closed";
         removeGossipNode();
@@ -195,55 +220,6 @@ public class CommunityActivity extends AppCompatActivity {
         gossipRef.child("user").setValue(UID);
         gossipRef.child("date").setValue(Math.toIntExact(unixTime));
         gossipRef.child("type").setValue("original");
-    }
-
-    public void loadImages() {
-        imageRecycler.setVisibility(View.VISIBLE);
-        gossipImagesData.clear();
-        dbRef.child("GossipImages").child(gossipID).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot npsnapshot : dataSnapshot.getChildren()) {
-                        GossipImages l = npsnapshot.getValue(GossipImages.class);
-                        gossipImagesData.add(l);
-                    }
-                    Collections.reverse(gossipImagesData);
-                    imagesAdapter = new GossipImagesAdapter(gossipImagesData, "show");
-                    imageRecycler.setAdapter(imagesAdapter);
-
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(CommunityActivity.this, "Kuna shida mahali", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    public void loadGossip() {
-        postRecycler.setVisibility(View.VISIBLE);
-        gossipData.clear();
-        dbRef.child("Gossip").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot npsnapshot : dataSnapshot.getChildren()) {
-                        Gossips l = npsnapshot.getValue(Gossips.class);
-                        gossipData.add(l);
-                    }
-                    gossipAdapter = new GossipsAdapter(gossipData);
-                    postRecycler.setAdapter(gossipAdapter);
-
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(CommunityActivity.this, "Kuna shida mahali", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     private void selectImage() {
@@ -334,6 +310,31 @@ public class CommunityActivity extends AppCompatActivity {
         } else {
             progressDialog.dismiss();
         }
+    }
+
+    public void loadImages() {
+        imageRecycler.setVisibility(View.VISIBLE);
+        gossipImagesData.clear();
+        dbRef.child("GossipImages").child(gossipID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot npsnapshot : dataSnapshot.getChildren()) {
+                        GossipImages l = npsnapshot.getValue(GossipImages.class);
+                        gossipImagesData.add(l);
+                    }
+                    Collections.reverse(gossipImagesData);
+                    imagesAdapter = new GossipImagesAdapter(gossipImagesData, "show");
+                    imageRecycler.setAdapter(imagesAdapter);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(CommunityActivity.this, "Kuna shida mahali", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
