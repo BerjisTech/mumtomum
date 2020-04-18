@@ -63,13 +63,11 @@ public class GossipsAdapter extends RecyclerView.Adapter<GossipsAdapter.ViewHold
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         final Gossips ld = listData.get(position);
 
-        /*if (ld.getGossip() != null && !ld.getGossip().equals("")) {
+        if (ld.getGossip() != null && !ld.getGossip().equals("")) {
             holder.post.setText(ld.getGossip());
         } else {
             holder.post.setVisibility(View.GONE);
-        }*/
-
-        //holder.post.setText(ld.getGossip());
+        }
 
         Date df = new java.util.Date((ld.getDate() * 1000));
         int thisYear = Calendar.getInstance().get(Calendar.YEAR);

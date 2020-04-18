@@ -233,7 +233,6 @@ public class CommunityActivity extends AppCompatActivity {
                         Gossips l = npsnapshot.getValue(Gossips.class);
                         gossipData.add(l);
                     }
-                    Collections.reverse(gossipData);
                     gossipAdapter = new GossipsAdapter(gossipData);
                     postRecycler.setAdapter(gossipAdapter);
 
