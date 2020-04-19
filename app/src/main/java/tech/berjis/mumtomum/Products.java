@@ -2,20 +2,18 @@ package tech.berjis.mumtomum;
 
 public class Products {
 
-    private String category, date, description, image, seller, status, time, product_id, name;
-    private Long price;
+    private String category, description, seller, status, product_id, name;
+    private long price, date;
 
-    public Products(String category, String date, String description, String image, String seller, String status, String time, String product_id, String name, Long price) {
+    public Products(String category, String description, String seller, String status, String product_id, String name, Long price, Long date) {
         this.category = category;
-        this.date = date;
         this.description = description;
-        this.image = image;
         this.seller = seller;
         this.status = status;
-        this.time = time;
         this.product_id = product_id;
         this.name = name;
         this.price = price;
+        this.date = date;
     }
 
     public Products() {
@@ -29,28 +27,12 @@ public class Products {
         this.category = category;
     }
 
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
     }
 
     public String getSeller() {
@@ -67,14 +49,6 @@ public class Products {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
     }
 
     public String getProduct_id() {
@@ -99,5 +73,13 @@ public class Products {
 
     public void setPrice(Long price) {
         this.price = price;
+    }
+
+    public Long getDate() {
+        return date;
+    }
+
+    public void setDate(Long date) {
+        this.date = date;
     }
 }

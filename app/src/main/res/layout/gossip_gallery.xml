@@ -13,4 +13,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/delete"
+        android:layout_width="33dp"
+        android:layout_height="33dp"
+        android:padding="3dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/round_border_white"
+        android:src="@drawable/delete"
+        app:layout_constraintTop_toTopOf="@id/gossipImage"
+        app:layout_constraintEnd_toEndOf="@id/gossipImage" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

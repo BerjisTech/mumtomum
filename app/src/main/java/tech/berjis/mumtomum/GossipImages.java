@@ -1,12 +1,12 @@
 package tech.berjis.mumtomum;
 
 public class GossipImages {
-    private String image, image_id, gossip_id;
+    private String image, image_id, parent_id;
 
-    public GossipImages(String image, String image_id, String gossip_id) {
+    public GossipImages(String image, String image_id, String parent_id) {
         this.image = image;
         this.image_id = image_id;
-        this.gossip_id = gossip_id;
+        this.parent_id = parent_id;
     }
 
     public GossipImages(){
@@ -29,11 +29,11 @@ public class GossipImages {
         this.image_id = image_id;
     }
 
-    public String getGossip_id() {
-        return gossip_id;
+    public String getParent_id() {
+        return parent_id;
     }
 
-    public void setGossip_id(String gossip_id) {
-        this.gossip_id = gossip_id;
+    public void setParent_id(String parent_id) {
+        this.parent_id = parent_id;
     }
 }

@@ -2,11 +2,13 @@ package tech.berjis.mumtomum;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -33,23 +35,30 @@ import com.vanniktech.emoji.EmojiTextView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+
+import ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator;
 
 public class ProductDetail extends AppCompatActivity {
 
     DatabaseReference dbRef;
     FirebaseAuth mAuth;
 
-    ImageView back, productImage, saveProduct;
+    ImageView back, saveProduct;
+    ScrollingPagerIndicator indicator;
     EmojiTextView productOwner;
     TextView productName, productPrice, productBuy, productDescriptionButton, productDescription, moreTitle, closeMoreProducts;
     ConstraintLayout moreProductsPanel;
     RecyclerView moreProducts;
     List<Products> listData;
     ProductsAdapter productsAdapter;
+    List<GossipImages> imageList;
+    GossipImagesPagerAdapter pagerAdapter;
     String UID;
+    ViewPager mainImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +71,6 @@ public class ProductDetail extends AppCompatActivity {
         UID = mAuth.getCurrentUser().getUid();
 
         back = findViewById(R.id.back);
-        productImage = findViewById(R.id.productImage);
         saveProduct = findViewById(R.id.saveProduct);
         productName = findViewById(R.id.productName);
         productPrice = findViewById(R.id.productPrice);
@@ -74,6 +82,8 @@ public class ProductDetail extends AppCompatActivity {
         moreProducts = findViewById(R.id.moreProducts);
         moreProductsPanel = findViewById(R.id.moreProductsPanel);
         closeMoreProducts = findViewById(R.id.closeMoreProducts);
+        mainImage = findViewById(R.id.mainImage);
+        indicator = findViewById(R.id.indicator);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,6 +103,8 @@ public class ProductDetail extends AppCompatActivity {
                 hideMoreProducts();
             }
         });
+
+        imageList = new ArrayList<>();
         loadProduct();
 
     }
@@ -113,7 +125,6 @@ public class ProductDetail extends AppCompatActivity {
                 final String seller = Objects.requireNonNull(dataSnapshot.child("seller").getValue()).toString();
                 String price = Objects.requireNonNull(dataSnapshot.child("price").getValue()).toString();
                 final String product_id = Objects.requireNonNull(dataSnapshot.child("product_id").getValue()).toString();
-                String image = Objects.requireNonNull(dataSnapshot.child("image").getValue()).toString();
 
                 if (seller.equals(UID)) {
                     productBuy.setAlpha(0.5f);
@@ -132,9 +143,7 @@ public class ProductDetail extends AppCompatActivity {
                         }
                     });
                 }
-
-                Picasso.get().load(image).into(productImage);
-                Glide.with(ProductDetail.this).load(image).into(productImage);
+                loadImages(productID);
                 productName.setText(name);
                 productDescription.setText(description);
                 productDescriptionButton.setOnClickListener(new View.OnClickListener() {
@@ -154,6 +163,31 @@ public class ProductDetail extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
+    }
+
+    public void loadImages(String productID) {
+        mainImage.setVisibility(View.VISIBLE);
+        imageList.clear();
+        dbRef.child("ProductImages").child(productID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot npsnapshot : dataSnapshot.getChildren()) {
+                        GossipImages l = npsnapshot.getValue(GossipImages.class);
+                        imageList.add(l);
+                    }
+                }
+                Collections.reverse(imageList);
+                pagerAdapter = new GossipImagesPagerAdapter(imageList, "small", "view", "product");
+                mainImage.setAdapter(pagerAdapter);
+                indicator.attachToPager(mainImage);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(ProductDetail.this, "Kuna shida mahali", Toast.LENGTH_SHORT).show();
             }
         });
     }

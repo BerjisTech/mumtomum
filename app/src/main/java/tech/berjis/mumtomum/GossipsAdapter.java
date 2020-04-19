@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator;
 
 public class GossipsAdapter extends RecyclerView.Adapter<GossipsAdapter.ViewHolder> {
     private List<Gossips> listData;
@@ -123,6 +124,7 @@ public class GossipsAdapter extends RecyclerView.Adapter<GossipsAdapter.ViewHold
         View mView;
         CardView mainImageCard;
         TextView likeCount, commentCount;
+        ScrollingPagerIndicator indicator;
 
 
         ViewHolder(@NonNull View itemView) {
@@ -138,6 +140,7 @@ public class GossipsAdapter extends RecyclerView.Adapter<GossipsAdapter.ViewHold
             comment = itemView.findViewById(R.id.comment);
             likeCount = itemView.findViewById(R.id.likeCount);
             commentCount = itemView.findViewById(R.id.commentCount);
+            indicator = itemView.findViewById(R.id.indicator);
             mView = itemView;
         }
     }
@@ -170,12 +173,12 @@ public class GossipsAdapter extends RecyclerView.Adapter<GossipsAdapter.ViewHold
                         GossipImages l = npsnapshot.getValue(GossipImages.class);
                         imageList.add(l);
                     }
-                    pagerAdapter = new GossipImagesPagerAdapter(imageList, "small");
-                    holder.mainImage.setAdapter(pagerAdapter);
-
                 } else {
                     holder.mainImageCard.setVisibility(View.GONE);
                 }
+                pagerAdapter = new GossipImagesPagerAdapter(imageList, "small", "view", "gossip");
+                holder.mainImage.setAdapter(pagerAdapter);
+                holder.indicator.attachToPager(holder.mainImage);
             }
 
             @Override
@@ -218,7 +221,8 @@ public class GossipsAdapter extends RecyclerView.Adapter<GossipsAdapter.ViewHold
             }
         });
     }
-    private void likeCounter(final String gossipID, final ViewHolder holder){
+
+    private void likeCounter(final String gossipID, final ViewHolder holder) {
         dbRef.child("Likes").child(gossipID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -232,7 +236,8 @@ public class GossipsAdapter extends RecyclerView.Adapter<GossipsAdapter.ViewHold
             }
         });
     }
-    private void commentCounter(final String gossipID, final ViewHolder holder){
+
+    private void commentCounter(final String gossipID, final ViewHolder holder) {
         dbRef.child("Comments").child(gossipID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

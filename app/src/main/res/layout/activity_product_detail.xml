@@ -30,14 +30,32 @@
             android:layout_height="wrap_content"
             android:paddingBottom="10dp">
 
-            <ImageView
-                android:id="@+id/productImage"
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/mainImage"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:src="@drawable/mom"
+                android:layout_height="300dp"
+                android:scrollIndicators="bottom"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator
+                android:id="@+id/indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:elevation="20dp"
+                app:layout_constraintBottom_toBottomOf="@id/mainImage"
+                app:layout_constraintEnd_toEndOf="@id/mainImage"
+                app:layout_constraintStart_toStartOf="@id/mainImage"
+                app:spi_dotColor="@color/colorPrimary"
+                app:spi_dotSelectedColor="@color/colorPrimaryDark"
+                app:spi_dotSelectedSize="12dp"
+                app:spi_dotSize="8dp"
+                app:spi_dotSpacing="8dp"
+                app:spi_looped="true"
+                app:spi_visibleDotCount="5" />
+
 
             <TextView
                 android:id="@+id/productName"
@@ -52,8 +70,8 @@
                 android:textColor="#333333"
                 android:textSize="25sp"
                 app:layout_constraintEnd_toStartOf="@id/saveProduct"
-                app:layout_constraintStart_toStartOf="@id/productImage"
-                app:layout_constraintTop_toBottomOf="@id/productImage" />
+                app:layout_constraintStart_toStartOf="@id/mainImage"
+                app:layout_constraintTop_toBottomOf="@id/mainImage" />
 
             <ImageView
                 android:id="@+id/saveProduct"
@@ -62,18 +80,20 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
                 android:src="@drawable/bookmark"
-                app:layout_constraintEnd_toEndOf="@+id/productImage"
-                app:layout_constraintTop_toBottomOf="@+id/productImage" />
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@+id/mainImage"
+                app:layout_constraintTop_toBottomOf="@+id/mainImage" />
 
             <TextView
                 android:id="@+id/productPrice"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
                 android:text="Kshs 200"
                 android:textColor="#606060"
                 android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="@id/saveProduct"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/productName"
                 app:layout_constraintTop_toBottomOf="@id/productName" />
 
@@ -134,10 +154,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:paddingBottom="20dp"
                 android:text="More from this user"
                 android:textColor="#333333"
                 android:textSize="18sp"
-                android:paddingBottom="20dp"
                 app:layout_constraintEnd_toEndOf="@id/productDescriptionButton"
                 app:layout_constraintStart_toStartOf="@id/productDescriptionButton"
                 app:layout_constraintTop_toBottomOf="@id/productDescription" />
@@ -151,33 +171,33 @@
         android:id="@+id/moreProductsPanel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/floating_card_view"
         android:layout_marginTop="20dp"
-        android:visibility="gone"
-        android:elevation="10dp">
+        android:background="@drawable/floating_card_view"
+        android:elevation="10dp"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/closeMoreProducts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ccp_down_arrow"
+            android:gravity="center"
             android:text="Close"
             android:textColor="#606060"
-            android:gravity="center"
-            android:drawableEnd="@drawable/ccp_down_arrow"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/moreProducts"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/moreProducts"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

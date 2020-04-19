@@ -25,7 +25,6 @@ public class UserProducts extends AppCompatActivity {
     DatabaseReference dbRef;
     List<Products> listData;
     ProductsAdapter productsAdapter;
-    String UID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

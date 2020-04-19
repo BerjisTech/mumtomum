@@ -60,6 +60,22 @@
 
     </androidx.cardview.widget.CardView>
 
+    <ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator
+        android:id="@+id/indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="@id/mainImageCard"
+        app:layout_constraintStart_toStartOf="@id/mainImageCard"
+        app:layout_constraintEnd_toEndOf="@id/mainImageCard"
+        app:spi_visibleDotCount="5"
+        android:elevation="20dp"
+        app:spi_looped="true"
+        app:spi_dotSpacing="8dp"
+        app:spi_dotSize="8dp"
+        app:spi_dotSelectedSize="12dp"
+        app:spi_dotColor="@color/colorPrimary"
+        app:spi_dotSelectedColor="@color/colorPrimaryDark"/>
 
     <com.vanniktech.emoji.EmojiTextView
         android:id="@+id/post"

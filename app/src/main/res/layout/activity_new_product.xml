@@ -67,58 +67,77 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/productImage"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:padding="50dp"
-                android:background="#DDDDDD"
-                android:src="@drawable/camera"
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/imageRecycler"
+                android:layout_width="0dp"
+                android:layout_height="300dp"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/newImageText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:text="New Image"
+                app:layout_constraintBottom_toBottomOf="@id/newImage"
+                app:layout_constraintEnd_toStartOf="@id/newImage"
+                app:layout_constraintTop_toTopOf="@id/newImage" />
+
+            <ImageView
+                android:id="@+id/newImage"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/add_image"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageRecycler" />
 
             <EditText
                 android:id="@+id/productName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:hint="Product name"
                 android:inputType="textCapWords"
-                android:layout_marginTop="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/productImage"/>
+                app:layout_constraintTop_toBottomOf="@+id/newImage" />
 
             <EditText
                 android:id="@+id/productPrice"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:hint="Product price"
                 android:inputType="number"
-                android:layout_marginTop="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/productName"/>
+                app:layout_constraintTop_toBottomOf="@id/productName" />
 
             <EditText
                 android:id="@+id/productDescription"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:hint="Product description"
                 android:inputType="text"
-                android:layout_marginTop="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/productPrice"/>
+                app:layout_constraintTop_toBottomOf="@id/productPrice" />
 
-            <Spinner
+            <com.toptoche.searchablespinnerlibrary.SearchableSpinner
                 android:id="@+id/productCategory"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="product name"
                 android:layout_marginTop="20dp"
+                android:hint="product name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/productDescription"/>
+                app:layout_constraintTop_toBottomOf="@id/productDescription" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

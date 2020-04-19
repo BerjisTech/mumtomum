@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,6 +22,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -39,10 +41,12 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
+import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -52,11 +56,15 @@ public class NewProductActivity extends AppCompatActivity {
     DatabaseReference dbRef, productRef;
     StorageReference storageReference;
     Uri filePath;
-    String UID, category, productID = "", pName, pPrice, pDescription;
+    String UID, category, productID = "", pName, pPrice, pDescription, hasImage = "";
 
-    Spinner productCategory;
-    ImageView addProduct, productImage;
+    SearchableSpinner productCategory;
+    ImageView addProduct, newImage;
+    ViewPager imageRecycler;
     EditText productName, productPrice, productDescription;
+    TextView newImageText;
+    List<GossipImages> gossipImagesData;
+    GossipImagesPagerAdapter imagesAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,13 +79,16 @@ public class NewProductActivity extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference();
 
         createProductNode();
+        gossipImagesData = new ArrayList<>();
 
         addProduct = findViewById(R.id.addProduct);
         productCategory = findViewById(R.id.productCategory);
-        productImage = findViewById(R.id.productImage);
+        newImage = findViewById(R.id.newImage);
+        imageRecycler = findViewById(R.id.imageRecycler);
         productName = findViewById(R.id.productName);
         productPrice = findViewById(R.id.productPrice);
         productDescription = findViewById(R.id.productDescription);
+        newImageText = findViewById(R.id.newImageText);
 
         loadSpinners();
 
@@ -87,7 +98,13 @@ public class NewProductActivity extends AppCompatActivity {
                 publishProduct();
             }
         });
-        productImage.setOnClickListener(new View.OnClickListener() {
+        newImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadCamera();
+            }
+        });
+        newImageText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadCamera();
@@ -103,7 +120,6 @@ public class NewProductActivity extends AppCompatActivity {
 
         CropImage.activity()
                 .setGuidelines(CropImageView.Guidelines.ON)
-                .setAspectRatio(1, 1)
                 .start(this);
     }
 
@@ -130,12 +146,14 @@ public class NewProductActivity extends AppCompatActivity {
 
     public void postImage() {
 
+        long unixTime = System.currentTimeMillis() / 1000L;
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Uploading...");
         progressDialog.show();
 
         if (filePath != null) {
-            final StorageReference ref = storageReference.child("Product Images/" + productID + ".jpg");
+
+            final StorageReference ref = storageReference.child("Product Images/" + productID + unixTime + ".jpg");
             ref.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -146,12 +164,17 @@ public class NewProductActivity extends AppCompatActivity {
                                     Uri downloadUrl = uri;
                                     final String image_url = downloadUrl.toString();
 
-                                    productRef.child("image").setValue(image_url).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    DatabaseReference imageRef = dbRef.child("ProductImages").child(productID).push();
+                                    String image_id = imageRef.getKey();
+                                    imageRef.child("image_id").setValue(image_id);
+                                    imageRef.child("parent_id").setValue(productID);
+                                    imageRef.child("image").setValue(image_url).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()) {
+                                                hasImage = "hasImage";
+                                                loadImages();
                                                 progressDialog.dismiss();
-                                                loadProductImages(productID);
                                             }
                                         }
                                     });
@@ -179,15 +202,43 @@ public class NewProductActivity extends AppCompatActivity {
         }
     }
 
+    public void loadImages() {
+        imageRecycler.setVisibility(View.VISIBLE);
+        gossipImagesData.clear();
+        dbRef.child("ProductImages").child(productID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot npsnapshot : dataSnapshot.getChildren()) {
+                        GossipImages l = npsnapshot.getValue(GossipImages.class);
+                        gossipImagesData.add(l);
+                    }
+                }
+                Collections.reverse(gossipImagesData);
+                imagesAdapter = new GossipImagesPagerAdapter(gossipImagesData, "small", "edit", "product");
+                imageRecycler.setAdapter(imagesAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(NewProductActivity.this, "Kuna shida mahali", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     public void loadSpinners() {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.categories, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         productCategory.setAdapter(adapter);
+        productCategory.setTitle("Search by category");
+        productCategory.setPositiveButton("Cancel");
         productCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                category = productCategory.getSelectedItem().toString();
+                if(position > 0){
+                    category = productCategory.getSelectedItem().toString();
+                }
             }
 
             @Override
@@ -222,27 +273,19 @@ public class NewProductActivity extends AppCompatActivity {
             return;
         }
 
-        Calendar calendar = Calendar.getInstance();
-
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat currentDate = new SimpleDateFormat("MMM dd, yyyy");
-        final String date = currentDate.format(calendar.getTime());
-
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat currentTime = new SimpleDateFormat("hh:mm a");
-        final String time = currentTime.format(calendar.getTime());
-
+        long unixTime = System.currentTimeMillis() / 1000L;
         final HashMap<String, Object> productHash = new HashMap<>();
         productHash.put("name", pName);
         productHash.put("category", category);
         productHash.put("description", pDescription);
         productHash.put("price", Long.parseLong(pPrice));
-        productHash.put("date", date);
-        productHash.put("time", time);
+        productHash.put("date", unixTime);
         productHash.put("status", "available");
 
         productRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (!dataSnapshot.child("image").exists()) {
+                if (hasImage.equals("")) {
                     Toast.makeText(NewProductActivity.this, "You need to add an Image First", Toast.LENGTH_SHORT).show();
                 } else {
                     productRef.updateChildren(productHash).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -281,24 +324,6 @@ public class NewProductActivity extends AppCompatActivity {
                 }
             });
         }
-    }
-
-    public void loadProductImages(String thisProductID) {
-        productImage.setPadding(0, 0, 0, 0);
-        dbRef.child("Products").child(thisProductID).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    Picasso.get().load(dataSnapshot.child("image").getValue().toString()).into(productImage);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
     }
 
     @Override

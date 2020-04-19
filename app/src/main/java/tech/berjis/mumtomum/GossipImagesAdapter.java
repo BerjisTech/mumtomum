@@ -51,7 +51,7 @@ public class GossipImagesAdapter extends RecyclerView.Adapter<GossipImagesAdapte
                     @Override
                     public void onSuccess(Void aVoid) {
                         // File deleted successfully
-                        dbRef.child("GossipImages").child(ld.getGossip_id()).child(ld.getImage_id()).removeValue();
+                        dbRef.child("GossipImages").child(ld.getParent_id()).child(ld.getImage_id()).removeValue();
                         holder.mView.setVisibility(View.GONE);
                         holder.gossipImage.setVisibility(View.GONE);
                         holder.removeImage.setVisibility(View.GONE);

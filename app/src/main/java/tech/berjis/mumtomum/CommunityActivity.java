@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -45,6 +46,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator;
+
 public class CommunityActivity extends AppCompatActivity {
 
     ImageView newPost, back, newImage, send, lol;
@@ -56,10 +59,11 @@ public class CommunityActivity extends AppCompatActivity {
     DatabaseReference dbRef, gossipRef;
     StorageReference storageReference;
     Uri filePath;
-    RecyclerView imageRecycler, postRecycler;
+    RecyclerView postRecycler;
+    ViewPager imageRecycler;
     List<GossipImages> gossipImagesData;
     List<Gossips> gossipData;
-    GossipImagesAdapter imagesAdapter;
+    GossipImagesPagerAdapter imagesAdapter;
     GossipsAdapter gossipAdapter;
     String UID, gossipID, location = "", hasImage = "", water = "false", electricity = "false", parking = "false", security = "false", panelState = "";
 
@@ -87,8 +91,6 @@ public class CommunityActivity extends AppCompatActivity {
 
         gossipImagesData = new ArrayList<>();
         gossipData = new ArrayList<>();
-        imageRecycler.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
-        imageRecycler.setHasFixedSize(true);
         postRecycler.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
         postRecycler.setHasFixedSize(true);
 
@@ -277,7 +279,7 @@ public class CommunityActivity extends AppCompatActivity {
                                     DatabaseReference imageRef = dbRef.child("GossipImages").child(gossipID).push();
                                     String image_id = imageRef.getKey();
                                     imageRef.child("image_id").setValue(image_id);
-                                    imageRef.child("gossip_id").setValue(gossipID);
+                                    imageRef.child("parent_id").setValue(gossipID);
                                     imageRef.child("image").setValue(image_url).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
@@ -317,21 +319,20 @@ public class CommunityActivity extends AppCompatActivity {
         gossipImagesData.clear();
         dbRef.child("GossipImages").child(gossipID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot npsnapshot : dataSnapshot.getChildren()) {
                         GossipImages l = npsnapshot.getValue(GossipImages.class);
                         gossipImagesData.add(l);
                     }
-                    Collections.reverse(gossipImagesData);
-                    imagesAdapter = new GossipImagesAdapter(gossipImagesData, "show");
-                    imageRecycler.setAdapter(imagesAdapter);
-
                 }
+                Collections.reverse(gossipImagesData);
+                imagesAdapter = new GossipImagesPagerAdapter(gossipImagesData, "small", "edit", "gossip");
+                imageRecycler.setAdapter(imagesAdapter);
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(CommunityActivity.this, "Kuna shida mahali", Toast.LENGTH_SHORT).show();
             }
         });
@@ -343,10 +344,10 @@ public class CommunityActivity extends AppCompatActivity {
     }
 
     public void goBack() {
-        if(panelState.equals("open")){
+        if (panelState.equals("open")) {
             removeGossipNode();
             CommunityActivity.super.finish();
-        }else{
+        } else {
             CommunityActivity.super.finish();
         }
     }
@@ -372,7 +373,7 @@ public class CommunityActivity extends AppCompatActivity {
                     hideGossip();
                     View view = CommunityActivity.this.getCurrentFocus();
                     if (view != null) {
-                        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                     }
                 }
