@@ -52,14 +52,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void unloggedState() {
-        if (mAuth.getCurrentUser() == null) {
-            Intent intent = new Intent(MainActivity.this, ProductsActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-        }else{
-            Intent intent = new Intent(MainActivity.this, WalletActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-        }
+        Intent intent = new Intent(MainActivity.this, ProductsActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 }

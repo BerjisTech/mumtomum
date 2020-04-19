@@ -2,12 +2,14 @@ package tech.berjis.mumtomum;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -17,6 +19,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class UserProducts extends AppCompatActivity {
 
@@ -50,10 +53,14 @@ public class UserProducts extends AppCompatActivity {
             }
         });
 
+
+        products.setLayoutManager(new GridLayoutManager(this, 2));
+
+        listData = new ArrayList<>();
         loadUser();
     }
 
-    public void loadUser(){
+    public void loadUser() {
 
         Intent userIntent = getIntent();
         Bundle userBundle = userIntent.getExtras();
@@ -62,36 +69,22 @@ public class UserProducts extends AppCompatActivity {
         loadProducts(userID);
     }
 
-    public void loadProducts(String seller) {
-        SpannedGridLayoutManager layoutManager = new SpannedGridLayoutManager(
-                new SpannedGridLayoutManager.GridSpanLookup() {
-                    @Override
-                    public SpannedGridLayoutManager.SpanInfo getSpanInfo(int position) {
-                        /* Conditions for 2x2 items
-                        if (position % 12 == 0 || position % 12 == 7) {
-                            return new SpannedGridLayoutManager.SpanInfo(2, 2);
-                        } else {
-                            return new SpannedGridLayoutManager.SpanInfo(1, 1);
-                        }*/
-                        return new SpannedGridLayoutManager.SpanInfo(1, 1);
-                    }
-                },
-                2, // number of columns
-                1f // how big is default item
-        );
-        products.setLayoutManager(layoutManager);
-
-        listData = new ArrayList<>();
+    public void loadProducts(final String seller) {
 
         dbRef.child("Products").orderByChild("seller").equalTo(seller).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot npsnapshot : dataSnapshot.getChildren()) {
-                        Products l = npsnapshot.getValue(Products.class);
-                        listData.add(l);
+                        if (!npsnapshot.child("status").exists()) {
+                            String p_id = Objects.requireNonNull(npsnapshot.child("product_id").getValue()).toString();
+                            dbRef.child("Products").child(p_id).removeValue();
+                        } else {
+                            Products l = npsnapshot.getValue(Products.class);
+                            listData.add(l);
+                        }
                     }
-                    productsAdapter = new ProductsAdapter(listData, "show");
+                    productsAdapter = new ProductsAdapter(listData, "");
                     products.setAdapter(productsAdapter);
                 }
             }

@@ -32,6 +32,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import com.vanniktech.emoji.EmojiTextView;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -50,7 +51,7 @@ public class ProductDetail extends AppCompatActivity {
     ImageView back, saveProduct;
     ScrollingPagerIndicator indicator;
     EmojiTextView productOwner;
-    TextView productName, productPrice, productBuy, productDescriptionButton, productDescription, moreTitle, closeMoreProducts;
+    TextView productName, productPrice, productBuy, addToCart, productDescription, moreTitle, closeMoreProducts;
     ConstraintLayout moreProductsPanel;
     RecyclerView moreProducts;
     List<Products> listData;
@@ -76,7 +77,6 @@ public class ProductDetail extends AppCompatActivity {
         productPrice = findViewById(R.id.productPrice);
         productOwner = findViewById(R.id.productOwner);
         productBuy = findViewById(R.id.productBuy);
-        productDescriptionButton = findViewById(R.id.productDescriptionButton);
         productDescription = findViewById(R.id.productDescription);
         moreTitle = findViewById(R.id.moreTitle);
         moreProducts = findViewById(R.id.moreProducts);
@@ -84,6 +84,7 @@ public class ProductDetail extends AppCompatActivity {
         closeMoreProducts = findViewById(R.id.closeMoreProducts);
         mainImage = findViewById(R.id.mainImage);
         indicator = findViewById(R.id.indicator);
+        addToCart = findViewById(R.id.addToCart);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,15 +121,22 @@ public class ProductDetail extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                String name = Objects.requireNonNull(dataSnapshot.child("name").getValue()).toString();
+                final String name = Objects.requireNonNull(dataSnapshot.child("name").getValue()).toString();
                 String description = Objects.requireNonNull(dataSnapshot.child("description").getValue()).toString();
                 final String seller = Objects.requireNonNull(dataSnapshot.child("seller").getValue()).toString();
-                String price = Objects.requireNonNull(dataSnapshot.child("price").getValue()).toString();
+                final String price = Objects.requireNonNull(dataSnapshot.child("price").getValue()).toString();
                 final String product_id = Objects.requireNonNull(dataSnapshot.child("product_id").getValue()).toString();
 
                 if (seller.equals(UID)) {
                     productBuy.setAlpha(0.5f);
                     productBuy.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(ProductDetail.this, "You can't buy your own product", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    addToCart.setAlpha(0.5f);
+                    addToCart.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Toast.makeText(ProductDetail.this, "You can't buy your own product", Toast.LENGTH_SHORT).show();
@@ -142,17 +150,21 @@ public class ProductDetail extends AppCompatActivity {
                             placeOrder(seller, product_id);
                         }
                     });
+                    addToCart.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            addToCart(product_id, name, price);
+                        }
+                    });
                 }
                 loadImages(productID);
                 productName.setText(name);
                 productDescription.setText(description);
-                productDescriptionButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        showDescription();
-                    }
-                });
-                productPrice.setText("Kshs " + price);
+                NumberFormat nf = NumberFormat.getInstance();
+                nf.setMinimumFractionDigits(0);
+                nf.setMaximumFractionDigits(0);
+                String output = "KES " + nf.format(Long.parseLong(price));
+                productPrice.setText("Kshs " + output);
 
 
                 loaduser(seller);
@@ -165,6 +177,32 @@ public class ProductDetail extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void addToCart(String product_id, String product_name, String product_price){
+        DatabaseReference cartRef = dbRef.child("Cart").child(UID).push();
+        String itemKey = cartRef.getKey();
+        long unixTime = System.currentTimeMillis() / 1000L;
+        HashMap<String, Object> cartItem = new HashMap<>();
+
+        cartItem.put("item_id", itemKey);
+        cartItem.put("user", UID);
+        cartItem.put("product_id", product_id);
+        cartItem.put("name", product_name);
+        cartItem.put("price", Long.parseLong(product_price));
+        cartItem.put("time", unixTime);
+        cartItem.put("quantity", 1);
+
+        cartRef.updateChildren(cartItem).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()){
+                    startActivity(new Intent(ProductDetail.this, CartActivity.class));
+                }
+            }
+        });
+
+
     }
 
     public void loadImages(String productID) {
@@ -193,24 +231,7 @@ public class ProductDetail extends AppCompatActivity {
     }
 
     public void loadOtherProducts(String seller) {
-        SpannedGridLayoutManager layoutManager = new SpannedGridLayoutManager(
-                new SpannedGridLayoutManager.GridSpanLookup() {
-                    @Override
-                    public SpannedGridLayoutManager.SpanInfo getSpanInfo(int position) {
-                        /* Conditions for 2x2 items
-                        if (position % 12 == 0 || position % 12 == 7) {
-                            return new SpannedGridLayoutManager.SpanInfo(2, 2);
-                        } else {
-                            return new SpannedGridLayoutManager.SpanInfo(1, 1);
-                        }*/
-                        return new SpannedGridLayoutManager.SpanInfo(1, 1);
-                    }
-                },
-                2, // number of columns
-                1f // how big is default item
-        );
-        moreProducts.setLayoutManager(layoutManager);
-
+        moreProducts.setLayoutManager(new GridLayoutManager(this, 2));
         listData = new ArrayList<>();
 
         dbRef.child("Products").orderByChild("seller").equalTo(seller).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -218,8 +239,13 @@ public class ProductDetail extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot npsnapshot : dataSnapshot.getChildren()) {
-                        Products l = npsnapshot.getValue(Products.class);
-                        listData.add(l);
+                        if (!npsnapshot.child("status").exists()) {
+                            String p_id = Objects.requireNonNull(npsnapshot.child("product_id").getValue()).toString();
+                            dbRef.child("Products").child(p_id).removeValue();
+                        } else {
+                            Products l = npsnapshot.getValue(Products.class);
+                            listData.add(l);
+                        }
                     }
                     productsAdapter = new ProductsAdapter(listData, "");
                     moreProducts.setAdapter(productsAdapter);
@@ -246,58 +272,6 @@ public class ProductDetail extends AppCompatActivity {
 
             }
         });
-    }
-
-    public void showDescription() {
-        productDescriptionButton.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-        productDescription.setVisibility(View.VISIBLE);
-        productDescription
-                .animate()
-                .alpha(0.0f)
-                .setDuration(0)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        super.onAnimationEnd(animation);
-                        productDescription
-                                .animate()
-                                .alpha(1.0f)
-                                .setDuration(300)
-                                .setListener(new AnimatorListenerAdapter() {
-                                    @Override
-                                    public void onAnimationEnd(Animator animation) {
-                                        super.onAnimationEnd(animation);
-                                        productDescriptionButton.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                hideDescription();
-                                            }
-                                        });
-                                    }
-                                });
-                    }
-                });
-    }
-
-    public void hideDescription() {
-        productDescriptionButton.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(ProductDetail.this, R.drawable.ccp_down_arrow), null);
-        productDescription
-                .animate()
-                .alpha(0.0f)
-                .setDuration(300)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        super.onAnimationEnd(animation);
-                        productDescription.setVisibility(View.GONE);
-                        productDescriptionButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                showDescription();
-                            }
-                        });
-                    }
-                });
     }
 
     public void hideMoreProducts() {

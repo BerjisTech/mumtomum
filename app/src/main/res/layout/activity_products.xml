@@ -7,7 +7,7 @@
     tools:context=".ProductsActivity">
 
     <ImageView
-        android:id="@+id/menuButton"
+        android:id="@+id/logo"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginStart="10dp"
@@ -24,10 +24,10 @@
         android:layout_marginEnd="10dp"
         android:background="@drawable/transparent"
         android:hint="product name"
-        app:layout_constraintBottom_toBottomOf="@+id/menuButton"
+        app:layout_constraintBottom_toBottomOf="@+id/logo"
         app:layout_constraintEnd_toStartOf="@id/refresh"
-        app:layout_constraintStart_toEndOf="@+id/menuButton"
-        app:layout_constraintTop_toTopOf="@+id/menuButton" />
+        app:layout_constraintStart_toEndOf="@+id/logo"
+        app:layout_constraintTop_toTopOf="@+id/logo" />
 
     <ImageView
         android:id="@+id/refresh"
@@ -48,7 +48,7 @@
         app:layout_constraintBottom_toTopOf="@id/home"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/menuButton" />
+        app:layout_constraintTop_toBottomOf="@id/logo" />
 
     <TextView
         android:id="@+id/updateProfiletext"
@@ -72,7 +72,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginBottom="10dp"
-        android:src="@drawable/home"
+        android:src="@drawable/wallet_baby"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/quater"
         app:layout_constraintStart_toStartOf="parent" />

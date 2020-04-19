@@ -26,7 +26,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:windowSoftInputMode="adjustPan">
-
+        <activity android:name=".CartActivity"></activity>
         <activity android:name=".ImagesActivity" />
         <activity android:name=".CommentsActivity" />
         <activity android:name=".UserWalletDetails" />

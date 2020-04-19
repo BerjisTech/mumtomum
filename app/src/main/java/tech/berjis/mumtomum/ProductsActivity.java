@@ -88,6 +88,7 @@ public class ProductsActivity extends AppCompatActivity {
                 2, // number of columns
                 1f // how big is default item
         );*/
+
         rv.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
 
         unloggedState();
