@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -59,12 +60,13 @@ public class NewProductActivity extends AppCompatActivity {
     String UID, category, productID = "", pName, pPrice, pDescription, hasImage = "";
 
     SearchableSpinner productCategory;
-    ImageView addProduct, newImage;
+    ImageView addProduct, newImage, goBack;
     ViewPager imageRecycler;
     EditText productName, productPrice, productDescription;
-    TextView newImageText;
+    TextView newImageText, publish;
     List<GossipImages> gossipImagesData;
     GossipImagesPagerAdapter imagesAdapter;
+    CheckBox pickup, delivery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,10 +91,20 @@ public class NewProductActivity extends AppCompatActivity {
         productPrice = findViewById(R.id.productPrice);
         productDescription = findViewById(R.id.productDescription);
         newImageText = findViewById(R.id.newImageText);
+        pickup = findViewById(R.id.pickUp);
+        delivery = findViewById(R.id.delivery);
+        publish = findViewById(R.id.publish);
+        goBack = findViewById(R.id.goBack);
 
         loadSpinners();
 
         addProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                publishProduct();
+            }
+        });
+        publish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 publishProduct();
@@ -108,6 +120,12 @@ public class NewProductActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 loadCamera();
+            }
+        });
+        goBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
             }
         });
     }
@@ -236,7 +254,7 @@ public class NewProductActivity extends AppCompatActivity {
         productCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position > 0){
+                if (position > 0) {
                     category = productCategory.getSelectedItem().toString();
                 }
             }
@@ -273,6 +291,11 @@ public class NewProductActivity extends AppCompatActivity {
             return;
         }
 
+        if(!pickup.isChecked() && !delivery.isChecked()){
+            Toast.makeText(this, "How do you plan to deliver this product?", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         long unixTime = System.currentTimeMillis() / 1000L;
         final HashMap<String, Object> productHash = new HashMap<>();
         productHash.put("name", pName);
@@ -281,6 +304,8 @@ public class NewProductActivity extends AppCompatActivity {
         productHash.put("price", Long.parseLong(pPrice));
         productHash.put("date", unixTime);
         productHash.put("status", "available");
+        productHash.put("pickup", pickup.isChecked());
+        productHash.put("deliver", delivery.isChecked());
 
         productRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -308,7 +333,7 @@ public class NewProductActivity extends AppCompatActivity {
     }
 
     public void createProductNode() {
-        if(productID.equals("")){
+        if (productID.equals("")) {
             productRef = dbRef.child("Products").push();
             productID = productRef.getKey();
             productRef.child("product_id").setValue(productID).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -341,7 +366,5 @@ public class NewProductActivity extends AppCompatActivity {
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
     }
-
-
 
 }

@@ -18,15 +18,17 @@
     <application
         android:name=".EmojiApplication"
         android:allowBackup="true"
+        android:configChanges="orientation"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:roundIcon="@drawable/logo"
+        android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:windowSoftInputMode="adjustPan">
-        <activity android:name=".ImagesActivity"></activity>
+
+        <activity android:name=".ImagesActivity" />
         <activity android:name=".CommentsActivity" />
-        <activity android:name=".CommentActivity" />
         <activity android:name=".UserWalletDetails" />
         <activity android:name=".BabyActivity" />
         <activity android:name=".MumWallet" />

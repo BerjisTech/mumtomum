@@ -30,6 +30,7 @@ import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ProductsActivity extends AppCompatActivity {
 
@@ -106,8 +107,13 @@ public class ProductsActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot npsnapshot : dataSnapshot.getChildren()) {
-                        Products l = npsnapshot.getValue(Products.class);
-                        listData.add(l);
+                        if (!npsnapshot.child("status").exists()) {
+                            String p_id = Objects.requireNonNull(npsnapshot.child("product_id").getValue()).toString();
+                            dbRef.child("Products").child(p_id).removeValue();
+                        }else{
+                            Products l = npsnapshot.getValue(Products.class);
+                            listData.add(l);
+                        }
                     }
                     productsAdapter = new ProductsAdapter(listData, "");
                     rv.setAdapter(productsAdapter);

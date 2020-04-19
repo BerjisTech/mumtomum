@@ -7,7 +7,7 @@
     tools:context=".ProductsActivity">
 
     <ImageView
-        android:id="@+id/logo"
+        android:id="@+id/menuButton"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginStart="10dp"
@@ -19,15 +19,15 @@
     <com.toptoche.searchablespinnerlibrary.SearchableSpinner
         android:id="@+id/productCategory"
         android:layout_width="0dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginStart="10dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:background="@drawable/transparent"
         android:hint="product name"
-        app:layout_constraintBottom_toBottomOf="@+id/logo"
+        app:layout_constraintBottom_toBottomOf="@+id/menuButton"
         app:layout_constraintEnd_toStartOf="@id/refresh"
-        app:layout_constraintStart_toEndOf="@+id/logo"
-        app:layout_constraintTop_toTopOf="@+id/logo" />
+        app:layout_constraintStart_toEndOf="@+id/menuButton"
+        app:layout_constraintTop_toTopOf="@+id/menuButton" />
 
     <ImageView
         android:id="@+id/refresh"
@@ -48,7 +48,7 @@
         app:layout_constraintBottom_toTopOf="@id/home"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/logo" />
+        app:layout_constraintTop_toBottomOf="@id/menuButton" />
 
     <TextView
         android:id="@+id/updateProfiletext"

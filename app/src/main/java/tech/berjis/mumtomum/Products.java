@@ -3,15 +3,18 @@ package tech.berjis.mumtomum;
 public class Products {
 
     private String category, description, seller, status, product_id, name;
+    private boolean pickup, delivery;
     private long price, date;
 
-    public Products(String category, String description, String seller, String status, String product_id, String name, Long price, Long date) {
+    public Products(String category, String description, String seller, String status, String product_id, String name, boolean pickup, boolean delivery, long price, long date) {
         this.category = category;
         this.description = description;
         this.seller = seller;
         this.status = status;
         this.product_id = product_id;
         this.name = name;
+        this.pickup = pickup;
+        this.delivery = delivery;
         this.price = price;
         this.date = date;
     }
@@ -67,19 +70,35 @@ public class Products {
         this.name = name;
     }
 
-    public Long getPrice() {
+    public boolean isPickup() {
+        return pickup;
+    }
+
+    public void setPickup(boolean pickup) {
+        this.pickup = pickup;
+    }
+
+    public boolean isDelivery() {
+        return delivery;
+    }
+
+    public void setDelivery(boolean delivery) {
+        this.delivery = delivery;
+    }
+
+    public long getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(long price) {
         this.price = price;
     }
 
-    public Long getDate() {
+    public long getDate() {
         return date;
     }
 
-    public void setDate(Long date) {
+    public void setDate(long date) {
         this.date = date;
     }
 }

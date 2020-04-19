@@ -157,7 +157,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
                         imageList.add(l);
                     }
                 } else {
-                    holder.mainImageCard.setVisibility(View.GONE);
+                    holder.mainImage.setVisibility(View.GONE);
                 }
                 pagerAdapter = new GossipImagesPagerAdapter(imageList, "smally", "view", "product");
                 holder.mainImage.setAdapter(pagerAdapter);
