@@ -39,17 +39,17 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         if (type.equals("complete")) {
             if (ld.getStatus().equals("success")) {
                 //holder.narration.setTextColor(Color.parseColor("#007e33"));
-                holder.half.setBackgroundColor(Color.parseColor("#007e33"));
+                holder.half.setBackgroundColor(Color.parseColor("#00c851"));
                 holder.narration.setText(ld.getNarration() + " " + ld.getType().toUpperCase() + ": Successful");
             }
             if (ld.getStatus().equals("error")) {
                 //holder.narration.setTextColor(Color.parseColor("#cc0000"));
-                holder.half.setBackgroundColor(Color.parseColor("#cc0000"));
+                holder.half.setBackgroundColor(Color.parseColor("#ff4444"));
                 holder.narration.setText(ld.getNarration() + " " + ld.getType().toUpperCase() + ": Unsuccessful");
             }
             if (ld.getStatus().equals("cancelled")) {
                 //holder.narration.setTextColor(Color.parseColor("#ff8800"));
-                holder.half.setBackgroundColor(Color.parseColor("#ff8800"));
+                holder.half.setBackgroundColor(Color.parseColor("#ffbb33"));
                 holder.narration.setText(ld.getNarration() + " " + ld.getType().toUpperCase() + ": Cancelled");
             }
         }
@@ -57,17 +57,17 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         if (type.equals("wallet")) {
             if (ld.getStatus().equals("success")) {
                 //holder.narration.setTextColor(Color.parseColor("#007e33"));
-                holder.half.setBackgroundColor(Color.parseColor("#007e33"));
+                holder.half.setBackgroundColor(Color.parseColor("#00c851"));
                 holder.narration.setText(ld.getType().toUpperCase() + ": Successful");
             }
             if (ld.getStatus().equals("error")) {
                 //holder.narration.setTextColor(Color.parseColor("#cc0000"));
-                holder.half.setBackgroundColor(Color.parseColor("#cc0000"));
+                holder.half.setBackgroundColor(Color.parseColor("#ff4444"));
                 holder.narration.setText(ld.getType().toUpperCase() + ": Unsuccessful");
             }
             if (ld.getStatus().equals("cancelled")) {
                 //holder.narration.setTextColor(Color.parseColor("#ff8800"));
-                holder.half.setBackgroundColor(Color.parseColor("#ff8800"));
+                holder.half.setBackgroundColor(Color.parseColor("#ffbb33"));
                 holder.narration.setText(ld.getType().toUpperCase() + ": Cancelled");
             }
         }
@@ -94,11 +94,11 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
 
         if (ld.getType().equals("deposit")) {
             holder.amount.setText("+kshs " + output);
-            holder.amount.setTextColor(Color.parseColor("#0d47a1"));
+            holder.amount.setTextColor(Color.parseColor("#18a3fe"));
         }
         if (ld.getType().equals("withdraw")) {
             holder.amount.setText("-kshs " + output);
-            holder.amount.setTextColor(Color.parseColor("#cc0000"));
+            holder.amount.setTextColor(Color.parseColor("#FE18A3"));
         }
 
     }

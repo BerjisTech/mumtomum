@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -42,7 +43,8 @@ public class ProfileActivity extends AppCompatActivity {
 
     CircleImageView editprofileImage, profileImage;
     EmojiTextView userName;
-    ImageView editUser, goHome, contributions, products, text, lol, save;
+    ImageView editUser, goHome, contributions, products, text, lol, save, terms;
+    TextView termsText;
     View closeEditText, view;
     EmojiEditText editUserName;
     ConstraintLayout editnameView;
@@ -78,6 +80,8 @@ public class ProfileActivity extends AppCompatActivity {
         editUserName = findViewById(R.id.editUserName);
         editnameView = findViewById(R.id.editnameView);
         view = findViewById(R.id.view);
+        termsText = findViewById(R.id.termsText);
+        terms = findViewById(R.id.terms);
 
 
         final EmojiPopup emojiPopup = EmojiPopup.Builder.fromRootView(editnameView).build(editUserName);
@@ -156,6 +160,13 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ProfileActivity.this, WalletActivity.class));
+            }
+        });
+
+        terms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ProfileActivity.this, TermsActivity.class));
             }
         });
     }

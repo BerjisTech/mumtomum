@@ -13,6 +13,8 @@ import androidx.viewpager.widget.ViewPager;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -153,7 +155,13 @@ public class ProductDetail extends AppCompatActivity {
                     addToCart.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            addToCart(product_id, name, price);
+                            new AlertDialog.Builder(ProductDetail.this)
+                                    .setTitle("Coming soon")
+                                    .setMessage("The cart feature will be rolled out soon.")
+                                    .setNegativeButton(android.R.string.ok, null)
+                                    .setIcon(android.R.drawable.ic_dialog_info)
+                                    .show();
+                            //addToCart(product_id, name, price);
                         }
                     });
                 }
@@ -164,7 +172,7 @@ public class ProductDetail extends AppCompatActivity {
                 nf.setMinimumFractionDigits(0);
                 nf.setMaximumFractionDigits(0);
                 String output = "KES " + nf.format(Long.parseLong(price));
-                productPrice.setText("Kshs " + output);
+                productPrice.setText(output);
 
 
                 loaduser(seller);

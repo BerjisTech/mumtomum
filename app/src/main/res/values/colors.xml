@@ -2,17 +2,30 @@
 <resources>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorCrimson">#EEEEEE</color>
-    <color name="colorAccent">#FFE5B4</color>
-    <color name="colorPrimary1">#FFD586</color>
-    <color name="colorPrimary2">#FFC558</color>
-    <color name="colorPrimary">#FFB52A</color>
-    <color name="colorPrimaryDark1">#FBA400</color>
-    <color name="colorPrimaryDark2">#CE8600</color>
-    <color name="colorPrimaryDark">#A06800</color>
+    <color name="colorAccent">#00c851</color>
+    <color name="colorPrimary1">#FE7318</color>
+    <color name="colorPrimary2">#FE7318</color>
+    <color name="colorPrimary">#18a3fe</color>
+    <color name="colorPrimaryDark1">#FE18A3</color>
+    <color name="colorPrimaryDark2">#FE18A3</color>
+    <color name="colorPrimaryDark">#4c84ff</color>
     <color name="greyTick">#666666</color>
     <color name="blueTick">#6666FF</color>
     <color name="success">#00c851</color>
     <color name="cancelled">#ffbb33</color>
     <color name="error">#ff4444</color>
     <color name="info">#0099cc</color>
+
+    <!-- colors for button style -->
+
+    <color name="gradient_start_color">#4c84ff</color>
+    <color name="gradient_end_color">#18a3fe</color>
+
+
+    <!-- colors for tab and screent text -->
+
+    <color name="tab_indicator_gray">#c0c0c0</color>
+    <color name="intro_title_color">#000000</color>
+    <color name="intro_description_color">#656565</color>
+
 </resources>

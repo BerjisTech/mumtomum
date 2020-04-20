@@ -42,7 +42,7 @@
 
     <View
         android:id="@+id/half"
-        android:layout_width="5dp"
+        android:layout_width="2dp"
         android:layout_height="0dp"
         android:background="#606060"
         android:layout_marginStart="20dp"
