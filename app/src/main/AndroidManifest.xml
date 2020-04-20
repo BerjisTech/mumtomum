@@ -26,7 +26,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:windowSoftInputMode="adjustPan">
-        <activity android:name=".ContactActivity"></activity>
+        <activity android:name=".Faq"></activity>
+        <activity android:name=".ContactActivity" />
         <activity android:name=".AppInfo" />
         <activity android:name=".PrivacyActivity" />
         <activity android:name=".TermsActivity" />
@@ -45,7 +46,19 @@
 
         <activity android:name=".CommunityActivity" />
         <activity android:name=".UserProducts" />
-        <activity android:name=".ProductsActivity" />
+        <activity android:name=".ProductsActivity">
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="https"
+                    android:host="berjis.tech"
+                    android:pathPattern="/mum" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".NewProductActivity"
             android:windowSoftInputMode="stateHidden" />

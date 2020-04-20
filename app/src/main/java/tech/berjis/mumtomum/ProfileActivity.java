@@ -43,8 +43,8 @@ public class ProfileActivity extends AppCompatActivity {
 
     CircleImageView editprofileImage, profileImage;
     EmojiTextView userName;
-    ImageView editUser, goHome, contributions, products, text, lol, save, terms, privacy, info, contact_us;
-    TextView termsText, privacyText, infoText, contact_usText;
+    ImageView editUser, goHome, contributions, products, text, lol, save, terms, privacy, info, contact_us, faq, share;
+    TextView termsText, privacyText, infoText, contact_usText, faqText, shareText;
     View closeEditText, view;
     EmojiEditText editUserName;
     ConstraintLayout editnameView;
@@ -88,6 +88,10 @@ public class ProfileActivity extends AppCompatActivity {
         info = findViewById(R.id.info);
         contact_usText = findViewById(R.id.contact_usText);
         contact_us = findViewById(R.id.contact_us);
+        faqText = findViewById(R.id.faqText);
+        faq = findViewById(R.id.faq);
+        shareText = findViewById(R.id.shareText);
+        share = findViewById(R.id.share);
 
 
         final EmojiPopup emojiPopup = EmojiPopup.Builder.fromRootView(editnameView).build(editUserName);
@@ -218,6 +222,42 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ProfileActivity.this, ContactActivity.class));
+            }
+        });
+
+        faq.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ProfileActivity.this, Faq.class));
+            }
+        });
+        faqText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ProfileActivity.this, Faq.class));
+            }
+        });
+
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String shareBody = "Hi. Buy and sell baby stuff and maternity necessities easily with MumToMum\nhttps://berjis.tech/mum";
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Share app");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                startActivity(Intent.createChooser(sharingIntent, "Share with"));
+            }
+        });
+        shareText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String shareBody = "Hi. Buy and sell baby stuff and maternity necessities easily with MumToMum\nhttps://berjis.tech/mum";
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Share app");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                startActivity(Intent.createChooser(sharingIntent, "Share with"));
             }
         });
     }
