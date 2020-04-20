@@ -43,8 +43,8 @@ public class ProfileActivity extends AppCompatActivity {
 
     CircleImageView editprofileImage, profileImage;
     EmojiTextView userName;
-    ImageView editUser, goHome, contributions, products, text, lol, save, terms;
-    TextView termsText;
+    ImageView editUser, goHome, contributions, products, text, lol, save, terms, privacy, info, contact_us;
+    TextView termsText, privacyText, infoText, contact_usText;
     View closeEditText, view;
     EmojiEditText editUserName;
     ConstraintLayout editnameView;
@@ -82,6 +82,12 @@ public class ProfileActivity extends AppCompatActivity {
         view = findViewById(R.id.view);
         termsText = findViewById(R.id.termsText);
         terms = findViewById(R.id.terms);
+        privacyText = findViewById(R.id.privacyText);
+        privacy = findViewById(R.id.privacy);
+        infoText = findViewById(R.id.infoText);
+        info = findViewById(R.id.info);
+        contact_usText = findViewById(R.id.contact_usText);
+        contact_us = findViewById(R.id.contact_us);
 
 
         final EmojiPopup emojiPopup = EmojiPopup.Builder.fromRootView(editnameView).build(editUserName);
@@ -173,6 +179,45 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ProfileActivity.this, TermsActivity.class));
+            }
+        });
+
+        privacy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ProfileActivity.this, PrivacyActivity.class));
+            }
+        });
+        privacyText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ProfileActivity.this, PrivacyActivity.class));
+            }
+        });
+
+        info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ProfileActivity.this, AppInfo.class));
+            }
+        });
+        infoText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ProfileActivity.this, AppInfo.class));
+            }
+        });
+
+        contact_us.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ProfileActivity.this, ContactActivity.class));
+            }
+        });
+        contact_usText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ProfileActivity.this, ContactActivity.class));
             }
         });
     }
