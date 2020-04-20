@@ -169,6 +169,12 @@ public class ProfileActivity extends AppCompatActivity {
                 startActivity(new Intent(ProfileActivity.this, TermsActivity.class));
             }
         });
+        termsText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ProfileActivity.this, TermsActivity.class));
+            }
+        });
     }
 
     public void showEditUser() {
