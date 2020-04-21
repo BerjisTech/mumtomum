@@ -30,9 +30,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator;
 
@@ -109,7 +111,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         ImageView delete;
         TextView productTitle;
-        ViewPager mainImage;
+        ImageView mainImage;
         CardView mainImageCard;
         ScrollingPagerIndicator indicator;
         View mView;
@@ -127,24 +129,14 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private void imageLoader(final String productID, final ProductItemViewHolder holder) {
         productImageList.clear();
-        dbRef.child("ProductImages").child(productID).addListenerForSingleValueEvent(new ValueEventListener() {
+        dbRef.child("ProductImages").child(productID).limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot npsnapshot : dataSnapshot.getChildren()) {
-                        GossipImages l = npsnapshot.getValue(GossipImages.class);
-                        productImageList.add(l);
+                        Picasso.get().load(Objects.requireNonNull(npsnapshot.child("image").getValue()).toString()).into(holder.mainImage);
                     }
-                } else {
-                    holder.mainImage.setVisibility(View.GONE);
                 }
-                if (pagerAdapter == null) {
-                    pagerAdapter = new GossipImagesPagerAdapter(productImageList, "smally", "view", "product");
-                }else{
-                    pagerAdapter.notifyDataSetChanged();
-                }
-                holder.mainImage.setAdapter(pagerAdapter);
-                holder.indicator.attachToPager(holder.mainImage);
             }
 
             @Override
