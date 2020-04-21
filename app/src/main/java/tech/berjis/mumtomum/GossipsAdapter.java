@@ -177,6 +177,7 @@ public class GossipsAdapter extends RecyclerView.Adapter<GossipsAdapter.ViewHold
                     holder.mainImageCard.setVisibility(View.GONE);
                 }
                 pagerAdapter = new GossipImagesPagerAdapter(imageList, "small", "view", "gossip");
+                pagerAdapter.notifyDataSetChanged();
                 holder.mainImage.setAdapter(pagerAdapter);
                 holder.indicator.attachToPager(holder.mainImage);
             }

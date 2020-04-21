@@ -182,14 +182,15 @@ public class NewProductActivity extends AppCompatActivity {
                                     Uri downloadUrl = uri;
                                     final String image_url = downloadUrl.toString();
 
-                                    DatabaseReference imageRef = dbRef.child("ProductImages").child(productID).push();
-                                    String image_id = imageRef.getKey();
-                                    imageRef.child("image_id").setValue(image_id);
-                                    imageRef.child("parent_id").setValue(productID);
-                                    imageRef.child("image").setValue(image_url).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    final DatabaseReference[] imageRef = {dbRef.child("ProductImages").child(productID).push()};
+                                    String image_id = imageRef[0].getKey();
+                                    imageRef[0].child("image_id").setValue(image_id);
+                                    imageRef[0].child("parent_id").setValue(productID);
+                                    imageRef[0].child("image").setValue(image_url).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()) {
+                                                imageRef[0] = null;
                                                 hasImage = "hasImage";
                                                 loadImages();
                                                 progressDialog.dismiss();

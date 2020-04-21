@@ -79,6 +79,7 @@ public class ImagesActivity extends AppCompatActivity {
                     }
                 }
                 pagerAdapter = new GossipImagesPagerAdapter(imageList, "large", mode, variant);
+                pagerAdapter.notifyDataSetChanged();
                 images.setAdapter(pagerAdapter);
                 indicator.attachToPager(images);
             }

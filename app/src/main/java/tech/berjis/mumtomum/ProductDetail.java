@@ -56,7 +56,7 @@ public class ProductDetail extends AppCompatActivity {
     TextView productName, productPrice, productBuy, addToCart, productDescription, moreTitle, closeMoreProducts;
     ConstraintLayout moreProductsPanel;
     RecyclerView moreProducts;
-    List<Products> listData;
+    List<Object> listData;
     ProductsAdapter productsAdapter;
     List<GossipImages> imageList;
     GossipImagesPagerAdapter pagerAdapter;

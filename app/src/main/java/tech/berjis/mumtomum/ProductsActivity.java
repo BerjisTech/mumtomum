@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,6 +20,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdLoader;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.formats.NativeAd;
+import com.google.android.gms.ads.formats.UnifiedNativeAd;
 import com.google.firebase.appindexing.Action;
 import com.google.firebase.appindexing.FirebaseAppIndex;
 import com.google.firebase.appindexing.FirebaseUserActions;
@@ -43,13 +50,22 @@ public class ProductsActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     DatabaseReference dbRef;
     FirebaseUser currentUser;
-    List<Products> listData;
+    List<Object> listData;
     ProductsAdapter productsAdapter;
     RecyclerView rv;
     ImageView groups, chats, profile, home, refresh;
     TextView chatsCount, updateProfiletext;
     SearchableSpinner productCategory;
     String UID, category;
+
+    // The number of native ads to load and display.
+    public static final int NUMBER_OF_ADS = 5;
+
+    // The AdLoader used to load ads.
+    private AdLoader adLoader;
+
+    // List of native ads that have been successfully loaded.
+    private List<UnifiedNativeAd> mNativeAds = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +76,9 @@ public class ProductsActivity extends AppCompatActivity {
         dbRef = FirebaseDatabase.getInstance().getReference();
         dbRef.keepSynced(true);
         currentUser = mAuth.getCurrentUser();
+
+        MobileAds.initialize(this,
+                getString(R.string.banner_ad_unit_id));
 
         listData = new ArrayList<>();
 
@@ -98,7 +117,7 @@ public class ProductsActivity extends AppCompatActivity {
         rv.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
 
         unloggedState();
-        loadProducts();
+        //loadProducts();
         loadSpinner();
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,6 +129,9 @@ public class ProductsActivity extends AppCompatActivity {
         Intent appLinkIntent = getIntent();
         String appLinkAction = appLinkIntent.getAction();
         Uri appLinkData = appLinkIntent.getData();
+
+        loadProducts();
+        loadNativeAds();
     }
 
     public void loadProducts() {
@@ -379,5 +401,50 @@ public class ProductsActivity extends AppCompatActivity {
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         FirebaseUserActions.getInstance().end(getIndexApiAction());
         super.onStop();
+    }
+
+    private void insertAdsInMenuItems() {
+        if (mNativeAds.size() <= 0) {
+            return;
+        }
+
+        int offset = (listData.size() / mNativeAds.size()) + 1;
+        int index = 0;
+        for (UnifiedNativeAd ad: mNativeAds) {
+            listData.add(index, ad);
+            index = index + offset;
+        }
+    }
+
+    private void loadNativeAds() {
+
+        AdLoader.Builder builder = new AdLoader.Builder(this, getString(R.string.banner_ad_unit_id));
+        adLoader = builder.forUnifiedNativeAd(
+                new UnifiedNativeAd.OnUnifiedNativeAdLoadedListener() {
+                    @Override
+                    public void onUnifiedNativeAdLoaded(UnifiedNativeAd unifiedNativeAd) {
+                        // A native ad loaded successfully, check if the ad loader has finished loading
+                        // and if so, insert the ads into the list.
+                        mNativeAds.add(unifiedNativeAd);
+                        if (!adLoader.isLoading()) {
+                            insertAdsInMenuItems();
+                        }
+                    }
+                }).withAdListener(
+                new AdListener() {
+                    @Override
+                    public void onAdFailedToLoad(int errorCode) {
+                        // A native ad failed to load, check if the ad loader has finished loading
+                        // and if so, insert the ads into the list.
+                        Log.e("ProductActivity", "The previous native ad failed to load. Attempting to"
+                                + " load another.");
+                        if (!adLoader.isLoading()) {
+                            insertAdsInMenuItems();
+                        }
+                    }
+                }).build();
+
+        // Load the Native Express ad.
+        adLoader.loadAds(new AdRequest.Builder().build(), NUMBER_OF_ADS);
     }
 }

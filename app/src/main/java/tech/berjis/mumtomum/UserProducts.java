@@ -26,7 +26,7 @@ public class UserProducts extends AppCompatActivity {
     ImageView back, newProduct;
     RecyclerView products;
     DatabaseReference dbRef;
-    List<Products> listData;
+    List<Object> listData;
     ProductsAdapter productsAdapter;
 
     @Override

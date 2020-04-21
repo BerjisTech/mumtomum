@@ -33,6 +33,7 @@ public class GossipImagesPagerAdapter extends PagerAdapter {
         this.type = type;
         this.mode = mode;
         this.variant = variant;
+        //notifyDataSetChanged();
     }
 
     @Override
@@ -153,6 +154,10 @@ public class GossipImagesPagerAdapter extends PagerAdapter {
         return layout;
     }
 
+    public int getItemPosition(@NonNull Object object) {
+        return POSITION_NONE;
+    }
+
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object view) {
         container.removeView((View) view);
@@ -160,12 +165,14 @@ public class GossipImagesPagerAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        if (doNotifyDataSetChangedOnce) {
+        /*if (doNotifyDataSetChangedOnce) {
             doNotifyDataSetChangedOnce = false;
             notifyDataSetChanged();
-        }
+        }*/
         return listData.size();
     }
+
+
 
     @Override
     public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
