@@ -10,6 +10,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ScrollView;
@@ -329,6 +331,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void saveUserName() {
         final String newName = editUserName.getText().toString();
+        final String phone = editMpesaNumber.getText().toString();
         if (newName.isEmpty()) {
             Toast.makeText(this, "You need to type something here", Toast.LENGTH_SHORT).show();
         } else {
@@ -336,34 +339,53 @@ public class ProfileActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isComplete()) {
-                        Toast.makeText(ProfileActivity.this, "Hi " + newName, Toast.LENGTH_SHORT).show();
                         userName.setText(newName);
                         editUserName.setText(newName);
-                        hideEditUser();
                     }
                 }
             });
         }
 
-        if(!editUserName.getText().toString().isEmpty()){
+        if (!editUserName.getText().toString().isEmpty()) {
             dbRef.child("Users").child(UID).child("name").setValue(editUserName.getText().toString());
         }
 
-        if(!editFirstName.getText().toString().isEmpty()){
+        if (!editFirstName.getText().toString().isEmpty()) {
             dbRef.child("Users").child(UID).child("first_name").setValue(editFirstName.getText().toString());
         }
 
-        if(!editLastName.getText().toString().isEmpty()){
+        if (!editLastName.getText().toString().isEmpty()) {
             dbRef.child("Users").child(UID).child("last_name").setValue(editLastName.getText().toString());
         }
 
-        if(!editEmail.getText().toString().isEmpty()){
+        if (!isValidEmail(editEmail.getText().toString())) {
+            editMpesaNumber.setError("Enter a valid email");
+            return;
+        }
+
+        if (!editEmail.getText().toString().isEmpty() && isValidEmail(editEmail.getText().toString())) {
             dbRef.child("Users").child(UID).child("email").setValue(editEmail.getText().toString());
         }
 
-        if(!editMpesaNumber.getText().toString().isEmpty()){
-            dbRef.child("Users").child(UID).child("mpesa_phone").setValue(editMpesaNumber.getText().toString());
+
+
+        if (phone.equals("") || phone.length() != 12) {
+            editMpesaNumber.setError("Enter a valid Mpesa number");
+            return;
         }
+
+        if (!phone.substring(0, 5).equals("25470") &&
+                !phone.substring(0, 5).equals("25471") &&
+                !phone.substring(0, 5).equals("25472") &&
+                !phone.substring(0, 5).equals("25474") &&
+                !phone.substring(0, 5).equals("25479") &&
+                !phone.substring(0, 5).equals("25476")) {
+            editMpesaNumber.setError("Enter a valid Mpesa number");
+            return;
+        }
+
+        dbRef.child("Users").child(UID).child("mpesa_phone").setValue(phone);
+        hideEditUser();
     }
 
     public void loadUserProfile() {
@@ -539,4 +561,9 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
     }
+
+    public static boolean isValidEmail(CharSequence target) {
+        return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
+    }
+
 }

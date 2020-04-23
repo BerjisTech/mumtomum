@@ -49,7 +49,7 @@ public class BabyActivity extends AppCompatActivity {
 
     FirebaseAuth mAuth;
     DatabaseReference dbRef, depositRef, withdrawRef, transactionRef;
-    String UID, phone, amount, balance;
+    String UID, amount, balance;
     TextView deposit, withdraw, amountText, balanceAmount;
     EditText amountNumber;
     ConstraintLayout transactionPanel;
@@ -67,7 +67,6 @@ public class BabyActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         dbRef = FirebaseDatabase.getInstance().getReference();
         UID = mAuth.getCurrentUser().getUid();
-        phone = mAuth.getCurrentUser().getPhoneNumber();
 
         deposit = findViewById(R.id.deposit);
         withdraw = findViewById(R.id.withdraw);
@@ -171,7 +170,7 @@ public class BabyActivity extends AppCompatActivity {
                                     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                                         if (actionId == EditorInfo.IME_ACTION_SEND) {
                                             amount = amountNumber.getText().toString();
-                                            balance = balanceAmount.getText().toString();
+                                            balance = balanceAmount.getText().toString().replace(",", "");;
                                             long maxWithdraw = Long.parseLong(balance) - 50;
                                             final long withDrawAmount = Long.parseLong(amount);
                                             if (withDrawAmount < 500) {
@@ -215,7 +214,7 @@ public class BabyActivity extends AppCompatActivity {
 
 
     public void loadTransactions() {
-        dbRef.child("BabyWallet").child(UID).addValueEventListener(new ValueEventListener() {
+        dbRef.child("BabyWallet").child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -242,11 +241,24 @@ public class BabyActivity extends AppCompatActivity {
         dbRef.child("Users").child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String firstname = dataSnapshot.child("first_name").getValue().toString();
-                String lastname = dataSnapshot.child("last_name").getValue().toString();
-                String phone_number = phone.substring(phone.length() - 12);
+                final String firstname = dataSnapshot.child("first_name").getValue().toString();
+                final String lastname = dataSnapshot.child("last_name").getValue().toString();
+                final String phone_number = dataSnapshot.child("mpesa_phone").getValue().toString();
 
-                withdrawRequest(firstname, lastname, phone_number, withdrawAmount);
+                new AlertDialog.Builder(BabyActivity.this)
+                        .setTitle("MumWallet Withdrawal")
+                        .setMessage("Withdraw " + withdrawAmount + " to " + phone_number + " ?")
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                withdrawRequest(firstname, lastname, phone_number, withdrawAmount);
+                            }
+                        })
+                        .setNegativeButton("Edit Number", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                startActivity(new Intent(BabyActivity.this, UserWalletDetails.class));
+                            }
+                        })
+                        .show();
             }
 
             @Override
@@ -260,7 +272,7 @@ public class BabyActivity extends AppCompatActivity {
         withdrawRef = dbRef.child("BabyWallet").child(UID).push();
         final String reference = withdrawRef.getKey();
 
-        transactionRef = dbRef.child("BabyWallet").child(UID).push();
+        transactionRef = dbRef.child("Transactions").push();
         final String transaction_code = transactionRef.getKey();
 
         long time_start = System.currentTimeMillis() / 1000L;
@@ -293,6 +305,7 @@ public class BabyActivity extends AppCompatActivity {
                 transactionRef.child("end_time").setValue(end_time);
                 transactionRef.child("status").setValue("success");
                 Toast.makeText(BabyActivity.this, "You have succesfully withdrawn kshs " + withdrawAmount, Toast.LENGTH_LONG).show();
+                startActivity(new Intent(BabyActivity.this, WalletActivity.class));
             }
         }, new Response.ErrorListener() {
             @Override
@@ -339,7 +352,8 @@ public class BabyActivity extends AppCompatActivity {
                     String firstname = dataSnapshot.child("first_name").getValue().toString();
                     String lastname = dataSnapshot.child("last_name").getValue().toString();
                     String email = dataSnapshot.child("email").getValue().toString();
-                    validateEntries(firstname, lastname, email);
+                    String phone_number = dataSnapshot.child("mpesa_phone").getValue().toString();
+                    validateEntries(firstname, lastname, email, phone_number);
 
                 }
             }
@@ -352,7 +366,7 @@ public class BabyActivity extends AppCompatActivity {
     }
 
     private void BabyTotalBalance() {
-        dbRef.child("BabyWallet").child(UID).addValueEventListener(new ValueEventListener() {
+        dbRef.child("BabyWallet").child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists() && dataSnapshot.hasChildren()) {
@@ -391,7 +405,7 @@ public class BabyActivity extends AppCompatActivity {
         });
     }
 
-    private void validateEntries(String fName, String lName, String email) {
+    private void validateEntries(String fName, String lName, String email, String phone_number) {
         depositRef = dbRef.child("BabyWallet").child(UID).push();
         transactionRef = dbRef.child("Transactions").push();
         String text_ref = depositRef.getKey();
@@ -432,7 +446,7 @@ public class BabyActivity extends AppCompatActivity {
                     .setEmail(email)
                     .setfName(fName)
                     .setlName(lName)
-                    .setPhoneNumber(phone)
+                    .setPhoneNumber(phone_number)
                     .setNarration(narration)
                     .setPublicKey(publicKey)
                     .setEncryptionKey(encryptionKey)

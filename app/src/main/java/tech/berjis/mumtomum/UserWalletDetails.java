@@ -26,7 +26,7 @@ public class UserWalletDetails extends AppCompatActivity {
     DatabaseReference dbRef;
     String UID;
 
-    EditText firstName, lastName, email;
+    EditText firstName, lastName, email, mpesa_phone;
     TextView cancelWallet, createWallet;
 
     @Override
@@ -44,6 +44,7 @@ public class UserWalletDetails extends AppCompatActivity {
         email = findViewById(R.id.email);
         cancelWallet = findViewById(R.id.cancelWallet);
         createWallet = findViewById(R.id.createWallet);
+        mpesa_phone = findViewById(R.id.mpesa_phone);
 
         createWallet.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,6 +52,7 @@ public class UserWalletDetails extends AppCompatActivity {
                 String emailtext = email.getText().toString();
                 String firstname = firstName.getText().toString();
                 String lastname = lastName.getText().toString();
+                String phone = mpesa_phone.getText().toString();
 
                 if (firstname.equals("")) {
                     firstName.setError("Kindly enter your first name");
@@ -65,11 +67,27 @@ public class UserWalletDetails extends AppCompatActivity {
                     return;
                 }
 
+                if (phone.equals("") || phone.length() != 12) {
+                    mpesa_phone.setError("Enter a valid Mpesa number");
+                    return;
+                }
+
+                if (!phone.substring(0, 5).equals("25470") &&
+                        !phone.substring(0, 5).equals("25471") &&
+                        !phone.substring(0, 5).equals("25472") &&
+                        !phone.substring(0, 5).equals("25474") &&
+                        !phone.substring(0, 5).equals("25479") &&
+                        !phone.substring(0, 5).equals("25476")) {
+                    mpesa_phone.setError("Enter a valid Mpesa number");
+                    return;
+                }
+
                 HashMap<String, Object> walletHash = new HashMap<>();
 
                 walletHash.put("email", emailtext);
                 walletHash.put("first_name", firstname);
                 walletHash.put("last_name", lastname);
+                walletHash.put("mpesa_phone", phone);
 
                 dbRef.child("Users").child(UID).updateChildren(walletHash).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override

@@ -145,7 +145,8 @@ public class WalletActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (!dataSnapshot.child("email").exists() ||
                         !dataSnapshot.child("first_name").exists() ||
-                        !dataSnapshot.child("last_name").exists()) {
+                        !dataSnapshot.child("last_name").exists() ||
+                        !dataSnapshot.child("mpesa_phone").exists()) {
                     startActivity(new Intent(WalletActivity.this, UserWalletDetails.class));
                 }
             }
