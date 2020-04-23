@@ -54,22 +54,14 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
         holder.senderText.setVisibility(View.GONE);
         holder.senderTime.setVisibility(View.GONE);
         holder.senderView.setVisibility(View.GONE);
-        holder.senderOrderView.setVisibility(View.GONE);
-        holder.senderOrderTitle.setVisibility(View.GONE);
-        holder.senderOrderImage.setVisibility(View.GONE);
-        holder.senderOrderText.setVisibility(View.GONE);
         holder.receiverText.setVisibility(View.GONE);
         holder.receiverTime.setVisibility(View.GONE);
         holder.receiverView.setVisibility(View.GONE);
-        holder.receiverOrderView.setVisibility(View.GONE);
-        holder.receiverOrderTitle.setVisibility(View.GONE);
-        holder.receiverOrderImage.setVisibility(View.GONE);
-        holder.receiverOrderText.setVisibility(View.GONE);
         holder.senderImage.setVisibility(View.GONE);
         holder.receiverImage.setVisibility(View.GONE);
         holder.tick.setVisibility(View.GONE);
 
-        if(uid.equals(ld.getSender())){
+        if (uid.equals(ld.getSender())) {
             holder.tick.setVisibility(View.VISIBLE);
             if (ld.getRead().equals("false")) {
                 holder.tick.setColorFilter(ContextCompat.getColor(holder.mView.getContext(), R.color.greyTick), PorterDuff.Mode.SRC_ATOP);
@@ -109,30 +101,20 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
                     if (dataSnapshot.exists()) {
                         if (uid.equals(ld.getSender())) {
 
+                            holder.senderText.setVisibility(View.VISIBLE);
+                            holder.senderView.setVisibility(View.VISIBLE);
                             holder.senderTime.setVisibility(View.VISIBLE);
-                            holder.senderOrderView.setVisibility(View.VISIBLE);
-                            holder.senderOrderTitle.setVisibility(View.VISIBLE);
-                            holder.senderOrderImage.setVisibility(View.VISIBLE);
-                            holder.senderOrderText.setVisibility(View.VISIBLE);
 
-                            holder.senderTime.setText(ld.getTime());
-                            holder.senderOrderTitle.setText(dataSnapshot.child("name").getValue().toString());
-                            Picasso.get().load(dataSnapshot.child("image").getValue().toString()).into(holder.senderOrderImage);
-                            holder.senderOrderText.setText(dataSnapshot.child("description").getValue().toString());
+                            holder.senderText.setText("Hi, I need " + dataSnapshot.child("name").getValue().toString());
 
                         }
                         if (uid.equals(ld.getReceiver())) {
 
+                            holder.receiverText.setVisibility(View.VISIBLE);
+                            holder.receiverView.setVisibility(View.VISIBLE);
                             holder.receiverTime.setVisibility(View.VISIBLE);
-                            holder.receiverOrderView.setVisibility(View.VISIBLE);
-                            holder.receiverOrderTitle.setVisibility(View.VISIBLE);
-                            holder.receiverOrderImage.setVisibility(View.VISIBLE);
-                            holder.receiverOrderText.setVisibility(View.VISIBLE);
 
-                            holder.receiverTime.setText(ld.getTime());
-                            holder.receiverOrderTitle.setText(dataSnapshot.child("name").getValue().toString());
-                            Picasso.get().load(dataSnapshot.child("image").getValue().toString()).into(holder.receiverOrderImage);
-                            holder.receiverOrderText.setText(dataSnapshot.child("description").getValue().toString());
+                            holder.receiverText.setText("Hi, I need " + dataSnapshot.child("name").getValue().toString());
                         }
                     } else {
                         if (uid.equals(ld.getSender())) {
@@ -193,9 +175,9 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        EmojiTextView senderText, receiverText, senderTime, receiverTime, senderOrderTitle, senderOrderText, receiverOrderTitle, receiverOrderText;
-        ImageView tick, senderImage, receiverImage, senderOrderImage, receiverOrderImage;
-        View senderView, receiverView, senderOrderView, receiverOrderView;
+        EmojiTextView senderText, receiverText, senderTime, receiverTime;
+        ImageView tick, senderImage, receiverImage;
+        View senderView, receiverView;
         View mView;
 
         ViewHolder(View itemView) {
@@ -205,17 +187,9 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
             senderText = itemView.findViewById(R.id.senderText);
             senderTime = itemView.findViewById(R.id.senderTime);
             senderView = itemView.findViewById(R.id.senderView);
-            senderOrderView = itemView.findViewById(R.id.SenderOrderView);
-            senderOrderTitle = itemView.findViewById(R.id.SenderOrderTitle);
-            senderOrderImage = itemView.findViewById(R.id.SenderOrderImg);
-            senderOrderText = itemView.findViewById(R.id.SenderOrderText);
             receiverText = itemView.findViewById(R.id.receiverText);
             receiverTime = itemView.findViewById(R.id.receiverTime);
             receiverView = itemView.findViewById(R.id.receiverView);
-            receiverOrderView = itemView.findViewById(R.id.RecieverOrderView);
-            receiverOrderTitle = itemView.findViewById(R.id.RecieverOrderTitle);
-            receiverOrderImage = itemView.findViewById(R.id.RecieverOrderImg);
-            receiverOrderText = itemView.findViewById(R.id.RecieverOrderText);
             senderImage = itemView.findViewById(R.id.senderImage);
             receiverImage = itemView.findViewById(R.id.receiverImage);
             tick = itemView.findViewById(R.id.tick);

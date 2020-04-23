@@ -82,12 +82,13 @@ public class CommentsActivity extends AppCompatActivity {
         btn_emoji.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                emojiPopup.toggle(); // Toggles visibility of the Popup.
+                 // Toggles visibility of the Popup.
                 if (emojiPopup.isShowing()) {
                     Picasso.get().load(R.drawable.lol).into(btn_emoji);
+                    emojiPopup.toggle();
                 } else {
                     Picasso.get().load(R.drawable.keyboard).into(btn_emoji);
-                    emojiPopup.dismiss();
+                    emojiPopup.toggle();
                 }
             }
         });

@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,11 +44,12 @@ public class ProfileActivity extends AppCompatActivity {
 
     CircleImageView editprofileImage, profileImage;
     EmojiTextView userName;
-    ImageView editUser, goHome, contributions, products, text, lol, save, terms, privacy, info, contact_us, faq, share;
-    TextView termsText, privacyText, infoText, contact_usText, faqText, shareText;
-    View closeEditText, view;
-    EmojiEditText editUserName;
+    ImageView editUser, goHome, contributions, products, text, lol, terms, privacy, info, contact_us, faq, share;
+    TextView termsText, privacyText, infoText, contact_usText, faqText, shareText, cancel, save;
+    View view;
+    EmojiEditText editUserName, editFirstName, editLastName, editEmail, editMpesaNumber;
     ConstraintLayout editnameView;
+    ScrollView scrollShit;
 
     FirebaseAuth mAuth;
     DatabaseReference dbRef;
@@ -76,7 +78,7 @@ public class ProfileActivity extends AppCompatActivity {
         text = findViewById(R.id.text);
         lol = findViewById(R.id.lol);
         save = findViewById(R.id.save);
-        closeEditText = findViewById(R.id.closeEditText);
+        cancel = findViewById(R.id.cancel);
         editUserName = findViewById(R.id.editUserName);
         editnameView = findViewById(R.id.editnameView);
         view = findViewById(R.id.view);
@@ -92,18 +94,22 @@ public class ProfileActivity extends AppCompatActivity {
         faq = findViewById(R.id.faq);
         shareText = findViewById(R.id.shareText);
         share = findViewById(R.id.share);
-
+        scrollShit = findViewById(R.id.scrollShit);
+        editFirstName = findViewById(R.id.editFirstName);
+        editLastName = findViewById(R.id.editLastName);
+        editEmail = findViewById(R.id.editEmail);
+        editMpesaNumber = findViewById(R.id.editMpesaNumber);
 
         final EmojiPopup emojiPopup = EmojiPopup.Builder.fromRootView(editnameView).build(editUserName);
         lol.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                emojiPopup.toggle(); // Toggles visibility of the Popup.
                 if (emojiPopup.isShowing()) {
                     Picasso.get().load(R.drawable.lol).into(lol);
+                    emojiPopup.toggle();
                 } else {
                     Picasso.get().load(R.drawable.keyboard).into(lol);
-                    emojiPopup.dismiss();
+                    emojiPopup.toggle();
                 }
             }
         });
@@ -120,7 +126,7 @@ public class ProfileActivity extends AppCompatActivity {
                 showEditUser();
             }
         });
-        closeEditText.setOnClickListener(new View.OnClickListener() {
+        cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 hideEditUser();
@@ -278,6 +284,7 @@ public class ProfileActivity extends AppCompatActivity {
                                     @Override
                                     public void onAnimationEnd(Animator animation) {
                                         super.onAnimationEnd(animation);
+                                        scrollShit.setVisibility(View.GONE);
 
                                     }
                                 });
@@ -294,6 +301,7 @@ public class ProfileActivity extends AppCompatActivity {
                     public void onAnimationEnd(Animator animation) {
                         super.onAnimationEnd(animation);
                         editnameView.setVisibility(View.GONE);
+                        scrollShit.setVisibility(View.VISIBLE);
                     }
                 });
     }
@@ -307,7 +315,7 @@ public class ProfileActivity extends AppCompatActivity {
                     Toast.makeText(ProfileActivity.this, "Please choose a username", Toast.LENGTH_SHORT).show();
                     showEditUser();
                 }
-                if (dataSnapshot.exists()){
+                if (dataSnapshot.exists()) {
                     saveToken(UID);
                 }
             }
@@ -336,6 +344,26 @@ public class ProfileActivity extends AppCompatActivity {
                 }
             });
         }
+
+        if(!editUserName.getText().toString().isEmpty()){
+            dbRef.child("Users").child(UID).child("name").setValue(editUserName.getText().toString());
+        }
+
+        if(!editFirstName.getText().toString().isEmpty()){
+            dbRef.child("Users").child(UID).child("first_name").setValue(editFirstName.getText().toString());
+        }
+
+        if(!editLastName.getText().toString().isEmpty()){
+            dbRef.child("Users").child(UID).child("last_name").setValue(editLastName.getText().toString());
+        }
+
+        if(!editEmail.getText().toString().isEmpty()){
+            dbRef.child("Users").child(UID).child("email").setValue(editEmail.getText().toString());
+        }
+
+        if(!editMpesaNumber.getText().toString().isEmpty()){
+            dbRef.child("Users").child(UID).child("mpesa_phone").setValue(editMpesaNumber.getText().toString());
+        }
     }
 
     public void loadUserProfile() {
@@ -351,6 +379,18 @@ public class ProfileActivity extends AppCompatActivity {
                         String name = dataSnapshot.child("name").getValue().toString();
                         userName.setText(name);
                         editUserName.setText(name);
+                    }
+                    if (dataSnapshot.child("first_name").exists()) {
+                        editFirstName.setText(dataSnapshot.child("first_name").getValue().toString());
+                    }
+                    if (dataSnapshot.child("last_name").exists()) {
+                        editLastName.setText(dataSnapshot.child("last_name").getValue().toString());
+                    }
+                    if (dataSnapshot.child("email").exists()) {
+                        editEmail.setText(dataSnapshot.child("email").getValue().toString());
+                    }
+                    if (dataSnapshot.child("mpesa_phone").exists()) {
+                        editMpesaNumber.setText(dataSnapshot.child("mpesa_phone").getValue().toString());
                     }
 
                 }
@@ -488,12 +528,12 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-    public void saveToken(String user){
+    public void saveToken(String user) {
         String deviceToken = FirebaseInstanceId.getInstance().getToken();
         dbRef.child("Users").child(user).child("device_token").setValue(deviceToken).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()){
+                if (task.isSuccessful()) {
 
                 }
             }

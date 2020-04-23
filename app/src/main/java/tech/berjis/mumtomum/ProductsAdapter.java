@@ -32,6 +32,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -110,7 +111,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public static class ProductItemViewHolder extends RecyclerView.ViewHolder {
 
         ImageView delete;
-        TextView productTitle;
+        TextView productTitle, productDescription, productPrice;
         ImageView mainImage;
         CardView mainImageCard;
         ScrollingPagerIndicator indicator;
@@ -120,6 +121,8 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             super(view);
             delete = itemView.findViewById(R.id.delete);
             productTitle = itemView.findViewById(R.id.productTitle);
+            productDescription = itemView.findViewById(R.id.productDescription);
+            productPrice = itemView.findViewById(R.id.productPrice);
             mainImageCard = itemView.findViewById(R.id.mainImageCard);
             mainImage = itemView.findViewById(R.id.mainImage);
             indicator = itemView.findViewById(R.id.indicator);
@@ -147,7 +150,21 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     private void productLoader(final Products ld, final ProductItemViewHolder pHolder) {
+        String description = ld.getDescription();
+
+        NumberFormat nf = NumberFormat.getInstance();
+        nf.setMinimumFractionDigits(0);
+        nf.setMaximumFractionDigits(0);
+        String output = "kshs " + nf.format(ld.getPrice());
+
         pHolder.productTitle.setText(ld.getName());
+        pHolder.productPrice.setText(output);
+
+        if(description.length() > 60){
+            pHolder.productDescription.setText(description.substring(0, 60) + "...");
+        }else{
+            pHolder.productDescription.setText(description);
+        }
 
         if (delete.equals("show")) {
             pHolder.delete.setVisibility(View.VISIBLE);

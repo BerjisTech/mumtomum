@@ -7,6 +7,7 @@
     tools:context=".ProfileActivity">
 
     <ScrollView
+        android:id="@+id/scrollShit"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomCard"
@@ -111,6 +112,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="20dp"
                 android:src="@drawable/faq_2"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/share" />
 
@@ -122,6 +124,7 @@
                 android:layout_marginEnd="10dp"
                 android:gravity="center|start"
                 android:text="F.A.Q"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@id/faq"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/faq"
@@ -282,25 +285,28 @@
         android:id="@+id/editnameView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorWhite"
         android:elevation="20dp"
         android:visibility="gone">
 
-        <View
-            android:id="@+id/closeEditText"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:alpha="0.8"
-            android:background="@color/colorPrimary" />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="300dp"
+        <TextView
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:background="@drawable/round_border_white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="10dp"
+            android:text="@string/cancel"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:text="SAVE"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
@@ -309,29 +315,78 @@
             android:layout_height="20dp"
             android:layout_marginStart="20dp"
             android:src="@drawable/lol"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@id/editnameView"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toBottomOf="@+id/editUserName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/editUserName" />
 
         <com.vanniktech.emoji.EmojiEditText
             android:id="@+id/editUserName"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             android:hint="Edit your name"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/save"
-            app:layout_constraintStart_toEndOf="@id/lol"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/save"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
             android:layout_marginEnd="20dp"
-            android:src="@drawable/done"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/editnameView"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/lol"
+            app:layout_constraintTop_toBottomOf="@+id/cancel" />
+
+
+        <TextView
+            android:id="@+id/walletDetailsText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:hint="Wallet details\nEnter correct details to avoid loss of money.\nWe will not be liable for any losses"
+            android:textColor="#333333"
+            app:layout_constraintEnd_toEndOf="@+id/editUserName"
+            app:layout_constraintStart_toStartOf="@+id/lol"
+            app:layout_constraintTop_toBottomOf="@+id/editUserName" />
+
+
+        <com.vanniktech.emoji.EmojiEditText
+            android:id="@+id/editFirstName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:hint="Your first name"
+            android:inputType="textCapWords"
+            app:layout_constraintEnd_toEndOf="@+id/walletDetailsText"
+            app:layout_constraintStart_toStartOf="@+id/walletDetailsText"
+            app:layout_constraintTop_toBottomOf="@+id/walletDetailsText" />
+
+
+        <com.vanniktech.emoji.EmojiEditText
+            android:id="@+id/editLastName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Your last name"
+            android:inputType="textCapWords"
+            app:layout_constraintEnd_toEndOf="@+id/editFirstName"
+            app:layout_constraintStart_toStartOf="@+id/editFirstName"
+            app:layout_constraintTop_toBottomOf="@+id/editFirstName" />
+
+
+        <com.vanniktech.emoji.EmojiEditText
+            android:id="@+id/editEmail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Your email"
+            android:inputType="textEmailAddress"
+            app:layout_constraintEnd_toEndOf="@+id/editLastName"
+            app:layout_constraintStart_toStartOf="@+id/editLastName"
+            app:layout_constraintTop_toBottomOf="@+id/editLastName" />
+
+
+        <com.vanniktech.emoji.EmojiEditText
+            android:id="@+id/editMpesaNumber"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Your MPesa Number (2547...)"
+            android:inputType="number"
+            app:layout_constraintEnd_toEndOf="@+id/editEmail"
+            app:layout_constraintStart_toStartOf="@+id/editEmail"
+            app:layout_constraintTop_toBottomOf="@+id/editEmail" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
