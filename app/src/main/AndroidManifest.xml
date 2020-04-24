@@ -24,10 +24,14 @@
         android:screenOrientation="portrait"
         android:theme="@style/AppCustomTheme.NoActionBar"
         android:windowSoftInputMode="adjustPan">
-
+        <activity
+            android:name=".GroupActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".GroupsActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Faq"
             android:screenOrientation="portrait" />
