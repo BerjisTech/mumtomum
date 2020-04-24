@@ -18,35 +18,69 @@
     <application
         android:name=".EmojiApplication"
         android:allowBackup="true"
-        android:configChanges="orientation"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:roundIcon="@drawable/logo"
         android:screenOrientation="portrait"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar"
+        android:theme="@style/AppCustomTheme.NoActionBar"
         android:windowSoftInputMode="adjustPan">
-        <activity android:name=".Faq"></activity>
-        <activity android:name=".ContactActivity" />
-        <activity android:name=".AppInfo" />
-        <activity android:name=".PrivacyActivity" />
-        <activity android:name=".TermsActivity" />
-        <activity android:name=".IntroActivity" />
-        <activity android:name=".CartActivity" />
-        <activity android:name=".ImagesActivity" />
-        <activity android:name=".CommentsActivity" />
-        <activity android:name=".UserWalletDetails" />
-        <activity android:name=".BabyActivity" />
-        <activity android:name=".MumWallet" />
-        <activity android:name=".WalletActivity" />
+
+        <activity
+            android:name=".GroupsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Faq"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ContactActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".AppInfo"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".PrivacyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".TermsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".IntroActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CartActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ImagesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CommentsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UserWalletDetails"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".BabyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MumWallet"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".WalletActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/banner_ad_unit_id" />
 
-        <activity android:name=".CommunityActivity" />
-        <activity android:name=".UserProducts" />
-        <activity android:name=".ProductsActivity">
+        <activity
+            android:name=".CommunityActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UserProducts"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ProductsActivity"
+            android:screenOrientation="portrait">
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
 
@@ -54,29 +88,42 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:scheme="https"
                     android:host="berjis.tech"
-                    android:pathPattern="/mum" />
+                    android:pathPattern="/mum"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
         <activity
             android:name=".NewProductActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".ProfileActivity" />
+        <activity
+            android:name=".ProfileActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".VerifyPhoneActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".ProductDetail" />
+        <activity
+            android:name=".ProductDetail"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".RegisterActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".LoginActivity" />
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ChatActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".Messaging" />
+        <activity
+            android:name=".Messaging"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

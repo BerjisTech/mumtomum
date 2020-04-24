@@ -54,4 +54,11 @@
     <string name="accept_ussd_payments">Accept USSD Payments</string>
     <string name="accept_barter_payments">Accept Barter Payments</string>
     <string name="allow_saved_cards">Allow saved cards</string>
+    <string name="title_activity_groups">GroupsActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
 </resources>
