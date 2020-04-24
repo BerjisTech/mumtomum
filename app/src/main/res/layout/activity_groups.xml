@@ -16,7 +16,6 @@
         android:layout_marginEnd="30dp"
         android:text="TAKE\nYOUR FIRST STEPS \nTO FINANCIAL FREEDOM"
         android:textSize="20sp"
-        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -29,7 +28,6 @@
         android:layout_marginTop="30dp"
         android:layout_marginEnd="30dp"
         android:text="Join a group and start saving towards common goals and investing your money"
-        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/bigTitle" />
@@ -45,7 +43,6 @@
         android:text="START NOW"
         android:textColor="@color/colorWhite"
         android:textSize="20sp"
-        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/smallTitle" />
 
@@ -79,9 +76,9 @@
         android:layout_height="0dp"
         android:layout_marginStart="20dp"
         android:adjustViewBounds="true"
-        android:visibility="gone"
         android:background="@drawable/round_white"
         android:src="@drawable/back"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/nextButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/nextButton" />
@@ -95,12 +92,12 @@
         android:layout_marginBottom="30dp"
         android:background="@drawable/primary_gradient"
         android:gravity="center"
-        android:visibility="gone"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:text="NEXT"
         android:textColor="@color/colorWhite"
         android:textSize="20sp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/backButton" />
@@ -109,16 +106,17 @@
         android:id="@+id/noGroupMessage"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="You haven't joined any group yet. You can search for existing groups and join or simply create a new group and add your peers."
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/createGroup"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"/>
+        android:layout_marginEnd="30dp"
+        android:text="You haven't joined any group yet. You can search for existing groups and join or simply create a new group and add your peers."
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/createGroup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/jionGroup"
+        android:id="@+id/joinGroup"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark2"
@@ -128,6 +126,7 @@
         android:text="Join A Group"
         android:textColor="@color/colorWhite"
         android:textSize="20sp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/nextButton"
         app:layout_constraintStart_toStartOf="parent" />
@@ -143,6 +142,7 @@
         android:text="Create A Group"
         android:textColor="@color/colorWhite"
         android:textSize="20sp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/nextButton" />
@@ -152,17 +152,46 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="or"
-        android:textSize="18sp"
         android:textColor="@color/white"
+        android:textSize="18sp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/createGroup"
         app:layout_constraintStart_toStartOf="@+id/jionGroup"
         app:layout_constraintTop_toTopOf="@+id/createGroup" />
+
     <View
         android:id="@+id/half"
         android:layout_width="0.000001dp"
         android:layout_height="0.000001dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/groupsRecycler"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        android:background="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@+id/searchGroup" />
+
+    <SearchView
+        android:id="@+id/searchGroup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="30dp"
+        android:visibility="gone"
+        android:searchIcon="@drawable/nothing"
+        android:background="@drawable/round_border_white"
+        android:iconifiedByDefault="false"
+        android:queryHint="Search by group name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

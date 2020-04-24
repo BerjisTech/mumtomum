@@ -131,7 +131,7 @@ public class ProductsActivity extends AppCompatActivity {
         Uri appLinkData = appLinkIntent.getData();
 
         loadProducts();
-        loadNativeAds();
+        //loadNativeAds();
     }
 
     public void loadProducts() {
@@ -194,7 +194,7 @@ public class ProductsActivity extends AppCompatActivity {
             groups.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(ProductsActivity.this, CommunityActivity.class));
+                    startActivity(new Intent(ProductsActivity.this, GroupsActivity.class));
                 }
             });
             chats.setOnClickListener(new View.OnClickListener() {

@@ -108,7 +108,7 @@ public class WalletActivity extends AppCompatActivity {
         contributions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(WalletActivity.this, CommunityActivity.class));
+                startActivity(new Intent(WalletActivity.this, GroupsActivity.class));
             }
         });
         WalletTotalBalance();

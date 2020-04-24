@@ -22,12 +22,12 @@ import java.util.List;
 public class IntroActivity extends AppCompatActivity {
 
     private ViewPager screenPager;
-    IntroViewPagerAdapter introViewPagerAdapter;
+    IntroViewPagerAdapter introViewPagerAdapter ;
     TabLayout tabIndicator;
     Button btnNext;
-    int position = 0;
+    int position = 0 ;
     Button btnGetStarted;
-    Animation btnAnim;
+    Animation btnAnim ;
     TextView tvSkip;
 
 
@@ -46,7 +46,7 @@ public class IntroActivity extends AppCompatActivity {
 
         if (restorePrefData()) {
 
-            Intent mainActivity = new Intent(getApplicationContext(), GroupsActivity.class);
+            Intent mainActivity = new Intent(getApplicationContext(),GroupsActivity.class );
             startActivity(mainActivity);
             finish();
 
@@ -59,19 +59,19 @@ public class IntroActivity extends AppCompatActivity {
         btnNext = findViewById(R.id.btn_next);
         btnGetStarted = findViewById(R.id.btn_get_started);
         tabIndicator = findViewById(R.id.tab_indicator);
-        btnAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.button_animation);
+        btnAnim = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.button_animation);
         tvSkip = findViewById(R.id.tv_skip);
 
         // fill list screen
 
         final List<ScreenItem> mList = new ArrayList<>();
-        mList.add(new ScreenItem("Shop", "Buy baby products, pre and post maternity neccesities easily and cheaply at the comfort of your home. Have any of these that you no longer need? Just sell them right here", R.drawable.img1));
-        mList.add(new ScreenItem("Save", "Create BabyWallet and MumWallet to help you save for you and your baby. Enjoy financial boosts and generate good credit report to get loans for your needs and emergencies.", R.drawable.img2));
-        mList.add(new ScreenItem("Connect", "Connect with other moms and see what others have experienced. Share your thoughts and educate a fellow mum. Learn how other moms cope with issues you are facing.", R.drawable.img3));
+        mList.add(new ScreenItem("Shop","Buy baby products, pre and post maternity neccesities easily and cheaply at the comfort of your home. Have any of these that you no longer need? Just sell them right here",R.drawable.img1));
+        mList.add(new ScreenItem("Save","Create BabyWallet and MumWallet to help you save for you and your baby. Enjoy financial boosts and generate good credit report to get loans for your needs and emergencies.",R.drawable.img2));
+        mList.add(new ScreenItem("Connect","Connect with other moms and see what others have experienced. Share your thoughts and educate a fellow mum. Learn how other moms cope with issues you are facing.",R.drawable.img3));
 
         // setup viewpager
-        screenPager = findViewById(R.id.screen_viewpager);
-        introViewPagerAdapter = new IntroViewPagerAdapter(this, mList);
+        screenPager =findViewById(R.id.screen_viewpager);
+        introViewPagerAdapter = new IntroViewPagerAdapter(this,mList);
         screenPager.setAdapter(introViewPagerAdapter);
 
         // setup tablayout with viewpager
@@ -93,7 +93,7 @@ public class IntroActivity extends AppCompatActivity {
 
                 }
 
-                if (position == mList.size() - 1) { // when we rech to the last screen
+                if (position == mList.size()-1) { // when we rech to the last screen
 
                     // TODO : show the GETSTARTED Button and hide the indicator and the next button
 
@@ -101,6 +101,7 @@ public class IntroActivity extends AppCompatActivity {
 
 
                 }
+
 
 
             }
@@ -113,7 +114,7 @@ public class IntroActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
 
-                if (tab.getPosition() == mList.size() - 1) {
+                if (tab.getPosition() == mList.size()-1) {
 
                     loaddLastScreen();
 
@@ -134,6 +135,7 @@ public class IntroActivity extends AppCompatActivity {
         });
 
 
+
         // Get Started button click listener
 
         btnGetStarted.setOnClickListener(new View.OnClickListener() {
@@ -143,13 +145,14 @@ public class IntroActivity extends AppCompatActivity {
 
                 //open main activity
 
-                Intent mainActivity = new Intent(getApplicationContext(), ProductsActivity.class);
+                Intent mainActivity = new Intent(getApplicationContext(),ProductsActivity.class);
                 startActivity(mainActivity);
                 // also we need to save a boolean value to storage so next time when the user run the app
                 // we could know that he is already checked the intro screen activity
                 // i'm going to use shared preferences to that process
                 savePrefsData();
                 finish();
+
 
 
             }
@@ -165,23 +168,25 @@ public class IntroActivity extends AppCompatActivity {
         });
 
 
+
     }
 
     private boolean restorePrefData() {
 
 
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("myPrefs", MODE_PRIVATE);
-        Boolean isIntroActivityOpnendBefore = pref.getBoolean("isIntroOpnend", false);
-        return isIntroActivityOpnendBefore;
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("myPrefs",MODE_PRIVATE);
+        Boolean isIntroActivityOpnendBefore = pref.getBoolean("isIntroOpnend",false);
+        return  isIntroActivityOpnendBefore;
+
 
 
     }
 
     private void savePrefsData() {
 
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("myPrefs", MODE_PRIVATE);
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("myPrefs",MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
-        editor.putBoolean("isIntroOpnend", true);
+        editor.putBoolean("isIntroOpnend",true);
         editor.commit();
 
 
@@ -197,6 +202,7 @@ public class IntroActivity extends AppCompatActivity {
         // TODO : ADD an animation the getstarted button
         // setup animation
         btnGetStarted.setAnimation(btnAnim);
+
 
 
     }

@@ -171,7 +171,7 @@ public class ProfileActivity extends AppCompatActivity {
         contributions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ProfileActivity.this, CommunityActivity.class));
+                startActivity(new Intent(ProfileActivity.this, GroupsActivity.class));
             }
         });
         goHome.setOnClickListener(new View.OnClickListener() {
@@ -552,14 +552,9 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void saveToken(String user) {
         String deviceToken = FirebaseInstanceId.getInstance().getToken();
-        dbRef.child("Users").child(user).child("device_token").setValue(deviceToken).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-
-                }
-            }
-        });
+        String regsPhone = mAuth.getCurrentUser().getPhoneNumber();
+        dbRef.child("Users").child(user).child("device_token").setValue(deviceToken);
+        dbRef.child("Users").child(user).child("regs_phone").setValue(regsPhone);
     }
 
     public static boolean isValidEmail(CharSequence target) {
