@@ -141,7 +141,6 @@ public class GroupsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
 
         if(tab.equals("welcome")){
             GroupsActivity.super.finish();
