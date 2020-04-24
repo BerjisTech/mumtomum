@@ -148,15 +148,12 @@ public class GroupsActivity extends AppCompatActivity {
         }
         if(tab.equals("createJoin")){
             showWelcomeMessage();
-            return;
         }
         if(tab.equals("createGroup")){
             showCreateOrJoin();
-            return;
         }
         if(tab.equals("joinGroup")){
             showCreateOrJoin();
-            return;
         }
         if (tab.equals("")){
             GroupsActivity.super.finish();
