@@ -233,7 +233,7 @@ public class GroupsActivity extends AppCompatActivity {
         bigTitle.setVisibility(View.GONE);
         smallTitle.setVisibility(View.GONE);
         chamaButton.setVisibility(View.GONE);
-        nextButton.setVisibility(View.VISIBLE);
+        nextButton.setVisibility(View.GONE);
         noGroupMessage.setVisibility(View.GONE);
         joinGroup.setVisibility(View.GONE);
         createGroup.setVisibility(View.GONE);
@@ -253,7 +253,7 @@ public class GroupsActivity extends AppCompatActivity {
         bigTitle.setVisibility(View.GONE);
         smallTitle.setVisibility(View.GONE);
         chamaButton.setVisibility(View.GONE);
-        nextButton.setVisibility(View.VISIBLE);
+        nextButton.setVisibility(View.GONE);
         noGroupMessage.setVisibility(View.GONE);
         joinGroup.setVisibility(View.GONE);
         createGroup.setVisibility(View.GONE);
