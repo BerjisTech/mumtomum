@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="30dp"
-        android:background="@drawable/primary_gradient"
+        android:background="@drawable/btn_gradient_style"
         android:padding="10dp"
         android:text="START NOW"
         android:textColor="@color/colorWhite"

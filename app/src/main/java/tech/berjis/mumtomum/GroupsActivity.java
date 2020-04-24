@@ -26,6 +26,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -333,7 +334,7 @@ public class GroupsActivity extends AppCompatActivity {
                     groupsAdapter = new GroupsAdapter(listData);
                     groupsRecycler.setAdapter(groupsAdapter);
                     newGroup.setText("CREATE NEW GROUP");
-                }else{
+                } else {
                     listData.clear();
                     newGroup.setText("There are no groups named " + query);
                 }
@@ -354,26 +355,33 @@ public class GroupsActivity extends AppCompatActivity {
             return;
         }
 
+        final List<String> group_names = new ArrayList<String>();
+
         listData.clear();
         dbRef.child("Groups").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
+
                     for (DataSnapshot npsnapshot : dataSnapshot.getChildren()) {
-                        if (npsnapshot.child("name").getValue().toString().equals(query)) {
+                        if (npsnapshot.child("name").getValue().toString().equals(query) ||
+                                npsnapshot.child("name").getValue().toString().toUpperCase().equals(query.toUpperCase()) ||
+                                npsnapshot.child("name").getValue().toString().toLowerCase().equals(query.toLowerCase())) {
                             chamaText.setError(
                                     Html.fromHtml(("A group with this name <strong>(" + query + ")</strong> already exists"))
                             );
                             nextButton.setVisibility(View.VISIBLE);
-                        } else {
-                            chamaText.setText("");
-                            addGroup(query);
+                            return;
                         }
                     }
-                } else {
+
                     chamaText.setText("");
                     addGroup(query);
+                    return;
                 }
+
+                chamaText.setText("");
+                addGroup(query);
             }
 
             @Override
@@ -406,7 +414,7 @@ public class GroupsActivity extends AppCompatActivity {
         });
     }
 
-    private void addGroupMember(final String group_id, final String user){
+    private void addGroupMember(final String group_id, final String user) {
 
         long unixTime = System.currentTimeMillis() / 1000L;
 
@@ -424,7 +432,7 @@ public class GroupsActivity extends AppCompatActivity {
         });
     }
 
-    private void addToMyGroups(final String group_id, String user){
+    private void addToMyGroups(final String group_id, String user) {
         long unixTime = System.currentTimeMillis() / 1000L;
 
         HashMap<String, Object> groupHash = new HashMap<>();
@@ -438,11 +446,8 @@ public class GroupsActivity extends AppCompatActivity {
         dbRef.child("MyGroups").child(user).child(group_id).updateChildren(groupHash).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                Intent groupIntent = new Intent(GroupsActivity.this, GroupActivity.class);
-                Bundle groupBundle = new Bundle();
-                groupBundle.putString("group_id", group_id);
-                groupIntent.putExtras(groupBundle);
-                startActivity(groupIntent);
+                Toast.makeText(GroupsActivity.this, "Group Added", Toast.LENGTH_SHORT).show();
+                showGroupsRecyclerExistingUser();
             }
         });
     }
