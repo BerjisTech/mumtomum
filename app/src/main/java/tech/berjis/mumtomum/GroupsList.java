@@ -1,16 +1,17 @@
 package tech.berjis.mumtomum;
 
 public class GroupsList {
-    String group_id, owner, chair, treasurer, secretary, name;
+    String group_id, owner, chair, treasurer, secretary, name, logo;
     long created_on;
 
-    public GroupsList(String group_id, String owner, String chair, String treasurer, String secretary, String name, long created_on) {
+    public GroupsList(String group_id, String owner, String chair, String treasurer, String secretary, String name, String logo, long created_on) {
         this.group_id = group_id;
         this.owner = owner;
         this.chair = chair;
         this.treasurer = treasurer;
         this.secretary = secretary;
         this.name = name;
+        this.logo = logo;
         this.created_on = created_on;
     }
 
@@ -63,6 +64,14 @@ public class GroupsList {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
     }
 
     public long getCreated_on() {

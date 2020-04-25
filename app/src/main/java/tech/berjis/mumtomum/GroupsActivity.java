@@ -52,7 +52,7 @@ public class GroupsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_groups);
 
-        mAuth = FirebaseAuth.getInstance();
+        /*mAuth = FirebaseAuth.getInstance();
         dbRef = FirebaseDatabase.getInstance().getReference();
         UID = mAuth.getCurrentUser().getUid();
         phone = mAuth.getCurrentUser().getPhoneNumber();
@@ -133,8 +133,12 @@ public class GroupsActivity extends AppCompatActivity {
         checkUser(UID);
         listData = new ArrayList<>();
         groupsRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
+         */
     }
 
+
+/*
     private void checkUser(String user) {
         dbRef.child("MyGroups").child(user).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -402,6 +406,7 @@ public class GroupsActivity extends AppCompatActivity {
         groupHash.put("created_on", unixTime);
         groupHash.put("group_id", group_id);
         groupHash.put("name", query);
+        groupHash.put("logo", "");
         groupHash.put("owner", "");
         groupHash.put("secretary", "");
         groupHash.put("treasurer", "");
@@ -450,5 +455,5 @@ public class GroupsActivity extends AppCompatActivity {
                 showGroupsRecyclerExistingUser();
             }
         });
-    }
+    }*/
 }

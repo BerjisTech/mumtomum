@@ -335,6 +335,7 @@ public class ProfileActivity extends AppCompatActivity {
         if (newName.isEmpty()) {
             Toast.makeText(this, "You need to type something here", Toast.LENGTH_SHORT).show();
         } else {
+            dbRef.child("Users").child(UID).child("image").setValue("https://firebasestorage.googleapis.com/v0/b/mumtomum-497d6.appspot.com/o/Profile%20Images%2Fmom.png?alt=media&token=59c9e4d3-5be8-49f4-8d96-430b13f07075");
             dbRef.child("Users").child(UID).child("name").setValue(newName).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {

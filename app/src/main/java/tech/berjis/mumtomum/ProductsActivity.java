@@ -131,7 +131,8 @@ public class ProductsActivity extends AppCompatActivity {
         Uri appLinkData = appLinkIntent.getData();
 
         loadProducts();
-        //loadNativeAds();
+        loadNativeAds();
+        checkVersion();
     }
 
     public void loadProducts() {

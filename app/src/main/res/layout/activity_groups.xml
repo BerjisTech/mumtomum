@@ -40,7 +40,7 @@
         android:layout_marginTop="30dp"
         android:background="@drawable/btn_gradient_style"
         android:padding="10dp"
-        android:text="START NOW"
+        android:text="COMING SOON"
         android:textColor="@color/colorWhite"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
