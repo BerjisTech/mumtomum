@@ -65,9 +65,9 @@ public class IntroActivity extends AppCompatActivity {
         // fill list screen
 
         final List<ScreenItem> mList = new ArrayList<>();
-        mList.add(new ScreenItem("Shop","Buy baby products, pre and post maternity neccesities easily and cheaply at the comfort of your home. Have any of these that you no longer need? Just sell them right here",R.drawable.img1));
-        mList.add(new ScreenItem("Save","Create BabyWallet and MumWallet to help you save for you and your baby. Enjoy financial boosts and generate good credit report to get loans for your needs and emergencies.",R.drawable.img2));
-        mList.add(new ScreenItem("Connect","Connect with other moms and see what others have experienced. Share your thoughts and educate a fellow mum. Learn how other moms cope with issues you are facing.",R.drawable.img3));
+        mList.add(new ScreenItem("Shop","Buy baby products, pre and post maternity neccesities easily and cheaply at the comfort of your home. Have any of these that you no longer need? Just sell them right here",R.drawable.img_one));
+        mList.add(new ScreenItem("Save","Create BabyWallet and MumWallet to help you save for you and your baby. Enjoy financial boosts and generate good credit report to get loans for your needs and emergencies.",R.drawable.img_two));
+        mList.add(new ScreenItem("Connect","Connect with other moms and see what others have experienced. Share your thoughts and educate a fellow mum. Learn how other moms cope with issues you are facing.",R.drawable.img_three));
 
         // setup viewpager
         screenPager =findViewById(R.id.screen_viewpager);

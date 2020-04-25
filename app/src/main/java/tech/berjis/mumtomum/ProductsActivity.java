@@ -132,7 +132,6 @@ public class ProductsActivity extends AppCompatActivity {
 
         loadProducts();
         loadNativeAds();
-        checkVersion();
     }
 
     public void loadProducts() {
