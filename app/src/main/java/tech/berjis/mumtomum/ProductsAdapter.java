@@ -73,41 +73,6 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
-        int viewType = getItemViewType(position);
-        switch (viewType) {
-            case UNIFIED_NATIVE_AD_VIEW_TYPE:
-                UnifiedNativeAd nativeAd = (UnifiedNativeAd) listData.get(position);
-                populateNativeAdView(nativeAd, ((UnifiedNativeAdViewHolder) holder).getAdView());
-                break;
-            case MENU_ITEM_VIEW_TYPE:
-                // fall through
-            default:
-                ProductItemViewHolder pHolder = (ProductItemViewHolder) holder;
-                Products ld = (Products) listData.get(position);
-                productImageList = new ArrayList<>();
-                imageLoader(ld.getProduct_id(), pHolder);
-                productLoader(ld, pHolder);
-        }
-    }
-
-
-    @Override
-    public int getItemViewType(int position) {
-
-        Object recyclerViewItem = listData.get(position);
-        if (recyclerViewItem instanceof UnifiedNativeAd) {
-            return UNIFIED_NATIVE_AD_VIEW_TYPE;
-        }
-        return MENU_ITEM_VIEW_TYPE;
-    }
-
-    @Override
-    public int getItemCount() {
-        return listData.size();
-    }
-
     public static class ProductItemViewHolder extends RecyclerView.ViewHolder {
 
         ImageView delete;
@@ -127,6 +92,40 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             mainImage = itemView.findViewById(R.id.mainImage);
             indicator = itemView.findViewById(R.id.indicator);
             mView = itemView;
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        return listData.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+
+        Object recyclerViewItem = listData.get(position);
+        if (recyclerViewItem instanceof UnifiedNativeAd) {
+            return UNIFIED_NATIVE_AD_VIEW_TYPE;
+        }
+        return MENU_ITEM_VIEW_TYPE;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
+        int viewType = getItemViewType(position);
+        switch (viewType) {
+            case UNIFIED_NATIVE_AD_VIEW_TYPE:
+                UnifiedNativeAd nativeAd = (UnifiedNativeAd) listData.get(position);
+                populateNativeAdView(nativeAd, ((UnifiedNativeAdViewHolder) holder).getAdView());
+                break;
+            case MENU_ITEM_VIEW_TYPE:
+                // fall through
+            default:
+                ProductItemViewHolder pHolder = (ProductItemViewHolder) holder;
+                Products ld = (Products) listData.get(position);
+                productImageList = new ArrayList<>();
+                imageLoader(ld.getProduct_id(), pHolder);
+                productLoader(ld, pHolder);
         }
     }
 
@@ -160,9 +159,9 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         pHolder.productTitle.setText(ld.getName());
         pHolder.productPrice.setText(output);
 
-        if(description.length() > 60){
+        if (description.length() > 60) {
             pHolder.productDescription.setText(description.substring(0, 60) + "...");
-        }else{
+        } else {
             pHolder.productDescription.setText(description);
         }
 

@@ -130,8 +130,8 @@ public class ProductsActivity extends AppCompatActivity {
         String appLinkAction = appLinkIntent.getAction();
         Uri appLinkData = appLinkIntent.getData();
 
-        loadProducts();
         loadNativeAds();
+        loadProducts();
     }
 
     public void loadProducts() {
@@ -143,7 +143,7 @@ public class ProductsActivity extends AppCompatActivity {
                         if (!npsnapshot.child("status").exists()) {
                             String p_id = Objects.requireNonNull(npsnapshot.child("product_id").getValue()).toString();
                             dbRef.child("Products").child(p_id).removeValue();
-                        }else{
+                        } else {
                             Products l = npsnapshot.getValue(Products.class);
                             listData.add(l);
                         }
@@ -189,7 +189,7 @@ public class ProductsActivity extends AppCompatActivity {
                     startActivity(new Intent(ProductsActivity.this, RegisterActivity.class));
                 }
             });
-        }else{
+        } else {
             loadChatCount();
             groups.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -298,7 +298,7 @@ public class ProductsActivity extends AppCompatActivity {
         FirebaseUserActions.getInstance().start(getIndexApiAction());
     }
 
-    public void loadChatCount(){
+    public void loadChatCount() {
         UID = mAuth.getCurrentUser().getUid();
         dbRef.child("Chats").child(UID).orderByChild("read").equalTo("false").addChildEventListener(new ChildEventListener() {
             @Override
@@ -341,7 +341,7 @@ public class ProductsActivity extends AppCompatActivity {
         productCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position > 0){
+                if (position > 0) {
                     category = productCategory.getSelectedItem().toString();
                     loadProductsPerCategory(category);
                 }
@@ -367,7 +367,7 @@ public class ProductsActivity extends AppCompatActivity {
                     }
                     productsAdapter = new ProductsAdapter(listData, "");
                     rv.setAdapter(productsAdapter);
-                }else{
+                } else {
                     Toast.makeText(ProductsActivity.this, "There are no items in this category", Toast.LENGTH_SHORT).show();
                     loadProducts();
                 }
@@ -380,7 +380,7 @@ public class ProductsActivity extends AppCompatActivity {
         });
     }
 
-    public void refreshPage(){
+    public void refreshPage() {
         listData.clear();
         productCategory.setSelection(0);
         loadProducts();
@@ -408,17 +408,22 @@ public class ProductsActivity extends AppCompatActivity {
             return;
         }
 
-        int offset = (listData.size() / mNativeAds.size()) + 1;
-        int index = 0;
-        for (UnifiedNativeAd ad: mNativeAds) {
-            listData.add(index, ad);
-            index = index + offset;
+        if (mNativeAds.size() < listData.size()) {
+            int offset = (listData.size() / mNativeAds.size() + 1);
+            int index = 0;
+            for (UnifiedNativeAd ad : mNativeAds) {
+                listData.add(index, ad);
+                index = index + offset;
+            }
+            productsAdapter = new ProductsAdapter(listData, "");
+            rv.setAdapter(productsAdapter);
         }
+
     }
 
     private void loadNativeAds() {
 
-        AdLoader.Builder builder = new AdLoader.Builder(this, getString(R.string.banner_ad_unit_id));
+        AdLoader.Builder builder = new AdLoader.Builder(this, "ca-app-pub-6517119365777306/2637854909");
         adLoader = builder.forUnifiedNativeAd(
                 new UnifiedNativeAd.OnUnifiedNativeAdLoadedListener() {
                     @Override
@@ -436,7 +441,7 @@ public class ProductsActivity extends AppCompatActivity {
                     public void onAdFailedToLoad(int errorCode) {
                         // A native ad failed to load, check if the ad loader has finished loading
                         // and if so, insert the ads into the list.
-                        Log.e("ProductActivity", "The previous native ad failed to load. Attempting to"
+                        Log.e("ProductActivity", errorCode + "\nThe previous native ad failed to load. Attempting to"
                                 + " load another.");
                         if (!adLoader.isLoading()) {
                             insertAdsInMenuItems();

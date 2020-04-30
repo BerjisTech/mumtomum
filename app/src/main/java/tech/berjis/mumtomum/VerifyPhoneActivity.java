@@ -50,7 +50,8 @@ public class VerifyPhoneActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String mobile = intent.getStringExtra("mobile");
         String countryCode = intent.getStringExtra("countryCode");
-        sendVerificationCode(mobile, countryCode);
+        Toast.makeText(this, "+254" + mobile, Toast.LENGTH_SHORT).show();
+        sendVerificationCode(mobile);
 
 
         //if the automatic sms detection did not work, user can also enter the code manually
@@ -75,9 +76,9 @@ public class VerifyPhoneActivity extends AppCompatActivity {
     //the method is sending verification code
     //the country id is concatenated
     //you can take the country id as user input as well
-    private void sendVerificationCode(String mobile, String countryCode) {
+    private void sendVerificationCode(String mobile) {
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                "+" + countryCode + mobile,
+                "+254" + mobile,
                 60,
                 TimeUnit.SECONDS,
                 TaskExecutors.MAIN_THREAD,
@@ -141,7 +142,7 @@ public class VerifyPhoneActivity extends AppCompatActivity {
 
                             //verification unsuccessful.. display an error message
 
-                            String message = "Somthing is wrong, we will fix it soon...";
+                            String message = "Something is wrong, we will fix it soon...";
 
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 message = "Invalid code entered...";

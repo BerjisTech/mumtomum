@@ -60,7 +60,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String mobile = mPhone.getText().toString().trim();
-                String countryCode = ccp.getFormattedFullNumber();
+                String countryCode = "254";
 
                 if(mobile.isEmpty() || mobile.length() < 9){
                     mPhone.setError("Enter a valid mobile");
@@ -126,6 +126,4 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
-
-
 }
