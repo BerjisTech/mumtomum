@@ -1,20 +1,8 @@
 package tech.berjis.mumtomum;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -22,7 +10,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,8 +24,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 import com.vanniktech.emoji.EmojiTextView;
 
 import java.text.NumberFormat;
@@ -181,26 +175,42 @@ public class ProductDetail extends AppCompatActivity {
         });
     }
 
-    private void addToCart(String product_id, String product_name, String product_price){
-        DatabaseReference cartRef = dbRef.child("Cart").child(UID).push();
-        String itemKey = cartRef.getKey();
-        long unixTime = System.currentTimeMillis() / 1000L;
-        HashMap<String, Object> cartItem = new HashMap<>();
-
-        cartItem.put("item_id", itemKey);
-        cartItem.put("user", UID);
-        cartItem.put("product_id", product_id);
-        cartItem.put("name", product_name);
-        cartItem.put("price", Long.parseLong(product_price));
-        cartItem.put("time", unixTime);
-        cartItem.put("quantity", 1);
-
-        cartRef.updateChildren(cartItem).addOnCompleteListener(new OnCompleteListener<Void>() {
+    private void addToCart(final String product_id, final String product_name, final String product_price) {
+        final DatabaseReference nm = FirebaseDatabase.getInstance().getReference("Cart");
+        Query firebaseSearchQuery = nm.orderByChild("product_id").startAt(product_id).endAt(product_id);
+        firebaseSearchQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()){
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
                     startActivity(new Intent(ProductDetail.this, CartActivity.class));
+                } else {
+                    DatabaseReference cartRef = dbRef.child("Cart").child(UID).push();
+                    String itemKey = cartRef.getKey();
+                    long unixTime = System.currentTimeMillis() / 1000L;
+                    HashMap<String, Object> cartItem = new HashMap<>();
+
+                    cartItem.put("item_id", itemKey);
+                    cartItem.put("user", UID);
+                    cartItem.put("product_id", product_id);
+                    cartItem.put("name", product_name);
+                    cartItem.put("price", Long.parseLong(product_price));
+                    cartItem.put("time", unixTime);
+                    cartItem.put("quantity", 1);
+
+                    cartRef.updateChildren(cartItem).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                startActivity(new Intent(ProductDetail.this, CartActivity.class));
+                            }
+                        }
+                    });
                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
 
