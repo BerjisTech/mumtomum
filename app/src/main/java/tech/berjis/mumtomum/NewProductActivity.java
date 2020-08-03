@@ -1,12 +1,8 @@
 package tech.berjis.mumtomum;
 
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,15 +10,11 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -39,14 +31,11 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -54,7 +43,7 @@ import java.util.List;
 public class NewProductActivity extends AppCompatActivity {
 
     FirebaseAuth mAuth;
-    DatabaseReference dbRef, productRef;
+    DatabaseReference dbRef;
     StorageReference storageReference;
     Uri filePath;
     String UID, category, productID = "", pName, pPrice, pDescription, hasImage = "";
@@ -73,15 +62,17 @@ public class NewProductActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_product);
 
+        initLayouts();
+        loadSpinners();
+        staticOnClicks();
+    }
 
+    private void initLayouts() {
         mAuth = FirebaseAuth.getInstance();
         dbRef = FirebaseDatabase.getInstance().getReference();
         dbRef.keepSynced(true);
         UID = mAuth.getCurrentUser().getUid();
         storageReference = FirebaseStorage.getInstance().getReference();
-
-        createProductNode();
-        gossipImagesData = new ArrayList<>();
 
         addProduct = findViewById(R.id.addProduct);
         productCategory = findViewById(R.id.productCategory);
@@ -96,8 +87,13 @@ public class NewProductActivity extends AppCompatActivity {
         publish = findViewById(R.id.publish);
         goBack = findViewById(R.id.goBack);
 
-        loadSpinners();
+        long unixTime = System.currentTimeMillis() / 1000L;
+        productID = UID + "_" + unixTime;
 
+        gossipImagesData = new ArrayList<>();
+    }
+
+    private void staticOnClicks() {
         addProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -292,13 +288,15 @@ public class NewProductActivity extends AppCompatActivity {
             return;
         }
 
-        if(!pickup.isChecked() && !delivery.isChecked()){
+        if (!pickup.isChecked() && !delivery.isChecked()) {
             Toast.makeText(this, "How do you plan to deliver this product?", Toast.LENGTH_LONG).show();
             return;
         }
 
         long unixTime = System.currentTimeMillis() / 1000L;
         final HashMap<String, Object> productHash = new HashMap<>();
+        productHash.put("seller", UID);
+        productHash.put("product_id", productID);
         productHash.put("name", pName);
         productHash.put("category", category);
         productHash.put("description", pDescription);
@@ -308,64 +306,18 @@ public class NewProductActivity extends AppCompatActivity {
         productHash.put("pickup", pickup.isChecked());
         productHash.put("deliver", delivery.isChecked());
 
-        productRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (hasImage.equals("")) {
-                    Toast.makeText(NewProductActivity.this, "You need to add an Image First", Toast.LENGTH_SHORT).show();
-                } else {
-                    productRef.updateChildren(productHash).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(NewProductActivity.this, pName + " has successfully been added to your list of products", Toast.LENGTH_LONG).show();
-                                startActivity(new Intent(NewProductActivity.this, ProductsActivity.class));
-                            }
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    public void createProductNode() {
-        if (productID.equals("")) {
-            productRef = dbRef.child("Products").push();
-            productID = productRef.getKey();
-            productRef.child("product_id").setValue(productID).addOnCompleteListener(new OnCompleteListener<Void>() {
+        if (hasImage.equals("")) {
+            Toast.makeText(NewProductActivity.this, "You need to add an Image First", Toast.LENGTH_SHORT).show();
+        } else {
+            dbRef.child("Products").child(productID).updateChildren(productHash).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
-
-                }
-            });
-            productRef.child("seller").setValue(UID).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-
+                    if (task.isSuccessful()) {
+                        Toast.makeText(NewProductActivity.this, pName + " has successfully been added to your list of products", Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(NewProductActivity.this, ProductsActivity.class));
+                    }
                 }
             });
         }
     }
-
-    @Override
-    public void onBackPressed() {
-        new AlertDialog.Builder(this)
-                .setTitle("Delete entry")
-                .setMessage("Do you want to cancel this product?")
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dbRef.child("Products").child(productID).removeValue();
-                        NewProductActivity.super.finish();
-                    }
-                })
-                .setNegativeButton(android.R.string.no, null)
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
-    }
-
 }
