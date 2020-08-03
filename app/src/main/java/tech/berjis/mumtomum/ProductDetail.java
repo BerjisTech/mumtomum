@@ -155,13 +155,7 @@ public class ProductDetail extends AppCompatActivity {
                     addToCart.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            new AlertDialog.Builder(ProductDetail.this)
-                                    .setTitle("Coming soon")
-                                    .setMessage("The cart feature will be rolled out soon.")
-                                    .setNegativeButton(android.R.string.ok, null)
-                                    .setIcon(android.R.drawable.ic_dialog_info)
-                                    .show();
-                            //addToCart(product_id, name, price);
+                            addToCart(product_id, name, price);
                         }
                     });
                 }

@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "218040882172-ov2fhhosign4eneogapjg4srehagshf9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "tech.berjis.mumtomum",
+            "certificate_hash": "cab4161d66aac001d1909541784ffa50b1aa4a4e"
+          }
+        },
+        {
           "client_id": "218040882172-kd48q6fj5kv0ccrmo7ela6ccn4pg4grl.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -49,7 +57,8 @@
             }
           ]
         }
-      }
+      },
+      "admob_app_id": "ca-app-pub-6517119365777306~8709466902"
     }
   ],
   "configuration_version": "1"

@@ -18,10 +18,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator;
 
@@ -103,11 +105,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView productQuantityMinus, productQuantityPlus;
+        ImageView productQuantityMinus, productQuantityPlus, mainImage;
         EditText productQuantity;
         TextView productName, productPrice;
-        ViewPager mainImage;
-        ScrollingPagerIndicator indicator;
         View mView;
 
         ViewHolder(@NonNull View itemView) {
@@ -115,7 +115,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             productName = itemView.findViewById(R.id.productName);
             productPrice = itemView.findViewById(R.id.productPrice);
             mainImage = itemView.findViewById(R.id.mainImage);
-            indicator = itemView.findViewById(R.id.indicator);
             productQuantityMinus = itemView.findViewById(R.id.productQuantityMinus);
             productQuantityPlus = itemView.findViewById(R.id.productQuantityPlus);
             productQuantity = itemView.findViewById(R.id.productQuantity);
@@ -124,20 +123,16 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     }
 
     private void imageLoader(final String productID, final ViewHolder holder) {
-        dbRef.child("ProductImages").child(productID).addListenerForSingleValueEvent(new ValueEventListener() {
+        dbRef.child("ProductImages").child(productID).limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot npsnapshot : dataSnapshot.getChildren()) {
-                        GossipImages l = npsnapshot.getValue(GossipImages.class);
-                        imageList.add(l);
+                        Picasso.get().load(Objects.requireNonNull(npsnapshot.child("image").getValue()).toString()).into(holder.mainImage);
                     }
                 } else {
                     holder.mainImage.setVisibility(View.GONE);
                 }
-                pagerAdapter = new GossipImagesPagerAdapter(imageList, "smally", "view", "product");
-                holder.mainImage.setAdapter(pagerAdapter);
-                holder.indicator.attachToPager(holder.mainImage);
             }
 
             @Override

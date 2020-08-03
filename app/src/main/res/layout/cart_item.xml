@@ -12,34 +12,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.viewpager.widget.ViewPager
+        <ImageView
             android:id="@+id/mainImage"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:scrollIndicators="bottom"
+            android:src="@drawable/image_placeholder"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator
-            android:id="@+id/indicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:elevation="20dp"
-            app:layout_constraintBottom_toBottomOf="@id/mainImage"
-            app:layout_constraintEnd_toEndOf="@id/mainImage"
-            app:layout_constraintStart_toStartOf="@id/mainImage"
-            app:spi_dotColor="@color/colorPrimary"
-            app:spi_dotSelectedColor="@color/colorPrimaryDark"
-            app:spi_dotSelectedSize="12dp"
-            app:spi_dotSize="8dp"
-            app:spi_dotSpacing="8dp"
-            app:spi_looped="true"
-            app:spi_visibleDotCount="5" />
 
         <TextView
             android:id="@+id/productName"

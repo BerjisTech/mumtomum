@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="25dp"
-            android:text="Wait for the code I sent You"
+            android:text="Enter Verification Code"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
             android:textColor="#606060" />
 
