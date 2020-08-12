@@ -177,7 +177,7 @@ public class ProfileActivity extends AppCompatActivity {
         goHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ProfileActivity.this, WalletActivity.class));
+                startActivity(new Intent(ProfileActivity.this, FeedActivity.class));
             }
         });
 

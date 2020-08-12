@@ -2,63 +2,56 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@drawable/shadow"
+    android:paddingStart="10dp"
+    android:paddingTop="5dp"
+    android:paddingEnd="10dp"
+    android:paddingBottom="5dp">
+
+    <com.timqi.sectorprogressview.ColorfulRingProgressView
+        android:id="@+id/colorfulRingProgressView"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        app:bgColor="@color/colorWhite"
+        app:fgColorEnd="@color/colorPrimaryDark"
+        app:fgColorStart="@color/colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:percent="25"
+        app:startAngle="180"
+        app:strokeWidth="2dp" />
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/circleImageView"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="5dp"
-        android:src="@drawable/mom"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/group_name"
+        android:id="@+id/groupLogo"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="10dp"
-        android:text="group Name"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/members_count"
-        app:layout_constraintStart_toEndOf="@+id/circleImageView"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/created_on"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="10dp"
-        android:text="group Name"
-        app:layout_constraintEnd_toStartOf="@+id/members_count"
-        app:layout_constraintStart_toEndOf="@+id/circleImageView"
-        app:layout_constraintTop_toBottomOf="@id/group_name" />
-
-    <TextView
-        android:id="@+id/members_count"
-        android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginEnd="10dp"
-        android:gravity="center"
-        android:text="group Name"
-        app:layout_constraintBottom_toBottomOf="@id/created_on"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/group_name" />
+        android:layout_margin="4dp"
+        android:src="@drawable/group"
+        app:layout_constraintBottom_toBottomOf="@+id/colorfulRingProgressView"
+        app:layout_constraintEnd_toEndOf="@+id/colorfulRingProgressView"
+        app:layout_constraintStart_toStartOf="@+id/colorfulRingProgressView"
+        app:layout_constraintTop_toTopOf="@+id/colorfulRingProgressView" />
 
-    <View
+    <TextView
+        android:id="@+id/groupName"
         android:layout_width="0dp"
-        android:layout_height="1dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="3dp"
-        android:background="#606060"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="Group Name"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/created_on" />
+        app:layout_constraintStart_toEndOf="@id/groupLogo"
+        app:layout_constraintTop_toTopOf="@id/groupLogo"/>
+
+    <TextView
+        android:id="@+id/groupProgress"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="$500/$2000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/groupLogo"
+        app:layout_constraintBottom_toBottomOf="@id/groupLogo"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

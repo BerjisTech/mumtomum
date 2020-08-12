@@ -3,9 +3,9 @@ package tech.berjis.mumtomum;
 public class Transactions {
 
     private long amount, end_time, time_start;
-    private String status, text_ref, type, user, narration;
+    private String status, text_ref, type, user, narration, group;
 
-    public Transactions(long amount, long end_time, long time_start, String status, String text_ref, String type, String user, String narration) {
+    public Transactions(long amount, long end_time, long time_start, String status, String text_ref, String type, String user, String narration, String group) {
         this.amount = amount;
         this.end_time = end_time;
         this.time_start = time_start;
@@ -14,6 +14,7 @@ public class Transactions {
         this.type = type;
         this.user = user;
         this.narration = narration;
+        this.group = group;
     }
 
     public Transactions(){
@@ -82,5 +83,13 @@ public class Transactions {
 
     public void setNarration(String narration) {
         this.narration = narration;
+    }
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
     }
 }

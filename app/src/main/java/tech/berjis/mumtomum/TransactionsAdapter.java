@@ -1,6 +1,11 @@
 package tech.berjis.mumtomum;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
+import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,97 +14,127 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.ocpsoft.prettytime.PrettyTime;
+
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapter.ViewHolder> {
 
     private List<Transactions> listData;
-    private String type;
+    private String type, symbol;
 
-    public TransactionsAdapter(List<Transactions> listData, String type) {
+    public TransactionsAdapter(List<Transactions> listData, String type, String symbol) {
         this.listData = listData;
         this.type = type;
+        this.symbol = symbol;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.transactions, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.transaction, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         final Transactions ld = listData.get(position);
 
-        if (type.equals("complete")) {
-            if (ld.getStatus().equals("success")) {
-                //holder.narration.setTextColor(Color.parseColor("#007e33"));
-                holder.half.setBackgroundColor(Color.parseColor("#00c851"));
-                holder.narration.setText(ld.getNarration() + " " + ld.getType().toUpperCase() + ": Successful");
-            }
-            if (ld.getStatus().equals("error")) {
-                //holder.narration.setTextColor(Color.parseColor("#cc0000"));
-                holder.half.setBackgroundColor(Color.parseColor("#ff4444"));
-                holder.narration.setText(ld.getNarration() + " " + ld.getType().toUpperCase() + ": Unsuccessful");
-            }
-            if (ld.getStatus().equals("cancelled")) {
-                //holder.narration.setTextColor(Color.parseColor("#ff8800"));
-                holder.half.setBackgroundColor(Color.parseColor("#ffbb33"));
-                holder.narration.setText(ld.getNarration() + " " + ld.getType().toUpperCase() + ": Cancelled");
-            }
-        }
 
-        if (type.equals("wallet")) {
-            if (ld.getStatus().equals("success")) {
-                //holder.narration.setTextColor(Color.parseColor("#007e33"));
-                holder.half.setBackgroundColor(Color.parseColor("#00c851"));
-                holder.narration.setText(ld.getType().toUpperCase() + ": Successful");
-            }
-            if (ld.getStatus().equals("error")) {
-                //holder.narration.setTextColor(Color.parseColor("#cc0000"));
-                holder.half.setBackgroundColor(Color.parseColor("#ff4444"));
-                holder.narration.setText(ld.getType().toUpperCase() + ": Unsuccessful");
-            }
-            if (ld.getStatus().equals("cancelled")) {
-                //holder.narration.setTextColor(Color.parseColor("#ff8800"));
-                holder.half.setBackgroundColor(Color.parseColor("#ffbb33"));
-                holder.narration.setText(ld.getType().toUpperCase() + ": Cancelled");
-            }
-        }
-
-        Date df = new java.util.Date((ld.getEnd_time() * 1000));
-        int thisYear = Calendar.getInstance().get(Calendar.YEAR);
-
-        String year = new SimpleDateFormat("yyyy").format(df);
-        String vv = "";
-
-        if (year.equals(String.valueOf(thisYear))) {
-            vv = new SimpleDateFormat("MMM dd").format(df) + "\n" + new SimpleDateFormat("H:m:a").format(df);
-            ;
-        } else {
-            vv = new SimpleDateFormat("MMM dd").format(df) + "\n" + new SimpleDateFormat("yyyy").format(df);
-        }
-
-        holder.time.setText(vv);
+        long time = ld.getEnd_time() * 1000;
+        PrettyTime prettyTime = new PrettyTime(Locale.getDefault());
+        String ago = prettyTime.format(new Date(time));
 
         NumberFormat nf = NumberFormat.getInstance();
         nf.setMinimumFractionDigits(0);
         nf.setMaximumFractionDigits(0);
         String output = nf.format(ld.getAmount());
 
+        if (!ld.getStatus().equals("success")) {
+            holder.mView.setAlpha(0.5f);
+        }
+
+        if (type.equals("group")) {
+            if (ld.getStatus().equals("success")) {
+                holder.indicator.setBackgroundResource(R.drawable.indicator_good);
+            }
+            if (ld.getStatus().equals("error")) {
+                holder.indicator.setBackgroundResource(R.drawable.indicator_warning);
+            }
+            if (ld.getStatus().equals("cancelled")) {
+                holder.indicator.setBackgroundResource(R.drawable.indicator_bad);
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                holder.username.setText(Html.fromHtml(ld.getNarration() + "<br /><small>" + ago + "</small>", Html.FROM_HTML_MODE_COMPACT));
+            } else {
+                holder.username.setText(Html.fromHtml(ld.getNarration() + "<br /><small>" + ago + "</small>"));
+            }
+        }
+
+        if (type.equals("wallet")) {
+            if (ld.getStatus().equals("success")) {
+                holder.indicator.setBackgroundResource(R.drawable.indicator_good);
+            }
+            if (ld.getStatus().equals("error")) {
+                holder.indicator.setBackgroundResource(R.drawable.indicator_warning);
+            }
+            if (ld.getStatus().equals("cancelled")) {
+                holder.indicator.setBackgroundResource(R.drawable.indicator_bad);
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                holder.username.setText(Html.fromHtml(ld.getType() + "<br /><small>" + ago + "</small>", Html.FROM_HTML_MODE_COMPACT));
+            } else {
+                holder.username.setText(Html.fromHtml(ld.getType() + "<br /><small>" + ago + "</small>"));
+            }
+        }
+
         if (ld.getType().equals("deposit")) {
-            holder.amount.setText("+kshs " + output);
+            if (ld.getStatus().equals("success")) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    holder.amount.setText(Html.fromHtml("<small>" + symbol + "</small> " + output, Html.FROM_HTML_MODE_COMPACT));
+                } else {
+                    holder.amount.setText(Html.fromHtml("<small>" + symbol + "</small> " + output));
+                }
+            } else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    holder.amount.setText(Html.fromHtml("<s><small>" + symbol + " " + output + "</small></s>", Html.FROM_HTML_MODE_COMPACT));
+                } else {
+                    holder.amount.setText(Html.fromHtml("<s><small>" + symbol + " " + output + "</small></s>"));
+                }
+            }
             holder.amount.setTextColor(Color.parseColor("#18a3fe"));
         }
         if (ld.getType().equals("withdraw")) {
-            holder.amount.setText("-kshs " + output);
+            if (ld.getStatus().equals("success")) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    holder.amount.setText(Html.fromHtml("<small>" + symbol + "</small> " + output, Html.FROM_HTML_MODE_COMPACT));
+                } else {
+                    holder.amount.setText(Html.fromHtml("<small>" + symbol + "</small> " + output));
+                }
+            } else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    holder.amount.setText(Html.fromHtml("<s><small>" + symbol + " " + output + "</small></s>", Html.FROM_HTML_MODE_COMPACT));
+                } else {
+                    holder.amount.setText(Html.fromHtml("<s><small>" + symbol + " " + output + "</small></s>"));
+                }
+            }
             holder.amount.setTextColor(Color.parseColor("#FE18A3"));
         }
+
+        holder.mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context tContext = holder.mView.getContext();
+                Intent tIntent = new Intent(tContext, GroupTransactionActivity.class);
+                Bundle tBundle = new Bundle();
+                tBundle.putString("t_id", ld.getText_ref());
+                tIntent.putExtras(tBundle);
+                tContext.startActivity(tIntent);
+            }
+        });
 
     }
 
@@ -109,15 +144,14 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView narration, time, amount;
-        View mView, half;
+        TextView username, amount;
+        View mView, indicator;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
-            narration = itemView.findViewById(R.id.narration);
-            time = itemView.findViewById(R.id.time);
+            username = itemView.findViewById(R.id.username);
             amount = itemView.findViewById(R.id.amount);
-            half = itemView.findViewById(R.id.half);
+            indicator = itemView.findViewById(R.id.indicator);
             mView = itemView;
         }
     }

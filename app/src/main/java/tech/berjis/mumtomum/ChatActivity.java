@@ -239,7 +239,9 @@ public class ChatActivity extends AppCompatActivity {
         listData.clear();
         Intent userIntent = getIntent();
         Bundle userData = userIntent.getExtras();
+        assert userData != null;
         String chatting_with = userData.getString("chatting_with");
+        assert chatting_with != null;
         dbRef.child("Chats").child(chatting_with).child(uid).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -249,7 +251,7 @@ public class ChatActivity extends AppCompatActivity {
 
                 adapter.notifyDataSetChanged();
 
-                chats.smoothScrollToPosition(listData.size());
+                chats.smoothScrollToPosition(listData.size() + 1);
             }
 
             @Override

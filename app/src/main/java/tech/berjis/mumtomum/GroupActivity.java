@@ -1,165 +1,164 @@
 package tech.berjis.mumtomum;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.view.Menu;
-import android.widget.SeekBar;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.ValueFormatter;
-import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
+import java.util.List;
+import java.util.Objects;
 
-public class GroupActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
+public class GroupActivity extends AppCompatActivity {
 
-    private LineChart chart;
-    private SeekBar seekBarX;
-    private TextView tvX;
+    ViewPager groupViewPager;
+    TabLayout groupTabs;
+    TextView group_name;
+    ImageView settings;
+
+    FirebaseAuth mAuth;
+    DatabaseReference dbRef;
+    String UID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group);
 
-        tvX = findViewById(R.id.tvXMax);
-        seekBarX = findViewById(R.id.seekBar1);
-        seekBarX.setOnSeekBarChangeListener(GroupActivity.this);
+        initLayout();
+    }
 
-        chart = findViewById(R.id.chart1);
+    private void initLayout() {
+        mAuth = FirebaseAuth.getInstance();
+        dbRef = FirebaseDatabase.getInstance().getReference();
+        dbRef.keepSynced(true);
 
-        // no description text
-        chart.getDescription().setEnabled(false);
+        groupViewPager = findViewById(R.id.groupViewPager);
+        groupTabs = findViewById(R.id.groupTabs);
+        group_name = findViewById(R.id.group_name);
+        settings = findViewById(R.id.settings);
 
-        // enable touch gestures
-        chart.setTouchEnabled(true);
+        UID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
 
-        chart.setDragDecelerationFrictionCoef(0.9f);
+        loadGroup();
+    }
 
-        // enable scaling and dragging
-        chart.setDragEnabled(true);
-        chart.setScaleEnabled(true);
-        chart.setDrawGridBackground(false);
-        chart.setHighlightPerDragEnabled(true);
+    private void loadGroup() {
+        Intent groupIntent = getIntent();
+        Bundle groupBundle = groupIntent.getExtras();
+        final String group = groupBundle.getString("group_id");
 
-        // set an alternative background color
-        chart.setBackgroundColor(Color.WHITE);
-        chart.setViewPortOffsets(0f, 0f, 0f, 0f);
+        dbRef.child("Groups").child(group).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                group_name.setText(Objects.requireNonNull(snapshot.child("name").getValue()).toString());
+                String owner = Objects.requireNonNull(snapshot.child("owner").getValue()).toString();
 
-        // add data
-        seekBarX.setProgress(100);
-
-        // get the legend (only possible after setting data)
-        Legend l = chart.getLegend();
-        l.setEnabled(false);
-
-        XAxis xAxis = chart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.TOP_INSIDE);
-        //xAxis.setTypeface(tfLight);
-        xAxis.setTextSize(10f);
-        xAxis.setTextColor(Color.WHITE);
-        xAxis.setDrawAxisLine(false);
-        xAxis.setDrawGridLines(true);
-        xAxis.setTextColor(Color.rgb(255, 192, 56));
-        xAxis.setCenterAxisLabels(true);
-        xAxis.setGranularity(1f); // one hour
-        xAxis.setValueFormatter(new ValueFormatter() {
-
-            private final SimpleDateFormat mFormat = new SimpleDateFormat("dd MMM HH:mm", Locale.ENGLISH);
+                if (owner.equals(UID)) {
+                    settings.setVisibility(View.VISIBLE);
+                    settings.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent g_i = new Intent(GroupActivity.this, GroupSettingsActivity.class);
+                            Bundle g_b = new Bundle();
+                            g_b.putString("group_id", group);
+                            g_i.putExtras(g_b);
+                            startActivity(g_i);
+                        }
+                    });
+                }
+            }
 
             @Override
-            public String getFormattedValue(float value) {
+            public void onCancelled(@NonNull DatabaseError error) {
 
-                long millis = TimeUnit.HOURS.toMillis((long) value);
-                return mFormat.format(new Date(millis));
             }
         });
 
-        YAxis leftAxis = chart.getAxisLeft();
-        leftAxis.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
-        //leftAxis.setTypeface(tfLight);
-        leftAxis.setTextColor(ColorTemplate.getHoloBlue());
-        leftAxis.setDrawGridLines(true);
-        leftAxis.setGranularityEnabled(true);
-        leftAxis.setAxisMinimum(0f);
-        leftAxis.setAxisMaximum(170f);
-        leftAxis.setYOffset(-9f);
-        leftAxis.setTextColor(Color.rgb(255, 192, 56));
-
-        YAxis rightAxis = chart.getAxisRight();
-        rightAxis.setEnabled(false);
+        initViewPager(group);
+        initTabLayout();
     }
 
-    private void setData(int count, float range) {
+    private void initViewPager(String group) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFrag(new GroupFragment(GroupActivity.this, group), "Summary");
+        adapter.addFrag(new GroupFragmentChat(GroupActivity.this, group), "Chats");
+        adapter.addFrag(new GroupFragmentTransactions(GroupActivity.this, group), "Transactions");
+        groupViewPager.setAdapter(adapter);
+    }
 
-        // now in hours
-        long now = TimeUnit.MILLISECONDS.toHours(System.currentTimeMillis());
+    private void initTabLayout() {
+        groupTabs.setupWithViewPager(groupViewPager);
+        groupTabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                groupViewPager.setCurrentItem(tab.getPosition());
+                switch (tab.getPosition()) {
+                    case 0:
 
-        ArrayList<Entry> values = new ArrayList<>();
+                        break;
+                    case 1:
 
-        // count = hours
-        float to = now + count;
+                        break;
+                    case 2:
 
-        // increment by 1 hour
-        for (float x = now; x < to; x++) {
-            Random r = new Random();
-            float y = 1 + r.nextFloat() * (50 - 1);;
-            values.add(new Entry(x, y)); // add one entry per hour
+                        break;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
+        });
+    }
+
+    private static class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
         }
 
-        // create a dataset and give it a type
-        LineDataSet set1 = new LineDataSet(values, "DataSet 1");
-        set1.setAxisDependency(YAxis.AxisDependency.LEFT);
-        set1.setColor(ColorTemplate.getHoloBlue());
-        set1.setValueTextColor(ColorTemplate.getHoloBlue());
-        set1.setLineWidth(1.5f);
-        set1.setDrawCircles(false);
-        set1.setDrawValues(false);
-        set1.setFillAlpha(65);
-        set1.setFillColor(ColorTemplate.getHoloBlue());
-        set1.setHighLightColor(Color.rgb(244, 117, 117));
-        set1.setDrawCircleHole(false);
+        @NonNull
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
 
-        // create a data object with the data sets
-        LineData data = new LineData(set1);
-        data.setValueTextColor(Color.WHITE);
-        data.setValueTextSize(9f);
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
 
-        // set data
-        chart.setData(data);
-    }
+        void addFrag(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
 
-    @Override
-    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
-        tvX.setText(String.valueOf(seekBarX.getProgress()));
-
-        setData(seekBarX.getProgress(), 50);
-
-        // redraw
-        chart.invalidate();
-    }
-
-    @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {
-    }
-
-    @Override
-    public void onStopTrackingTouch(SeekBar seekBar) {
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
     }
 }

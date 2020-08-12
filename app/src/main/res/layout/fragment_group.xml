@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".GroupFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.timqi.sectorprogressview.ColorfulRingProgressView
+            android:id="@+id/progressRing"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            app:bgColor="@color/colorWhite"
+            app:fgColorEnd="@color/colorPrimaryDark"
+            app:fgColorStart="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:percent="0"
+            app:startAngle="180"
+            app:strokeWidth="10dp" />
+
+        <TextView
+            android:id="@+id/progressValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0%"
+            android:textSize="50sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/progressRing"
+            app:layout_constraintEnd_toEndOf="@id/progressRing"
+            app:layout_constraintStart_toStartOf="@id/progressRing"
+            app:layout_constraintTop_toTopOf="@id/progressRing" />
+
+        <TextView
+            android:id="@+id/groupTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text=""
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/progressRing"
+            app:layout_constraintStart_toStartOf="@id/progressRing"
+            app:layout_constraintTop_toBottomOf="@id/progressRing" />
+
+        <TextView
+            android:id="@+id/topup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/btn_gradient_primary"
+            android:paddingStart="20dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="10dp"
+            android:text="TOP UP GROUP WALLET"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/groupTotal" />
+
+        <View
+            android:id="@+id/separator"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="10dp"
+            android:background="#62333333"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/topup" />
+
+        <TextView
+            android:id="@+id/groupPurpose"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:text="Buy a storage container"
+            app:layout_constraintEnd_toStartOf="@+id/groupGoal"
+            app:layout_constraintStart_toStartOf="@id/separator"
+            app:layout_constraintTop_toBottomOf="@id/separator" />
+
+        <TextView
+            android:id="@+id/groupGoal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:text=""
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/separator"
+            app:layout_constraintTop_toBottomOf="@id/separator" />
+
+        <View
+            android:id="@+id/sep_1"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="#62333333"
+            app:layout_constraintEnd_toEndOf="@id/groupGoal"
+            app:layout_constraintStart_toStartOf="@id/groupPurpose"
+            app:layout_constraintTop_toBottomOf="@id/groupGoal" />
+
+        <TextView
+            android:id="@+id/myText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:text="My Contirbutions"
+            app:layout_constraintEnd_toStartOf="@+id/myContribution"
+            app:layout_constraintStart_toStartOf="@id/sep_1"
+            app:layout_constraintTop_toBottomOf="@id/sep_1" />
+
+        <TextView
+            android:id="@+id/myContribution"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:text=""
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/sep_1"
+            app:layout_constraintTop_toBottomOf="@id/sep_1" />
+
+        <View
+            android:id="@+id/sep_2"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="#62333333"
+            app:layout_constraintEnd_toEndOf="@id/myContribution"
+            app:layout_constraintStart_toStartOf="@id/myText"
+            app:layout_constraintTop_toBottomOf="@id/myContribution" />
+
+        <TextView
+            android:id="@+id/othersText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:text="Others total"
+            app:layout_constraintEnd_toStartOf="@+id/othersContribution"
+            app:layout_constraintStart_toStartOf="@id/sep_2"
+            app:layout_constraintTop_toBottomOf="@id/sep_2" />
+
+        <TextView
+            android:id="@+id/othersContribution"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:text=""
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/sep_2"
+            app:layout_constraintTop_toBottomOf="@id/sep_2" />
+
+        <View
+            android:id="@+id/sep_3"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="#62333333"
+            app:layout_constraintEnd_toEndOf="@id/othersContribution"
+            app:layout_constraintStart_toStartOf="@id/othersText"
+            app:layout_constraintTop_toBottomOf="@id/othersText" />
+
+        <ImageView
+            android:id="@+id/membersIcon"
+            android:layout_width="20dp"
+            android:layout_height="60dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:src="@drawable/profile"
+            app:layout_constraintStart_toStartOf="@id/sep_3"
+            app:layout_constraintTop_toBottomOf="@id/sep_3" />
+
+        <TextView
+            android:id="@+id/groupMembers"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingStart="10dp"
+            android:paddingTop="20dp"
+            android:paddingEnd="0dp"
+            android:paddingBottom="20dp"
+            android:text="Group Members"
+            app:layout_constraintEnd_toEndOf="@id/sep_3"
+            app:layout_constraintStart_toEndOf="@+id/membersIcon"
+            app:layout_constraintTop_toBottomOf="@id/sep_3" />
+
+        <View
+            android:id="@+id/sep_4"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="#62333333"
+            app:layout_constraintEnd_toEndOf="@id/groupMembers"
+            app:layout_constraintStart_toStartOf="@id/membersIcon"
+            app:layout_constraintTop_toBottomOf="@id/membersIcon" />
+
+        <TextView
+            android:id="@+id/leaveGroup"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:text="Withdraw or Exit Group"
+            app:layout_constraintEnd_toEndOf="@id/sep_4"
+            app:layout_constraintStart_toStartOf="@id/sep_4"
+            app:layout_constraintTop_toBottomOf="@id/sep_4" />
+
+        <View
+            android:id="@+id/sep_5"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="#62333333"
+            app:layout_constraintEnd_toEndOf="@id/leaveGroup"
+            app:layout_constraintStart_toStartOf="@id/leaveGroup"
+            app:layout_constraintTop_toBottomOf="@id/leaveGroup" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

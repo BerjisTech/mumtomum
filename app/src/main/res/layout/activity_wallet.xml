@@ -6,163 +6,169 @@
     android:layout_height="match_parent"
     tools:context=".WalletActivity">
 
-    <View
-        android:id="@+id/topView"
+    <ImageView
+        android:id="@+id/topBg"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:background="@drawable/primary_gradient"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="250dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/abstract_4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:shadowColor="@color/colorPrimaryDark"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="1"
+        android:text="Transaction"
+        android:textColor="@color/colorWhite"
+        android:textSize="40sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:shadowColor="@color/colorPrimaryDark"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="1"
+        android:text="Cancel"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="@+id/textView12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView12" />
+
     <View
-        android:id="@+id/bgView1"
+        android:id="@+id/topView"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:alpha="0.6"
+        android:background="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="@id/topBg"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/transaction"
         android:layout_width="0dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="10dp"
-        android:background="@drawable/round_border_white"
-        app:layout_constraintEnd_toStartOf="@id/half"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:text="Deposit"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/topView"
+        app:layout_constraintEnd_toStartOf="@+id/userimage"
         app:layout_constraintStart_toStartOf="@id/topView"
         app:layout_constraintTop_toTopOf="@id/topView" />
 
     <TextView
-        android:id="@+id/mumWalletText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:text="MumWallet balance"
-        android:textColor="#333333"
-        app:layout_constraintTop_toBottomOf="@+id/mumWalletBalance"
-        app:layout_constraintEnd_toEndOf="@+id/bgView1"
-        app:layout_constraintStart_toStartOf="@id/bgView1" />
-
-    <TextView
-        android:id="@+id/mumWalletBalance"
+        android:id="@+id/username"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:text="KES 0"
-        android:textColor="#606060"
-        android:textSize="18sp"
-        app:layout_constraintTop_toTopOf="@+id/bgView1"
-        app:layout_constraintEnd_toEndOf="@+id/bgView1"
-        app:layout_constraintStart_toStartOf="@id/bgView1" />
-
-
-    <View
-        android:id="@+id/bgView2"
-        android:layout_width="0dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="10dp"
-        android:background="@drawable/round_border_white"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:text="Username"
+        app:layout_constraintBottom_toBottomOf="@id/topView"
         app:layout_constraintEnd_toEndOf="@id/topView"
-        app:layout_constraintStart_toEndOf="@id/half"
         app:layout_constraintTop_toTopOf="@id/topView" />
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/userimage"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/img_three"
+        app:layout_constraintBottom_toBottomOf="@id/topView"
+        app:layout_constraintEnd_toStartOf="@id/username"
+        app:layout_constraintTop_toTopOf="@id/topView" />
+
+    <View
+        android:id="@+id/topViewBlue"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:alpha="0.1"
+        android:background="@color/colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topBg" />
+
     <TextView
-        android:id="@+id/babyWalletText"
+        android:id="@+id/amountText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:text="BabyWallet balance"
-        android:textColor="#333333"
-        app:layout_constraintTop_toBottomOf="@id/babyWalletBalance"
-        app:layout_constraintEnd_toEndOf="@+id/bgView2"
-        app:layout_constraintStart_toStartOf="@id/bgView2" />
+        android:layout_marginStart="20dp"
+        android:text="Amount"
+        app:layout_constraintBottom_toBottomOf="@+id/topViewBlue"
+        app:layout_constraintEnd_toStartOf="@+id/currency"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/topViewBlue" />
 
     <TextView
-        android:id="@+id/babyWalletBalance"
+        android:id="@+id/currency"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:text="KES 0"
-        android:textColor="#606060"
-        android:textSize="18sp"
-        app:layout_constraintTop_toTopOf="@id/bgView2"
-        app:layout_constraintEnd_toEndOf="@+id/bgView2"
-        app:layout_constraintStart_toStartOf="@id/bgView2" />
+        android:layout_marginStart="10dp"
+        android:background="@drawable/nothing"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="@+id/topViewBlue"
+        app:layout_constraintEnd_toStartOf="@+id/amount"
+        app:layout_constraintTop_toTopOf="@+id/topViewBlue" />
 
+    <EditText
+        android:id="@+id/amount"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:gravity="end"
+        android:hint="000"
+        android:inputType="number"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/topViewBlue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/topViewBlue" />
+
+    <TextView
+        android:id="@+id/local"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_gradient_primary"
+        android:gravity="center"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="PAY WITH\nLOCAL"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@id/half"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topViewBlue" />
+
+    <TextView
+        android:id="@+id/card"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="SAVE NOW"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topViewBlue" />
 
     <View
         android:id="@+id/half"
-        android:layout_width="0.01dp"
-        android:layout_height="0.01dp"
+        android:layout_width="0.001dp"
+        android:layout_height="0.001dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/transRecycler"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottomCard"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topView" />
-
-
-    <ImageView
-        android:id="@+id/profile"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginEnd="10dp"
-        android:src="@drawable/user"
-        app:layout_constraintBottom_toBottomOf="@id/bottomCard"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/bottomCard" />
-
-    <View
-        android:id="@+id/bottomCard"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/round_border_white"
-        android:elevation="6dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/profile"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageView
-        android:id="@+id/contributions"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:elevation="6dp"
-        android:src="@drawable/groups"
-        app:layout_constraintBottom_toBottomOf="@id/bottomCard"
-        app:layout_constraintEnd_toStartOf="@id/products"
-        app:layout_constraintStart_toStartOf="@id/bottomCard"
-        app:layout_constraintTop_toTopOf="@id/bottomCard" />
-
-    <ImageView
-        android:id="@+id/products"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:elevation="6dp"
-        android:src="@drawable/shop"
-        app:layout_constraintBottom_toBottomOf="@id/bottomCard"
-        app:layout_constraintEnd_toEndOf="@id/bottomCard"
-        app:layout_constraintStart_toStartOf="@id/bottomCard"
-        app:layout_constraintTop_toTopOf="@id/bottomCard" />
-
-    <ImageView
-        android:id="@+id/text"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:elevation="6dp"
-        android:src="@drawable/chat"
-        app:layout_constraintBottom_toBottomOf="@id/bottomCard"
-        app:layout_constraintEnd_toEndOf="@id/bottomCard"
-        app:layout_constraintStart_toEndOf="@id/products"
-        app:layout_constraintTop_toTopOf="@id/bottomCard" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

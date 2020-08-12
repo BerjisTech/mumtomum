@@ -47,18 +47,29 @@
             android:layout_below="@id/textView"
             android:layout_centerHorizontal="true" />
 
-        <EditText
+        <com.chaos.view.PinView
             android:id="@+id/editTextCode"
-            android:layout_width="200dp"
+            style="@style/PinWidget.PinView"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/progressbar"
             android:layout_centerHorizontal="true"
+            android:layout_marginStart="-78dp"
             android:layout_marginTop="10dp"
-            android:digits="0123456789"
-            android:drawablePadding="10dp"
-            android:hint="enter verification code"
-            android:inputType="phone"
-            android:maxLength="10" />
+            android:layout_marginEnd="258dp"
+            android:layout_marginBottom="8dp"
+            android:inputType="number"
+            android:padding="10dp"
+            android:textSize="18sp"
+            app:itemCount="6"
+            app:itemHeight="48dp"
+            app:itemRadius="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lineColor="@android:color/darker_gray"
+            app:viewType="rectangle" />
 
         <Button
             android:id="@+id/buttonSignIn"

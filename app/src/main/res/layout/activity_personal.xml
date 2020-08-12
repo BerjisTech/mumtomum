@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PersonalActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="30dp">
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="125dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/abstract_1"
+            app:layout_constraintBottom_toBottomOf="@id/detailsCard"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:fontFamily="@font/nunito_light"
+            android:gravity="center"
+            android:text="Username's"
+            android:textColor="@color/colorWhite"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/menu"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/menu" />
+
+        <TextView
+            android:id="@+id/pageTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:gravity="center"
+            android:text="Wallet"
+            android:textColor="@color/colorWhite"
+            android:textSize="60sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/username" />
+
+        <ImageView
+            android:id="@+id/menu"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/assymetrical_menu"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/detailsCard"
+            android:layout_width="0dp"
+            android:layout_height="250dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="50dp"
+            android:background="@drawable/rounded_layout_alpha"
+            app:layout_constraintBottom_toBottomOf="@+id/editProfileTxt"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pageTitle" />
+
+        <TextView
+            android:id="@+id/balsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:text="Current Balance"
+            app:layout_constraintStart_toStartOf="@+id/detailsCard"
+            app:layout_constraintTop_toTopOf="@+id/detailsCard" />
+
+        <TextView
+            android:id="@+id/currencyText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/btn_gradient_orange"
+            android:padding="5dp"
+            android:text="Ksh"
+            android:textColor="@color/colorWhite"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/balanceAmount"
+            app:layout_constraintStart_toStartOf="@+id/detailsCard"
+            app:layout_constraintTop_toTopOf="@+id/balanceAmount" />
+
+        <TextView
+            android:id="@+id/balanceAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/nunito_light"
+            android:text="000.00"
+            android:textSize="30sp"
+            app:layout_constraintStart_toEndOf="@+id/currencyText"
+            app:layout_constraintTop_toBottomOf="@+id/balsText" />
+
+        <TextView
+            android:id="@+id/groupsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="Groups Savings"
+            app:layout_constraintBottom_toTopOf="@+id/groupsBalance"
+            app:layout_constraintStart_toStartOf="@id/balsText" />
+
+        <TextView
+            android:id="@+id/groupsBalance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/outer_border_orange"
+            android:drawableStart="@drawable/ccp_down_arrow"
+            android:drawableTint="@color/colorPrimaryOrange"
+            android:padding="10dp"
+            android:text="Ksh 000.00"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@id/withdraw"
+            app:layout_constraintEnd_toEndOf="@+id/detailsCard" />
+
+        <TextView
+            android:id="@+id/withdraw"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Withdraw"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/detailsCard"
+            app:layout_constraintEnd_toStartOf="@id/half"
+            app:layout_constraintStart_toStartOf="@id/detailsCard" />
+
+        <TextView
+            android:id="@+id/deposit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Deposit"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/detailsCard"
+            app:layout_constraintEnd_toEndOf="@+id/detailsCard"
+            app:layout_constraintStart_toStartOf="@id/half" />
+
+        <View
+            android:id="@+id/half"
+            android:layout_width="0.001dp"
+            android:layout_height="0.001dp"
+            android:background="@drawable/transparent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            android:text="All"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/detailsCard" />
+
+        <TextView
+            android:id="@+id/received"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            android:alpha="0.6"
+            android:text="Received"
+            app:layout_constraintStart_toEndOf="@id/all"
+            app:layout_constraintTop_toBottomOf="@+id/detailsCard" />
+
+        <TextView
+            android:id="@+id/sent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            android:alpha="0.6"
+            android:text="Sent"
+            app:layout_constraintStart_toEndOf="@id/received"
+            app:layout_constraintTop_toBottomOf="@+id/detailsCard" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/transactions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/all" />
+
+        <TextView
+            android:id="@+id/generateStatement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/btn_gradient_orange"
+            android:padding="10dp"
+            android:text="Generate Statement"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/transactions" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.core.widget.NestedScrollView>

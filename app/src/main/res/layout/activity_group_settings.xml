@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".GroupSettingsActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp">
+
+        <ImageView
+            android:id="@+id/topBg"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/abstract_4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/groupName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="10dp"
+            android:inputType="textCapWords"
+            android:shadowColor="@color/colorPrimaryDark"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="1"
+            android:text="Group Name"
+            android:textColor="@color/colorWhite"
+            android:textSize="30sp"
+            app:layout_constraintBottom_toTopOf="@+id/topView"
+            app:layout_constraintEnd_toStartOf="@+id/groupImage"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/groupImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/circle"
+            android:backgroundTint="@color/colorWhite"
+            android:src="@drawable/group"
+            app:layout_constraintBottom_toBottomOf="@+id/groupName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/groupName" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/editImage"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/circle"
+            android:padding="5dp"
+            android:src="@drawable/edit"
+            app:layout_constraintBottom_toBottomOf="@id/groupImage"
+            app:layout_constraintEnd_toEndOf="@id/groupImage" />
+
+        <View
+            android:id="@+id/topView"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:alpha="0.6"
+            android:background="@color/colorWhite"
+            app:layout_constraintBottom_toBottomOf="@id/topBg"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/purpose"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:text="Group Purpose"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/topView"
+            app:layout_constraintStart_toStartOf="@id/topView"
+            app:layout_constraintTop_toTopOf="@id/topView" />
+
+        <EditText
+            android:id="@+id/groupPurpose"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="20dp"
+            android:hint=""
+            android:inputType="textMultiLine|textCapSentences"
+            app:layout_constraintBottom_toBottomOf="@id/topView"
+            app:layout_constraintEnd_toEndOf="@id/topView"
+            app:layout_constraintStart_toEndOf="@+id/purpose"
+            app:layout_constraintTop_toTopOf="@id/topView" />
+
+
+        <View
+            android:id="@+id/topViewBlue"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:alpha="0.1"
+            android:background="@color/colorPrimary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/topBg" />
+
+        <TextView
+            android:id="@+id/groupGoalText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:text="Group Goal"
+            app:layout_constraintBottom_toBottomOf="@+id/topViewBlue"
+            app:layout_constraintEnd_toStartOf="@+id/currency"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/topViewBlue" />
+
+        <TextView
+            android:id="@+id/currency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/nothing"
+            android:text=""
+            app:layout_constraintBottom_toBottomOf="@+id/topViewBlue"
+            app:layout_constraintEnd_toStartOf="@+id/groupGoal"
+            app:layout_constraintTop_toTopOf="@+id/topViewBlue" />
+
+        <EditText
+            android:id="@+id/groupGoal"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:gravity="start|center"
+            android:inputType="numberDecimal"
+            android:text="000.00"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/topViewBlue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/topViewBlue" />
+
+        <TextView
+            android:id="@+id/save"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:background="@color/colorPrimaryDark"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="SAVE SETTINGS"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/topViewBlue" />
+
+        <TextView
+            android:id="@+id/exit"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:background="@color/colorAccent"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="CLOSE GROUP"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/save" />
+
+        <View
+            android:id="@+id/half"
+            android:layout_width="0.001dp"
+            android:layout_height="0.001dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

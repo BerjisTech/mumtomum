@@ -53,7 +53,7 @@ public class ProductsActivity extends AppCompatActivity {
     List<Object> listData;
     ProductsAdapter productsAdapter;
     RecyclerView rv;
-    ImageView groups, chats, profile, home, refresh;
+    ImageView groups, chats, profile, home, refresh, cart;
     TextView chatsCount, updateProfiletext;
     SearchableSpinner productCategory;
     String UID, category;
@@ -91,6 +91,7 @@ public class ProductsActivity extends AppCompatActivity {
         productCategory = findViewById(R.id.productCategory);
         updateProfiletext = findViewById(R.id.updateProfiletext);
         refresh = findViewById(R.id.refresh);
+        cart = findViewById(R.id.cart);
 
         /*StaggeredGridLayoutManager sgManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         sgManager.setReverseLayout(true);
@@ -189,6 +190,12 @@ public class ProductsActivity extends AppCompatActivity {
                     startActivity(new Intent(ProductsActivity.this, RegisterActivity.class));
                 }
             });
+            cart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(ProductsActivity.this, RegisterActivity.class));
+                }
+            });
         } else {
             loadChatCount();
             groups.setOnClickListener(new View.OnClickListener() {
@@ -212,7 +219,13 @@ public class ProductsActivity extends AppCompatActivity {
             home.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(ProductsActivity.this, WalletActivity.class));
+                    startActivity(new Intent(ProductsActivity.this, FeedActivity.class));
+                }
+            });
+            cart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(ProductsActivity.this, CartActivity.class));
                 }
             });
         }

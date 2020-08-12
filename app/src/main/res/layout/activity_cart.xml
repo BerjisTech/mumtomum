@@ -39,19 +39,19 @@
         app:layout_constraintTop_toBottomOf="@id/menuButton" />
 
     <TextView
+        android:id="@+id/payNow"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:id="@+id/payNow"
-        android:text="PAY"
-        android:gravity="center"
-        android:textColor="@color/colorWhite"
         android:background="@color/colorPrimaryDark"
-        android:textStyle="bold"
+        android:gravity="center"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
+        android:text="CHECKOUT"
+        android:textColor="@color/colorWhite"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

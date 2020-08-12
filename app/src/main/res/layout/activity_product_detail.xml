@@ -137,7 +137,7 @@
         android:background="@drawable/primary_gradient"
         android:gravity="center"
         android:padding="10dp"
-        android:text="Buy Now"
+        android:text="CHAT"
         android:textColor="@color/colorWhite"
         android:textSize="20sp"
         android:textStyle="bold"

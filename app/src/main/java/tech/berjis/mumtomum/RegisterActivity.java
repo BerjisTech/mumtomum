@@ -61,6 +61,8 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String mobile = mPhone.getText().toString().trim();
                 String countryCode = "254";
+                String country = ccp.getSelectedCountryName();
+                String country_code = ccp.getSelectedCountryNameCode();
 
                 if(mobile.isEmpty() || mobile.length() < 9){
                     mPhone.setError("Enter a valid mobile");
@@ -71,6 +73,8 @@ public class RegisterActivity extends AppCompatActivity {
                 Intent intent = new Intent(RegisterActivity.this, VerifyPhoneActivity.class);
                 intent.putExtra("mobile", mobile);
                 intent.putExtra("countryCode", countryCode);
+                intent.putExtra("country", country);
+                intent.putExtra("country_code", country_code);
                 startActivity(intent);
             }
         });

@@ -62,6 +62,14 @@ public class ProductDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_detail);
 
+        initVars();
+        staticOnClicks();
+        imageList = new ArrayList<>();
+        loadProduct();
+
+    }
+
+    private void initVars() {
         mAuth = FirebaseAuth.getInstance();
         dbRef = FirebaseDatabase.getInstance().getReference();
         dbRef.keepSynced(true);
@@ -81,7 +89,9 @@ public class ProductDetail extends AppCompatActivity {
         mainImage = findViewById(R.id.mainImage);
         indicator = findViewById(R.id.indicator);
         addToCart = findViewById(R.id.addToCart);
+    }
 
+    private void staticOnClicks() {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,10 +110,6 @@ public class ProductDetail extends AppCompatActivity {
                 hideMoreProducts();
             }
         });
-
-        imageList = new ArrayList<>();
-        loadProduct();
-
     }
 
     public void loadProduct() {
@@ -124,14 +130,14 @@ public class ProductDetail extends AppCompatActivity {
                 final String product_id = Objects.requireNonNull(dataSnapshot.child("product_id").getValue()).toString();
 
                 if (seller.equals(UID)) {
-                    productBuy.setAlpha(0.5f);
+                    productBuy.setVisibility(View.GONE);
                     productBuy.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Toast.makeText(ProductDetail.this, "You can't buy your own product", Toast.LENGTH_SHORT).show();
                         }
                     });
-                    addToCart.setAlpha(0.5f);
+                    addToCart.setVisibility(View.GONE);
                     addToCart.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -143,13 +149,15 @@ public class ProductDetail extends AppCompatActivity {
                     productBuy.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            Toast.makeText(ProductDetail.this, "Starting chat", Toast.LENGTH_SHORT).show();
                             placeOrder(seller, product_id);
                         }
                     });
                     addToCart.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            addToCart(product_id, name, price);
+                            Toast.makeText(ProductDetail.this, "Adding to Cart", Toast.LENGTH_SHORT).show();
+                            addToCart(product_id, name, price, seller);
                         }
                     });
                 }
@@ -175,9 +183,9 @@ public class ProductDetail extends AppCompatActivity {
         });
     }
 
-    private void addToCart(final String product_id, final String product_name, final String product_price) {
+    private void addToCart(final String product_id, final String product_name, final String product_price, final String seller) {
         final DatabaseReference nm = FirebaseDatabase.getInstance().getReference("Cart");
-        Query firebaseSearchQuery = nm.orderByChild("product_id").startAt(product_id).endAt(product_id);
+        Query firebaseSearchQuery = nm.orderByChild("name").startAt(product_name.toLowerCase()).endAt(product_name.toUpperCase());
         firebaseSearchQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -196,6 +204,8 @@ public class ProductDetail extends AppCompatActivity {
                     cartItem.put("price", Long.parseLong(product_price));
                     cartItem.put("time", unixTime);
                     cartItem.put("quantity", 1);
+                    cartItem.put("seller", seller);
+                    cartItem.put("status", 0);
 
                     cartRef.updateChildren(cartItem).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override

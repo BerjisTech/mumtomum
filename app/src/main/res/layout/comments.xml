@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/rootView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingBottom="10dp">
@@ -12,9 +11,7 @@
         android:layout_height="40dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:src="@drawable/mom"
-        app:civ_border_color="@color/colorPrimary"
-        app:civ_border_width="2dp"
+        android:src="@drawable/logo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,58 +20,57 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:text="User"
-        android:textColor="#606060"
+        android:text="Username"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@id/userImage"
         app:layout_constraintTop_toTopOf="@id/userImage" />
 
-    <com.vanniktech.emoji.EmojiTextView
-        android:id="@+id/postDate"
+    <TextView
+        android:id="@+id/commentTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:text="Apr 3"
-        android:textColor="#99606060"
-        app:layout_constraintStart_toEndOf="@id/userName"
+        android:layout_marginEnd="10dp"
+        android:alpha="0.6"
+        android:text="moments ago"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/userImage" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/mainImageCard"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:elevation="10dp"
-        app:cardCornerRadius="10dp"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintStart_toEndOf="@+id/userImage"
-        app:layout_constraintTop_toBottomOf="@+id/userName"
-        app:layout_constraintBottom_toTopOf="@id/post">
-
-        <ImageView
-            android:id="@+id/mainImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxHeight="300dp"
-            android:maxWidth="300dp"
-            android:src="@drawable/logo"
-            android:adjustViewBounds="true"
-            android:scrollIndicators="bottom" />
-
-    </androidx.cardview.widget.CardView>
-
-
     <com.vanniktech.emoji.EmojiTextView
-        android:id="@+id/post"
+        android:id="@+id/userComment"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:text="gossip"
-        android:textColor="#333333"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/userImage" />
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/commentTime"
+        app:layout_constraintStart_toEndOf="@id/userImage"
+        app:layout_constraintTop_toBottomOf="@id/userName" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/userCommentImageCard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/commentTime"
+        app:layout_constraintStart_toEndOf="@id/userImage"
+        app:layout_constraintTop_toBottomOf="@id/userName" >
+        <ImageView
+            android:id="@+id/userCommentImage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            app:layout_constraintEnd_toEndOf="@+id/commentTime"
+            app:layout_constraintStart_toEndOf="@id/userImage"
+            app:layout_constraintTop_toBottomOf="@id/userName" />
+    </androidx.cardview.widget.CardView>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="@id/commentTime"
+        app:layout_constraintStart_toStartOf="@id/userImage"
+        app:layout_constraintTop_toBottomOf="@id/userCommentImageCard" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

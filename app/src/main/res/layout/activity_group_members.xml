@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".GroupMembersActivity">
+
+    <TextView
+        android:id="@+id/group_name"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="Group Name"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/back" />
+
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/group_name">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/memberPhoneText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Phone"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.hbb20.CountryCodePicker
+                android:id="@+id/memberPhoneCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                app:ccpDialog_showCloseIcon="true"
+                app:ccp_autoDetectCountry="true"
+                app:ccp_countryAutoDetectionPref="SIM_LOCALE_NETWORK"
+                app:ccp_hintExampleNumber="true"
+                app:ccp_showArrow="false"
+                app:ccp_showNameCode="false"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/memberPhoneText" />
+
+            <EditText
+                android:id="@+id/memberPhone"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="Phone number"
+                android:inputType="number"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/memberPhoneCode"
+                app:layout_constraintEnd_toStartOf="@+id/inviteButton"
+                app:layout_constraintStart_toEndOf="@id/memberPhoneCode"
+                app:layout_constraintTop_toTopOf="@id/memberPhoneCode" />
+
+            <TextView
+                android:id="@+id/inviteButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/btn_gradient_primary"
+                android:padding="10dp"
+                android:text="Invite"
+                android:textColor="@color/colorWhite"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/memberPhoneCode"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/memberPhoneCode" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/groupMembersList"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/memberPhone" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
