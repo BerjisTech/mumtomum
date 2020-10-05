@@ -3,14 +3,12 @@ package tech.berjis.mumtomum;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -24,8 +22,6 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
@@ -62,7 +58,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
         imageLoader(ld.getProduct_id(), holder);
         holder.productName.setText(ld.getName());
-        holder.productQuantity.setText(String.valueOf(ld.getQuantity()));
         holder.productPrice.setText(output);
 
 
@@ -78,21 +73,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             }
         });*/
 
-        holder.productQuantityPlus.setOnClickListener(new View.OnClickListener() {
+        holder.remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                long quantity = Long.parseLong(holder.productQuantity.getText().toString());
-                long new_quantity = quantity + 1;
-                holder.productQuantity.setText(String.valueOf(new_quantity));
-            }
-        });
-
-        holder.productQuantityMinus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                long quantity = Long.parseLong(holder.productQuantity.getText().toString());
-                long new_quantity = quantity - 1;
-                holder.productQuantity.setText(String.valueOf(new_quantity));
+                dbRef.child("Cart").child(UID).child(ld.getItem_id()).child("status").setValue(2);
+                holder.mView.setVisibility(View.GONE);
             }
         });
     }
@@ -105,9 +90,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView productQuantityMinus, productQuantityPlus, mainImage;
-        EditText productQuantity;
-        TextView productName, productPrice;
+        ImageView mainImage;
+        TextView productName, productPrice, remove;
         View mView;
 
         ViewHolder(@NonNull View itemView) {
@@ -115,9 +99,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             productName = itemView.findViewById(R.id.productName);
             productPrice = itemView.findViewById(R.id.productPrice);
             mainImage = itemView.findViewById(R.id.mainImage);
-            productQuantityMinus = itemView.findViewById(R.id.productQuantityMinus);
-            productQuantityPlus = itemView.findViewById(R.id.productQuantityPlus);
-            productQuantity = itemView.findViewById(R.id.productQuantity);
+            remove = itemView.findViewById(R.id.remove);
             mView = itemView;
         }
     }

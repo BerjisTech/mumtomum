@@ -64,6 +64,13 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        initVars();
+        checkName();
+        loadUserProfile();
+        staticOnClicks();
+    }
+
+    private void initVars() {
         mAuth = FirebaseAuth.getInstance();
         dbRef = FirebaseDatabase.getInstance().getReference();
         dbRef.keepSynced(true);
@@ -117,11 +124,9 @@ public class ProfileActivity extends AppCompatActivity {
         });
         //emojiPopup.dismiss();  Dismisses the Popup.
         //emojiPopup.isShowing();  Returns true when Popup is showing.
+    }
 
-        checkName();
-        loadUserProfile();
-
-
+    private void staticOnClicks() {
         editUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -269,6 +274,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
     }
+
 
     public void showEditUser() {
         editnameView.setVisibility(View.VISIBLE);

@@ -44,45 +44,19 @@
             android:textColor="@color/colorPrimaryDark"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/productQuantity"
+            app:layout_constraintBottom_toTopOf="@+id/remove"
             app:layout_constraintStart_toEndOf="@id/mainImage"
             app:layout_constraintTop_toBottomOf="@id/productName" />
 
-        <ImageView
-            android:id="@+id/productQuantityMinus"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="10dp"
-            android:background="@drawable/cart_button"
-            android:padding="9dp"
-            android:src="@drawable/minus"
-            app:layout_constraintBottom_toBottomOf="@+id/mainImage"
-            app:layout_constraintStart_toEndOf="@id/mainImage" />
-
-        <EditText
-            android:id="@+id/productQuantity"
+        <TextView
+            android:id="@+id/remove"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:background="@drawable/transparent"
-            android:gravity="center"
-            android:minWidth="30dp"
-            android:text="1"
-            android:inputType="number"
-            android:enabled="false"
-            android:focusable="false"
-            app:layout_constraintBottom_toBottomOf="@+id/productQuantityMinus"
-            app:layout_constraintStart_toEndOf="@id/productQuantityMinus"
-            app:layout_constraintTop_toTopOf="@+id/productQuantityMinus" />
-
-        <ImageView
-            android:id="@+id/productQuantityPlus"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@drawable/cart_button"
-            android:padding="9dp"
-            android:src="@drawable/plus_alt"
-            app:layout_constraintBottom_toBottomOf="@+id/mainImage"
-            app:layout_constraintStart_toEndOf="@id/productQuantity" />
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="remove"
+            android:textColor="@color/info"
+            app:layout_constraintBottom_toBottomOf="@id/mainImage"
+            app:layout_constraintStart_toEndOf="@id/mainImage" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
